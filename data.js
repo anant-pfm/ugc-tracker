@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────
 //  UGC PRODUCTION TRACKER — DATA FILE
 //  Auto-generated on 14 May 2026
-//  Source: UGC Production Tracker - WIP (4).xlsx
+//  Source: data.xlsx
 //
 //  To regenerate: python scripts/update_data.py path/to/file.xlsx
 // ─────────────────────────────────────────────────────────────────
