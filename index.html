@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UGC Production Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f1ed;--surface:#fff;--sf2:#f7f6f3;--border:#e5e3db;--borders:#ccc9be;
+  --text:#18170f;--t2:#57554c;--t3:#9b9890;
+  --blue:#1a56db;--blue-l:#eff4ff;--blue-b:#b4c8fd;--blue-t:#1e3a8a;
+  --green:#047857;--green-l:#ecfdf5;--green-b:#6ee7b7;--green-t:#064e3b;
+  --amber:#b45309;--amber-l:#fffbeb;--amber-b:#fcd34d;--amber-t:#78350f;
+  --red:#dc2626;--red-t:#991b1b;
+  --purple:#6d28d9;--purple-l:#f5f3ff;--purple-b:#c4b5fd;--purple-t:#4c1d95;
+  --teal:#0e7490;--teal-l:#ecfeff;--teal-b:#a5f3fc;--teal-t:#164e63;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+
+/* TOP BAR */
+.topbar{background:var(--text);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-logo{width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center}
+.tb-logo svg{width:14px;height:14px}
+.tb-title{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.1px}
+.tb-tag{font-size:11px;color:rgba(255,255,255,.45);padding:2px 8px;border-radius:20px;border:1px solid rgba(255,255,255,.15)}
+.tb-r{display:flex;align-items:center;gap:8px}
+.tb-date{font-size:11px;color:rgba(255,255,255,.4)}
+.btn-ghost{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;border:1px solid rgba(255,255,255,.25);background:transparent;color:rgba(255,255,255,.8);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:background .12s}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-ghost svg{width:13px;height:13px}
+
+/* TAB NAV */
+.tab-nav{background:var(--text);border-bottom:1px solid rgba(255,255,255,.1);padding:0 24px;display:flex;gap:0}
+.tab-btn{padding:10px 18px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;transition:color .12s,border-color .12s;letter-spacing:.1px}
+.tab-btn:hover{color:rgba(255,255,255,.8)}
+.tab-btn.active{color:#fff;border-bottom-color:#fff}
+
+/* MAIN */
+.main{padding:20px 24px 60px;max-width:1750px;margin:0 auto}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.tb-left2{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tb-right2{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filter-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px}
+.filter-pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--borders);background:var(--surface);color:var(--t2);cursor:pointer;transition:all .12s;font-family:'DM Sans',sans-serif}
+.pill:hover{border-color:var(--blue);color:var(--blue)}
+.pill.active{background:var(--text);border-color:var(--text);color:#fff}
+
+/* SEARCH & FILTER ROW */
+.filter-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.search-input{padding:6px 12px 6px 32px;border-radius:8px;border:1px solid var(--borders);background:var(--surface);font-size:12px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;width:200px;transition:border-color .12s}
+.search-input:focus{border-color:var(--blue)}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--t3);pointer-events:none}
+.sel-filter{padding:6px 10px;border-radius:8px;border:1px solid var(--borders);background:var(--surface);font-size:12px;font-family:'DM Sans',sans-serif;color:var(--t2);outline:none;cursor:pointer;transition:border-color .12s}
+.sel-filter:focus{border-color:var(--blue)}
+
+/* TOGGLE */
+.toggle-wrap{display:flex;align-items:center;gap:7px;padding:5px 12px;border-radius:8px;border:1px solid var(--borders);background:var(--surface);cursor:pointer;user-select:none;font-size:12px;font-weight:500;color:var(--t2);transition:background .12s,border-color .12s}
+.toggle-wrap:hover{border-color:var(--purple-b)}
+.toggle-wrap.on{background:var(--purple-l);border-color:var(--purple-b);color:var(--purple-t)}
+.toggle-sw{width:28px;height:16px;border-radius:8px;background:var(--borders);position:relative;transition:background .15s;flex-shrink:0}
+.toggle-sw::after{content:'';position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;top:2px;left:2px;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-wrap.on .toggle-sw{background:var(--purple)}
+.toggle-wrap.on .toggle-sw::after{transform:translateX(12px)}
+
+.btn-export{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1px solid var(--borders);background:var(--surface);color:var(--t2);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .12s}
+.btn-export:hover{background:var(--sf2)}
+.btn-export svg{width:14px;height:14px}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.stat-icon{width:28px;height:28px;border-radius:7px;background:var(--sf2);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.stat-icon svg{width:14px;height:14px;color:var(--t2)}
+.stat-label{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.stat-value{font-size:24px;font-weight:600;letter-spacing:-.5px;line-height:1.1}
+.sv-blue{color:var(--blue)}.sv-green{color:var(--green)}.sv-amber{color:var(--amber)}
+
+/* TABLE */
+.table-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:1000px}
+thead tr.sec-row th{padding:7px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)}
+.th-base{background:var(--sf2);color:var(--t3)}
+.th-script{background:var(--blue-l);color:var(--blue-t);border-left:3px solid var(--blue);text-align:center}
+.th-er{background:var(--green-l);color:var(--green-t);border-left:3px solid var(--green);text-align:center}
+.th-prod{background:var(--amber-l);color:var(--amber-t);border-left:3px solid var(--amber);text-align:center}
+thead tr.col-row th{padding:8px 10px;font-size:11px;font-weight:600;color:var(--t3);text-align:center;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface)}
+thead tr.col-row th.left{text-align:left}
+.ch-s{background:#f7f9ff;border-left:3px solid var(--blue)}.ch-sc{background:#f7f9ff}
+.ch-e{background:#f5fdf9;border-left:3px solid var(--green)}.ch-ec{background:#f5fdf9}
+.ch-p{background:#fdfcf5;border-left:3px solid var(--amber)}.ch-pc{background:#fdfcf5}
+.ch-ps{background:#edf0fb;border-left:2px dashed var(--blue);color:var(--purple-t)}
+.ch-pe{background:#eaf4ee;border-left:2px dashed var(--green);color:var(--purple-t)}
+.ch-pp{background:#f5efe0;border-left:2px dashed var(--amber);color:var(--purple-t)}
+.edit-icon{color:var(--blue);font-size:10px;margin-left:2px}
+tbody tr{border-bottom:1px solid var(--border)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover td{background:var(--sf2)!important}
+td{padding:9px 10px;vertical-align:middle;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.left{text-align:left}
+.td-s{background:#f9faff;border-left:3px solid var(--blue)}.td-sc{background:#f9faff}
+.td-e{background:#f7fdfa;border-left:3px solid var(--green)}.td-ec{background:#f7fdfa}
+.td-p{background:#fdfdf6;border-left:3px solid var(--amber)}.td-pc{background:#fdfdf6}
+.td-ps{background:#edf0fb;border-left:2px dashed var(--blue)}
+.td-pe{background:#eaf4ee;border-left:2px dashed var(--green)}
+.td-pp{background:#f5efe0;border-left:2px dashed var(--amber)}
+
+.show-name{font-weight:500;display:block;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.b-run{background:var(--green-l);color:var(--green-t);border:1px solid var(--green-b)}.b-run .badge-dot{background:var(--green)}
+.b-pause{background:var(--amber-l);color:var(--amber-t);border:1px solid var(--amber-b)}.b-pause .badge-dot{background:var(--amber)}
+.mono{font-family:'DM Mono',monospace;font-size:12px}
+.muted{color:var(--t3)}
+.num-bold{font-weight:600;font-family:'DM Mono',monospace;font-size:12px}
+.prev-val{font-family:'DM Mono',monospace;font-size:11px;color:var(--purple-t);font-style:italic;opacity:.85}
+
+.edit-cell{display:flex;align-items:center;justify-content:center;gap:4px}
+.edit-input{width:60px;padding:3px 5px;border-radius:6px;font-size:12px;font-family:'DM Mono',monospace;font-weight:500;border:1px solid var(--borders);background:transparent;color:var(--text);text-align:center;outline:none;transition:border-color .12s,background .12s}
+.edit-input:focus{border-color:var(--blue);background:var(--blue-l)}
+.edit-input.dirty{border-color:var(--blue);background:var(--blue-l)}
+.save-btn{padding:2px 7px;border-radius:5px;font-size:11px;font-weight:600;border:none;background:var(--blue);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif}
+.save-btn:hover{background:#1641a8}
+
+.table-footer{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid var(--border);background:var(--sf2);flex-wrap:wrap;gap:6px}
+.tf-text{font-size:11px;color:var(--t3)}
+kbd{background:var(--bg);border:1px solid var(--borders);border-radius:4px;padding:1px 5px;font-family:'DM Mono',monospace;font-size:10px}
+
+/* YEARLY TRACKER */
+.ytoolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;justify-content:space-between}
+.ytoolbar-l{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ytoolbar-r{display:flex;gap:8px}
+.ystats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+
+.ytable-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+table.ytbl{min-width:800px}
+table.ytbl thead th{padding:9px 12px;font-size:11px;font-weight:600;color:var(--t3);background:var(--sf2);border-bottom:1px solid var(--border);white-space:nowrap;text-align:center}
+table.ytbl thead th.left{text-align:left}
+table.ytbl thead th.h-scripts{background:#f0f4ff;color:var(--blue-t)}
+table.ytbl thead th.h-er{background:#f0fdf7;color:var(--green-t)}
+table.ytbl thead th.h-live{background:#fffbf0;color:var(--amber-t)}
+table.ytbl thead th.h-wc{background:#f5f3ff;color:var(--purple-t)}
+table.ytbl thead th.h-dur{background:#ecfeff;color:var(--teal-t)}
+table.ytbl tbody tr{border-bottom:1px solid var(--border)}
+table.ytbl tbody tr:last-child{border-bottom:none}
+table.ytbl tbody tr:hover td{background:var(--sf2)!important}
+table.ytbl td{padding:9px 12px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.ytbl td.left{text-align:left}
+.yt-show{font-weight:500;max-width:220px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.yt-id{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);max-width:100px;display:block;overflow:hidden;text-overflow:ellipsis}
+.yt-num{font-family:'DM Mono',monospace;font-size:12px;font-weight:500}
+.yt-dur{font-family:'DM Mono',monospace;font-size:12px;color:var(--teal-t)}
+
+/* Toast */
+#toast{position:fixed;bottom:22px;right:22px;z-index:9999;padding:9px 16px;border-radius:9px;font-size:13px;font-weight:500;background:var(--text);color:#fff;opacity:0;transition:opacity .2s;pointer-events:none;font-family:'DM Sans',sans-serif}
+#toast.show{opacity:1}
+#toast.err{background:var(--red)}
+
+@media(max-width:700px){.main{padding:14px 12px 48px}.topbar{padding:0 14px}.stat-value{font-size:19px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="tb-l">
+    <div class="tb-logo">
+      <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="white"/><rect x="8" y="1" width="5" height="5" rx="1" fill="white" opacity=".6"/><rect x="1" y="8" width="5" height="5" rx="1" fill="white" opacity=".6"/><rect x="8" y="8" width="5" height="5" rx="1" fill="white" opacity=".3"/></svg>
+    </div>
+    <span class="tb-title">UGC Production Tracker</span>
+    <span class="tb-tag" id="week-tag">Monthwise</span>
+  </div>
+  <div class="tb-r">
+    <select id="zoom-sel" onchange="applyZoom(this.value)" style="padding:4px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.25);background:transparent;color:rgba(255,255,255,.8);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;outline:none">
+      <option value="1">100%</option>
+      <option value="0.9">90%</option>
+      <option value="0.75">75%</option>
+      <option value="0.5">50%</option>
+      <option value="0.25">25%</option>
+    </select>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="weekly">Weekly Tracker</button>
+  <button class="tab-btn" data-tab="yearly">Yearly Tracker</button>
+</nav>
+
+<main class="main">
+
+<!-- ═══════════ WEEKLY TRACKER ═══════════ -->
+<div class="tab-panel active" id="tab-weekly">
+  <div class="toolbar">
+    <div class="tb-left2">
+      <div class="filter-pills" id="filter-pills"></div>
+      <div class="toggle-wrap" id="prev-toggle" onclick="togglePrev()">
+        <div class="toggle-sw"></div>
+        <span>Last week targets</span>
+      </div>
+    </div>
+    <div class="tb-right2">
+      <button class="btn-export" onclick="exportCSV()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Search & filter row -->
+  <div class="filter-row">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="search-show" type="text" placeholder="Search show name…" oninput="renderBody()">
+    </div>
+    <select class="sel-filter" id="filter-status" onchange="renderBody()">
+      <option value="">All statuses</option>
+      <option value="Running">Running</option>
+      <option value="Paused">Paused</option>
+    </select>
+    <select class="sel-filter" id="filter-writer" onchange="renderBody()">
+      <option value="">All writers</option>
+    </select>
+    <select class="sel-filter" id="filter-pod" onchange="renderBody()">
+      <option value="">All POD leads</option>
+    </select>
+  </div>
+
+  <div class="stats-grid" id="stats-grid"></div>
+
+  <div class="table-card">
+    <div class="tbl-scroll">
+      <table id="main-table">
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="table-footer">
+      <span class="tf-text" id="row-count"></span>
+      <span class="tf-text">✎ editable — type &amp; <kbd>Enter</kbd> or Save &nbsp;·&nbsp; <span style="color:var(--purple-t);font-style:italic">italic</span> = prev week value</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ YEARLY TRACKER ═══════════ -->
+<div class="tab-panel" id="tab-yearly">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" id="y-search" type="text" placeholder="Search by show name or ID…" oninput="renderYearly()" style="width:240px">
+      </div>
+      <div id="y-mode-hint" style="font-size:11px;color:var(--t3)">Click one month to filter · Click two to compare</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div id="y-compare-banner" style="display:none;background:var(--purple-l);border:1px solid var(--purple-b);border-radius:8px;padding:5px 12px;font-size:12px;color:var(--purple-t);align-items:center;gap:8px">
+        <span id="y-compare-label"></span>
+        <button onclick="clearCompare()" style="font-size:11px;padding:1px 7px;border-radius:4px;border:1px solid var(--purple-b);background:transparent;color:var(--purple-t);cursor:pointer;margin-left:4px">✕ Clear</button>
+      </div>
+      <button class="btn-export" onclick="exportYearlyCSV()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Single unified pill row -->
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+    <div class="filter-pills" id="y-filter-pills"></div>
+  </div>
+
+  <div class="ystats" id="ystats"></div>
+  <div class="ytable-card">
+    <div class="tbl-scroll">
+      <table class="ytbl" id="ytbl-main">
+        <thead id="ythead"></thead>
+        <tbody id="ytbody"></tbody>
+      </table>
+    </div>
+    <div class="table-footer">
+      <span class="tf-text" id="y-row-count"></span>
+      <span class="tf-text" id="y-footer-hint">Click one month to filter · Click two for side-by-side compare</span>
+    </div>
+  </div>
+</div>
+
+</main>
+<div id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+/* ══════════════════════════════════════════
+   WEEKLY DATA
+══════════════════════════════════════════ */
+const WDATA=window.WDATA;
+
+const F={wk:0,show:1,status:2,writer:3,pod:4,producer:5,till:6,jt:7,sub:8,wc:9,nt:10,er:11,pend:12,qt:13,live:14,wkdate:15};
+
+let rows=WDATA.map((r,i)=>({_id:i,_d:[...r],jt:r[F.jt],nt:r[F.nt],qt:r[F.qt]}));
+let filterWk=null,showPrev=false;
+const dirty={};
+const STORE='ugc_v3_targets';
+
+function loadTargets(){try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');rows.forEach(r=>{if(s[r._id+'_jt']!==undefined)r.jt=s[r._id+'_jt'];if(s[r._id+'_nt']!==undefined)r.nt=s[r._id+'_nt'];if(s[r._id+'_qt']!==undefined)r.qt=s[r._id+'_qt'];})}catch(e){}}
+function saveTargets(){const o={};rows.forEach(r=>{o[r._id+'_jt']=r.jt;o[r._id+'_nt']=r.nt;o[r._id+'_qt']=r.qt;});localStorage.setItem(STORE,JSON.stringify(o));}
+
+function n(v){const x=parseFloat(v);return isNaN(x)?null:x;}
+function fmt(v){return(v===''||v==null)?'<span class="muted">—</span>':v;}
+function fmtWC(v){const x=parseInt(v);return(!x||x===0)?'<span class="muted">—</span>':x.toLocaleString('en-IN');}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function uniqueWeeks(){return[...new Set(rows.map(r=>r._d[F.wk]).filter(Boolean))];}
+function sortedWeeks(){return uniqueWeeks().sort((a,b)=>{const ra=rows.find(r=>r._d[F.wk]===a),rb=rows.find(r=>r._d[F.wk]===b);return((ra?ra._d[F.wkdate]:'')||'').localeCompare((rb?rb._d[F.wkdate]:'')||'');});}
+function prevWeek(){const wks=sortedWeeks();const i=wks.indexOf(filterWk);return i>0?wks[i-1]:null;}
+function filtered(){
+  const q=(document.getElementById('search-show')||{value:''}).value.toLowerCase();
+  const st=(document.getElementById('filter-status')||{value:''}).value;
+  const wr=(document.getElementById('filter-writer')||{value:''}).value;
+  const pod=(document.getElementById('filter-pod')||{value:''}).value;
+  return rows.filter(r=>{
+    if(r._d[F.wk]!==filterWk) return false;
+    if(q && !r._d[F.show].toLowerCase().includes(q)) return false;
+    if(st && r._d[F.status]!==st) return false;
+    if(wr && r._d[F.writer]!==wr) return false;
+    if(pod && r._d[F.pod]!==pod) return false;
+    return true;
+  });
+}
+function prevRowFor(showName){const pw=prevWeek();if(!pw)return null;return rows.find(r=>r._d[F.wk]===pw&&r._d[F.show]===showName)||null;}
+function getTarget(row,field){const k=`${row._id}_${field}`;return dirty[k]!==undefined?dirty[k]:row[field];}
+
+function populateFilterDropdowns(){
+  const weekRows=rows.filter(r=>r._d[F.wk]===filterWk);
+  const writers=[...new Set(weekRows.map(r=>r._d[F.writer]).filter(Boolean))].sort();
+  const pods=[...new Set(weekRows.map(r=>r._d[F.pod]).filter(Boolean))].sort();
+  const ws=document.getElementById('filter-writer');
+  const ps=document.getElementById('filter-pod');
+  const curW=ws.value,curP=ps.value;
+  ws.innerHTML='<option value="">All writers</option>'+writers.map(w=>`<option value="${esc(w)}" ${curW===w?'selected':''}>${esc(w)}</option>`).join('');
+  ps.innerHTML='<option value="">All POD leads</option>'+pods.map(p=>`<option value="${esc(p)}" ${curP===p?'selected':''}>${esc(p)}</option>`).join('');
+}
+
+function renderFilters(){
+  const wks=sortedWeeks();
+  const pillsEl=document.getElementById('filter-pills');
+  pillsEl.innerHTML=wks.map(w=>`<button class="pill${filterWk===w?' active':''}" data-week="${esc(w)}">${esc(w)}</button>`).join('');
+  pillsEl.querySelectorAll('.pill').forEach(btn=>btn.addEventListener('click',()=>setFilter(btn.dataset.week)));
+  document.getElementById('week-tag').textContent=filterWk||'';
+  const hasPrev=prevWeek()!==null;
+  const tog=document.getElementById('prev-toggle');
+  tog.style.opacity=hasPrev?'1':'0.4';
+  tog.style.pointerEvents=hasPrev?'auto':'none';
+}
+
+function renderStats(){
+  const list=filtered();
+  const running=list.filter(r=>r._d[F.status]==='Running').length;
+  const paused=list.filter(r=>r._d[F.status]==='Paused').length;
+  const totalSub=list.reduce((s,r)=>s+(n(r._d[F.sub])||0),0);
+  const totalER=list.reduce((s,r)=>s+(n(r._d[F.er])||0),0);
+  const totalLive=list.reduce((s,r)=>s+(n(r._d[F.live])||0),0);
+  const items=[
+    {label:'Shows',val:list.length,icon:iGrid,cls:''},
+    {label:'Running',val:running,icon:iPlay,cls:'sv-green'},
+    {label:'Paused',val:paused,icon:iPause,cls:'sv-amber'},
+    {label:'Scripts submitted',val:totalSub.toLocaleString('en-IN'),icon:iFile,cls:'sv-blue'},
+    {label:'ER approved',val:totalER,icon:iCheck,cls:'sv-green'},
+    {label:'Live episodes',val:totalLive,icon:iBroadcast,cls:''},
+  ];
+  document.getElementById('stats-grid').innerHTML=items.map(it=>`<div class="stat-card"><div class="stat-icon">${it.icon}</div><div class="stat-label">${it.label}</div><div class="stat-value ${it.cls}">${it.val}</div></div>`).join('');
+}
+
+function renderHead(){
+  const pw=showPrev?prevWeek():null;
+  const pwLbl=pw?`<span style="font-size:9px;opacity:.65">(${esc(pw)})</span>`:'';
+  // Layout per section when prev shown: [prev target] [current target] [actuals...]
+  const sColspan=pw?6:4; const eColspan=pw?4:3; const pColspan=pw?4:3;
+  document.getElementById('thead').innerHTML=`
+  <tr class="sec-row">
+    <th colspan="5" class="th-base" style="text-align:left">Show details</th>
+    <th colspan="${sColspan}" class="th-script">Scripting</th>
+    <th colspan="${eColspan}" class="th-er">ER Review</th>
+    <th colspan="${pColspan}" class="th-prod">Production</th>
+  </tr>
+  <tr class="col-row">
+    <th class="left" style="width:180px">Show name</th>
+    <th style="width:80px">Status</th>
+    <th style="width:68px">Writer</th>
+    <th style="width:88px">POD lead</th>
+    <th style="width:90px">Producer</th>
+    <th class="ch-s" style="width:64px">Till date</th>
+    ${pw?`<th class="ch-ps" style="width:82px">Prev script target ${pwLbl}</th>`:''}
+    <th class="ch-sc" style="width:90px">Script target <span class="edit-icon">✎</span></th>
+    <th class="ch-sc" style="width:76px">Submitted</th>
+    <th class="ch-sc" style="width:80px">Word count</th>
+    ${pw?`<th class="ch-pe" style="width:82px">Prev ER target ${pwLbl}</th>`:''}
+    <th class="ch-e" style="width:90px">ER target <span class="edit-icon">✎</span></th>
+    <th class="ch-ec" style="width:76px">Approved</th>
+    <th class="ch-ec" style="width:72px">Pending</th>
+    ${pw?`<th class="ch-pp" style="width:82px">Prev release target ${pwLbl}</th>`:''}
+    <th class="ch-p" style="width:90px">Release target <span class="edit-icon">✎</span></th>
+    <th class="ch-pc" style="width:72px">Live eps</th>
+    <th class="ch-pc" style="width:72px">Pending</th>
+  </tr>`;
+}
+
+function renderBody(){
+  const list=filtered();
+  document.getElementById('row-count').textContent=`Showing ${list.length} shows · Show IDs (cols B & C) hidden`;
+  document.getElementById('tbody').innerHTML=list.map((row,i)=>{
+    const d=row._d;
+    const st=d[F.status];
+    const badge=st==='Running'?`<span class="badge b-run"><span class="badge-dot"></span>Running</span>`:st==='Paused'?`<span class="badge b-pause"><span class="badge-dot"></span>Paused</span>`:`<span class="muted">—</span>`;
+    const jt=getTarget(row,'jt'),nt=getTarget(row,'nt'),qt=getTarget(row,'qt');
+    const jDirty=dirty[`${row._id}_jt`]!==undefined,nDirty=dirty[`${row._id}_nt`]!==undefined,qDirty=dirty[`${row._id}_qt`]!==undefined;
+    const pr=showPrev?prevRowFor(d[F.show]):null;
+    const live=n(d[F.live]),qtN=n(qt);
+    const livePend=(live!==null&&qtN!==null&&qtN!==0)?live-qtN:null;
+    const livePendHtml=livePend!==null?`<span style="color:${livePend<0?'var(--red-t)':'var(--green)'};font-family:'DM Mono',monospace;font-size:12px">${livePend>0?'+':''}${livePend}</span>`:'<span class="muted">—</span>';
+    const rowBg=i%2===0?'':' style="background:var(--sf2)"';
+    return`<tr${rowBg}>
+      <td class="left"><span class="show-name" title="${esc(d[F.show])}">${esc(d[F.show])}</span></td>
+      <td>${badge}</td>
+      <td class="muted" title="${esc(d[F.writer])}">${esc(d[F.writer])||'—'}</td>
+      <td class="muted" title="${esc(d[F.pod])}">${esc(d[F.pod])||'—'}</td>
+      <td class="muted" title="${esc(d[F.producer])}">${esc(d[F.producer])||'—'}</td>
+      <td class="td-s">${fmt(d[F.till])}</td>
+      ${pr?`<td class="td-ps"><span class="prev-val">${pr.jt!==''?pr.jt:'—'}</span></td>`:''}
+      <td class="td-sc"><div class="edit-cell"><input class="edit-input${jDirty?' dirty':''}" value="${esc(jt)}" data-id="${row._id}" data-field="jt" oninput="markDirty(this)" onkeydown="keyCheck(event,this)">${jDirty?`<button class="save-btn" onclick="commitTarget(${row._id},'jt')">Save</button>`:''}</div></td>
+      <td class="td-sc num-bold">${fmt(d[F.sub])}</td>
+      <td class="td-sc">${fmtWC(d[F.wc])}</td>
+      ${pr?`<td class="td-pe"><span class="prev-val">${pr.nt!==''?pr.nt:'—'}</span></td>`:''}
+      <td class="td-e"><div class="edit-cell"><input class="edit-input${nDirty?' dirty':''}" value="${esc(nt)}" data-id="${row._id}" data-field="nt" oninput="markDirty(this)" onkeydown="keyCheck(event,this)">${nDirty?`<button class="save-btn" onclick="commitTarget(${row._id},'nt')">Save</button>`:''}</div></td>
+      <td class="td-ec num-bold">${fmt(d[F.er])}</td>
+      <td class="td-ec" style="color:${n(d[F.pend])!==null&&n(d[F.pend])<0?'var(--red-t)':'inherit'}">${fmt(d[F.pend])}</td>
+      ${pr?`<td class="td-pp"><span class="prev-val">${pr.qt!==''?pr.qt:'—'}</span></td>`:''}
+      <td class="td-p"><div class="edit-cell"><input class="edit-input${qDirty?' dirty':''}" value="${esc(qt)}" data-id="${row._id}" data-field="qt" oninput="markDirty(this)" onkeydown="keyCheck(event,this)">${qDirty?`<button class="save-btn" onclick="commitTarget(${row._id},'qt')">Save</button>`:''}</div></td>
+      <td class="td-pc num-bold">${fmt(d[F.live])}</td>
+      <td class="td-pc">${livePendHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderWeekly(){renderFilters();populateFilterDropdowns();renderStats();renderHead();renderBody();}
+function setFilter(w){filterWk=w;renderWeekly();}
+function togglePrev(){showPrev=!showPrev;document.getElementById('prev-toggle').classList.toggle('on',showPrev);renderHead();renderBody();}
+function markDirty(el){
+  const id=parseInt(el.dataset.id),field=el.dataset.field;
+  dirty[`${id}_${field}`]=el.value;el.classList.add('dirty');
+  let btn=el.nextElementSibling;
+  if(!btn||btn.tagName!=='BUTTON'){btn=document.createElement('button');btn.className='save-btn';btn.textContent='Save';btn.setAttribute('onclick',`commitTarget(${id},'${field}')`);el.parentNode.appendChild(btn);}
+}
+function keyCheck(e,el){if(e.key==='Enter')commitTarget(parseInt(el.dataset.id),el.dataset.field);}
+function commitTarget(id,field){
+  const k=`${id}_${field}`,val=dirty[k];if(val===undefined)return;
+  const row=rows.find(r=>r._id===id);if(row){row[field]=val;delete dirty[k];}
+  saveTargets();renderHead();renderBody();toast('Target saved');
+}
+function exportCSV(){
+  const list=filtered();const pw=showPrev?prevWeek():null;
+  const h=['Week','Show Name','Status','Writer','POD Lead','Producer','Till Date','Script Target',pw?'Prev Script Target ('+pw+')':null,'Submitted','Word Count','ER Target',pw?'Prev ER Target ('+pw+')':null,'ER Approved','Approval Pending','Release Target',pw?'Prev Release Target ('+pw+')':null,'Live Episodes','Live Pending'].filter(Boolean);
+  const csvRows=[h];
+  list.forEach(row=>{
+    const d=row._d,pr=pw?prevRowFor(d[F.show]):null;
+    const qt=getTarget(row,'qt'),live=n(d[F.live]),qtN=n(qt);
+    const livePend=(live!==null&&qtN!==null&&qtN!==0)?live-qtN:'';
+    const r=[d[F.wk],d[F.show],d[F.status],d[F.writer],d[F.pod],d[F.producer],d[F.till],getTarget(row,'jt')];
+    if(pw)r.push(pr?pr.jt:'');
+    r.push(d[F.sub],d[F.wc],getTarget(row,'nt'));
+    if(pw)r.push(pr?pr.nt:'');
+    r.push(d[F.er],d[F.pend],qt);
+    if(pw)r.push(pr?pr.qt:'');
+    r.push(d[F.live],livePend);
+    csvRows.push(r);
+  });
+  dlCSV(csvRows,`weekly_${(filterWk||'export').replace(/[^a-z0-9]/gi,'_')}_${today()}.csv`);
+}
+
+/* ══════════════════════════════════════════
+   YEARLY DATA
+══════════════════════════════════════════ */
+const YDATA=window.YDATA;
+
+// Y = [show_id, show_title, month_label, month_sort, scripts_sub, er_scripts, ep_live, scripts_wc, ep_live_hr]
+const YF={id:0,show:1,month:2,msort:3,sub:4,er:5,live:6,wc:7,dur:8};
+
+let yFilterMonth='all';
+let yCompareMonths=[]; // up to 2 months for compare mode
+
+function yUniqueSortedMonths(){
+  const months=[...new Set(YDATA.map(r=>r[YF.month]))];
+  return months.sort((a,b)=>{
+    const sa=YDATA.find(r=>r[YF.month]===a)?.[YF.msort]||'';
+    const sb=YDATA.find(r=>r[YF.month]===b)?.[YF.msort]||'';
+    return sa.localeCompare(sb);
+  });
+}
+
+function yFiltered(){
+  const q=(document.getElementById('y-search')||{value:''}).value.toLowerCase().trim();
+  const monthsToShow = yCompareMonths.length===2 ? yCompareMonths : (yFilterMonth==='all'?null:[yFilterMonth]);
+  return YDATA.filter(r=>{
+    if(monthsToShow && !monthsToShow.includes(r[YF.month])) return false;
+    if(q && !r[YF.show].toLowerCase().includes(q) && !r[YF.id].toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function clearCompare(){
+  yCompareMonths=[];
+  renderYearly();
+}
+
+function renderYFilters(){
+  const months=yUniqueSortedMonths();
+  const isCompare=yCompareMonths.length===2;
+  const el=document.getElementById('y-filter-pills');
+
+  // Build pills: All months + each month
+  // State: compare takes priority over single filter
+  el.innerHTML=[['all','All months'],...months.map(m=>[m,m])].map(([val,lbl])=>{
+    let cls='pill';
+    let extraStyle='';
+    if(val==='all'){
+      if(yCompareMonths.length===0 && yFilterMonth==='all') cls+=' active';
+    } else {
+      if(yCompareMonths.includes(val)){
+        cls+=' active';
+        extraStyle='background:var(--purple);border-color:var(--purple);';
+      } else if(yCompareMonths.length===0 && yFilterMonth===val){
+        cls+=' active';
+      }
+    }
+    return`<button class="${cls}" data-ypill="${esc(val)}" style="${extraStyle}">${esc(lbl)}</button>`;
+  }).join('');
+
+  el.querySelectorAll('.pill').forEach(btn=>btn.addEventListener('click',()=>{
+    const val=btn.dataset.ypill;
+    if(val==='all'){
+      yCompareMonths=[];yFilterMonth='all';
+    } else if(yCompareMonths.includes(val)){
+      // deselect from compare
+      yCompareMonths=yCompareMonths.filter(x=>x!==val);
+      if(yCompareMonths.length===0) yFilterMonth='all';
+    } else if(yCompareMonths.length>0){
+      // already in compare mode: add or swap
+      if(yCompareMonths.length<2) yCompareMonths.push(val);
+      else yCompareMonths=[yCompareMonths[1],val];
+    } else if(yFilterMonth===val){
+      // clicking same single filter → deselect
+      yFilterMonth='all';
+    } else if(yFilterMonth!=='all'){
+      // second click on different month → enter compare mode
+      yCompareMonths=[yFilterMonth,val];yFilterMonth='all';
+    } else {
+      // first click from All
+      yFilterMonth=val;
+    }
+    renderYearly();
+  }));
+
+  // Compare banner
+  const banner=document.getElementById('y-compare-banner');
+  const lbl=document.getElementById('y-compare-label');
+  if(yCompareMonths.length===2){
+    banner.style.display='flex';
+    lbl.textContent=`Comparing ${yCompareMonths[0]} vs ${yCompareMonths[1]}`;
+  } else {
+    banner.style.display='none';
+  }
+
+  // Hint text update
+  const hint=document.getElementById('y-mode-hint');
+  if(hint){
+    if(isCompare) hint.textContent='Compare mode — click a purple pill to deselect, or click Clear';
+    else if(yFilterMonth!=='all') hint.textContent='Single month view — click another month to compare, or All months to reset';
+    else hint.textContent='Click one month to filter · Click two to compare';
+  }
+}
+
+function renderYStats(){
+  const list=yFiltered();
+  const totalSub=list.reduce((s,r)=>s+r[YF.sub],0);
+  const totalER=list.reduce((s,r)=>s+r[YF.er],0);
+  const totalLive=list.reduce((s,r)=>s+r[YF.live],0);
+  const totalWC=list.reduce((s,r)=>s+r[YF.wc],0);
+  const totalDur=list.reduce((s,r)=>s+r[YF.dur],0);
+  const items=[
+    {label:'Scripts submitted',val:Math.round(totalSub).toLocaleString('en-IN'),icon:iFile,cls:'sv-blue'},
+    {label:'Editorial reviewed',val:Math.round(totalER).toLocaleString('en-IN'),icon:iCheck,cls:'sv-green'},
+    {label:'Eps made live',val:Math.round(totalLive).toLocaleString('en-IN'),icon:iBroadcast,cls:'sv-amber'},
+    {label:'Scripts WC',val:Math.round(totalWC).toLocaleString('en-IN'),icon:iGrid,cls:''},
+    {label:'Live duration (hr)',val:totalDur.toFixed(1),icon:iPlay,cls:''},
+  ];
+  document.getElementById('ystats').innerHTML=items.map(it=>`<div class="stat-card"><div class="stat-icon">${it.icon}</div><div class="stat-label">${it.label}</div><div class="stat-value ${it.cls}">${it.val}</div></div>`).join('');
+}
+
+const YCOLS=['Scripts submitted','Editorial reviewed','Eps made live','Scripts WC','Live duration (hr)'];
+const YKEYS=[YF.sub,YF.er,YF.live,YF.wc,YF.dur];
+const YCLS=['h-scripts','h-er','h-live','h-wc','h-dur'];
+
+function renderYHead(){
+  const isCompare=yCompareMonths.length===2;
+  const [mA,mB]=yCompareMonths;
+  let headHtml=`<tr>
+    <th class="left" style="width:50px">Show ID</th>
+    <th class="left" style="width:220px">Show title</th>`;
+  if(isCompare){
+    YCOLS.forEach((col,i)=>{
+      headHtml+=`<th class="${YCLS[i]}" style="min-width:110px">${col}<br><span style="font-size:10px;font-weight:400;opacity:.8">${esc(mA)}</span></th>`;
+      headHtml+=`<th class="${YCLS[i]}" style="min-width:110px;border-left:1px dashed var(--borders)">${col}<br><span style="font-size:10px;font-weight:400;opacity:.8">${esc(mB)}</span></th>`;
+      headHtml+=`<th style="min-width:80px;background:#fafaf8;font-size:10px">Diff</th>`;
+    });
+  } else {
+    YCOLS.forEach((col,i)=>headHtml+=`<th class="${YCLS[i]}" style="min-width:120px">${col}</th>`);
+  }
+  headHtml+='</tr>';
+  document.getElementById('ythead').innerHTML=headHtml;
+}
+
+function renderYBody(){
+  const list=yFiltered();
+  document.getElementById('y-row-count').textContent=`Showing ${list.length} rows`;
+  const isCompare=yCompareMonths.length===2;
+  const [mA,mB]=yCompareMonths;
+
+  let rows='';
+  if(isCompare){
+    // Group by show_id
+    const shows=[...new Set(YDATA.map(r=>r[YF.id]))];
+    const q=(document.getElementById('y-search')||{value:''}).value.toLowerCase().trim();
+    let count=0;
+    shows.forEach((sid,i)=>{
+      const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA);
+      const rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);
+      if(!rA&&!rB) return;
+      const showName=(rA||rB)[YF.show];
+      if(q && !showName.toLowerCase().includes(q) && !sid.toLowerCase().includes(q)) return;
+      count++;
+      const bg=count%2===0?' style="background:var(--sf2)"':'';
+      let cells=`<tr${bg}>
+        <td class="left"><span class="yt-id" title="${esc(sid)}">${esc(sid.slice(0,10))}…</span></td>
+        <td class="left"><span class="yt-show" title="${esc(showName)}">${esc(showName)}</span></td>`;
+      YKEYS.forEach(k=>{
+        const vA=rA?rA[k]:0;
+        const vB=rB?rB[k]:0;
+        const diff=vB-vA;
+        const isDur=k===YF.dur;
+        const fmtV=(v)=>v>0?(isDur?v.toFixed(2):Math.round(v).toLocaleString('en-IN')):'<span class="muted">—</span>';
+        const fmtD=(d)=>{
+          if(d===0) return'<span class="muted">0</span>';
+          const s=isDur?d.toFixed(2):Math.round(d).toLocaleString('en-IN');
+          return`<span style="color:${d>0?'var(--green)':'var(--red-t)'};font-family:'DM Mono',monospace;font-size:11px;font-weight:500">${d>0?'+':''}${s}</span>`;
+        };
+        cells+=`<td class="yt-num">${fmtV(vA)}</td>`;
+        cells+=`<td class="yt-num" style="border-left:1px dashed var(--borders)">${fmtV(vB)}</td>`;
+        cells+=`<td style="background:#fafaf8;text-align:center">${fmtD(diff)}</td>`;
+      });
+      cells+='</tr>';
+      rows+=cells;
+    });
+    document.getElementById('y-row-count').textContent=`Showing ${count} shows`;
+  } else {
+    rows=list.map((r,i)=>{
+      const bg=i%2===0?'':' style="background:var(--sf2)"';
+      return`<tr${bg}>
+        <td class="left"><span class="yt-id" title="${esc(r[YF.id])}">${esc(r[YF.id].slice(0,10))}…</span></td>
+        <td class="left"><span class="yt-show" title="${esc(r[YF.show])}">${esc(r[YF.show])}</span></td>
+        <td class="yt-num" style="color:var(--blue-t)">${r[YF.sub]>0?Math.round(r[YF.sub]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
+        <td class="yt-num" style="color:var(--green-t)">${r[YF.er]>0?Math.round(r[YF.er]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
+        <td class="yt-num" style="color:var(--amber-t)">${r[YF.live]>0?Math.round(r[YF.live]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
+        <td class="yt-num" style="color:var(--purple-t)">${r[YF.wc]>0?Math.round(r[YF.wc]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
+        <td class="yt-dur">${r[YF.dur]>0?r[YF.dur].toFixed(2):'<span class="muted">—</span>'}</td>
+      </tr>`;
+    }).join('');
+  }
+  document.getElementById('ytbody').innerHTML=rows;
+}
+
+function renderYearly(){renderYFilters();renderYStats();renderYHead();renderYBody();}
+
+function exportYearlyCSV(){
+  const isCompare=yCompareMonths.length===2;
+  const [mA,mB]=yCompareMonths;
+  let h,csvRows;
+  if(isCompare){
+    h=['Show ID','Show Title',...YCOLS.flatMap(c=>[`${c} (${mA})`,`${c} (${mB})`,`${c} Diff`])];
+    const shows=[...new Set(YDATA.map(r=>r[YF.id]))];
+    const q=(document.getElementById('y-search')||{value:''}).value.toLowerCase().trim();
+    const data=[];
+    shows.forEach(sid=>{
+      const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA);
+      const rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);
+      if(!rA&&!rB) return;
+      const showName=(rA||rB)[YF.show];
+      if(q && !showName.toLowerCase().includes(q) && !sid.toLowerCase().includes(q)) return;
+      data.push([sid,showName,...YKEYS.flatMap(k=>{const vA=rA?rA[k]:0,vB=rB?rB[k]:0;return[vA,vB,vB-vA];})]);
+    });
+    csvRows=[h,...data];
+  } else {
+    h=['Show ID','Show Title','Month','Scripts Submitted','Editorial Reviewed Scripts','Eps Made Live','Scripts WC','Ep Made Live Duration (hr)'];
+    csvRows=[h,...yFiltered().map(r=>[r[YF.id],r[YF.show],r[YF.month],r[YF.sub],r[YF.er],r[YF.live],r[YF.wc],r[YF.dur]])];
+  }
+  const suffix=isCompare?`compare_${mA.replace(/\s/g,'_')}_vs_${mB.replace(/\s/g,'_')}`:yFilterMonth.replace(/[^a-z0-9]/gi,'_');
+  dlCSV(csvRows,`yearly_${suffix}_${today()}.csv`);
+}
+
+/* ══════════ SHARED UTILS ══════════ */
+function applyZoom(val){
+  const z=parseFloat(val);
+  document.body.style.zoom=z;
+  try{localStorage.setItem('ugc_zoom',val);}catch(e){}
+}
+  const csv=csvRows.map(r=>r.map(v=>{const s=String(v==null?'':v);return(s.includes(',')||s.includes('"')||s.includes('\n'))?`"${s.replace(/"/g,'""')}"`:`${s}`;}).join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+  toast('CSV downloaded');
+}
+function today(){return new Date().toISOString().slice(0,10);}
+let toastT;
+function toast(msg,isErr=false){const el=document.getElementById('toast');el.textContent=msg;el.className='show'+(isErr?' err':'');clearTimeout(toastT);toastT=setTimeout(()=>el.className='',2500);}
+
+const iGrid=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`;
+const iPlay=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+const iPause=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+const iFile=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`;
+const iCheck=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+const iBroadcast=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>`;
+
+/* ══════════ TAB SWITCHING ══════════ */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ══════════ INIT ══════════ */
+loadTargets();
+const wks=sortedWeeks();filterWk=wks[wks.length-1]||null;
+renderWeekly();
+renderYearly();
+// Restore zoom
+try{const z=localStorage.getItem('ugc_zoom');if(z){document.body.style.zoom=parseFloat(z);const sel=document.getElementById('zoom-sel');if(sel)sel.value=z;}}catch(e){}
+</script>
+</body>
+</html>
