@@ -123,6 +123,22 @@ table.ytbl td.left{text-align:left}
 #toast{position:fixed;bottom:22px;right:22px;z-index:9999;padding:9px 16px;border-radius:9px;font-size:13px;font-weight:500;background:var(--text);color:#fff;opacity:0;transition:opacity .2s;pointer-events:none}
 #toast.show{opacity:1}
 @media(max-width:700px){.main{padding:14px 12px 48px}}
+
+/* GitHub sync */
+.gh-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;display:flex;align-items:center;justify-content:center}
+.gh-modal{background:#fff;border-radius:14px;padding:28px 32px;width:420px;max-width:90vw;font-family:'DM Sans',sans-serif}
+.gh-modal h3{font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text)}
+.gh-modal p{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6}
+.gh-modal input{width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--borders);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:12px}
+.gh-modal input:focus{border-color:var(--blue)}
+.gh-modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.gh-btn-cancel{padding:7px 16px;border-radius:8px;border:1px solid var(--borders);background:transparent;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.gh-btn-save{padding:7px 16px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:4px}
+.sync-dot.syncing{background:#f59e0b;animation:pulse 1s infinite}
+.sync-dot.error{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.gh-status{display:flex;align-items:center;font-size:11px;color:rgba(255,255,255,.6);gap:4px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -136,6 +152,10 @@ table.ytbl td.left{text-align:left}
     <span class="tb-tag" id="week-tag"></span>
   </div>
   <div class="tb-r">
+    <div class="gh-status" id="gh-status" onclick="showTokenModal()" title="Click to set GitHub token for target sync">
+      <span class="sync-dot" id="sync-dot"></span>
+      <span id="sync-label">Targets: local only</span>
+    </div>
     <select id="zoom-sel" onchange="applyZoom(this.value)" style="padding:4px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.25);background:transparent;color:rgba(255,255,255,.8);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;outline:none">
       <option value="1">100%</option>
       <option value="0.9">90%</option>
@@ -232,6 +252,20 @@ table.ytbl td.left{text-align:left}
   </div>
 </div>
 
+
+<!-- GitHub token modal -->
+<div class="gh-modal-bg" id="gh-modal" style="display:none">
+  <div class="gh-modal">
+    <h3>Connect GitHub to save targets</h3>
+    <p>Your targets (Script, ER, Release) will be saved to your GitHub repo and sync across all devices. You need a GitHub Personal Access Token with <strong>repo</strong> scope.</p>
+    <input type="password" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    <p style="font-size:11px;color:var(--t3);margin-top:-6px;margin-bottom:14px">Token is stored only in this browser. Never shared anywhere.</p>
+    <div class="gh-modal-btns">
+      <button class="gh-btn-cancel" onclick="closeTokenModal()">Cancel</button>
+      <button class="gh-btn-save" onclick="saveToken()">Connect &amp; Save</button>
+    </div>
+  </div>
+</div>
 </main>
 <div id="toast"></div>
 
@@ -245,8 +279,103 @@ let filterWk=null,showPrev=false;
 const dirty={};
 const STORE='ugc_v4';
 
-function loadT(){try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');rows.forEach(r=>{if(s[r._id+'_jt']!==undefined)r.jt=s[r._id+'_jt'];if(s[r._id+'_nt']!==undefined)r.nt=s[r._id+'_nt'];if(s[r._id+'_qt']!==undefined)r.qt=s[r._id+'_qt'];})}catch(e){}}
-function saveT(){const o={};rows.forEach(r=>{o[r._id+'_jt']=r.jt;o[r._id+'_nt']=r.nt;o[r._id+'_qt']=r.qt;});localStorage.setItem(STORE,JSON.stringify(o));}
+
+/* ── GitHub Targets Sync ── */
+const GH_REPO='anant-pfm/ugc-tracker';
+const GH_FILE='targets.json';
+const GH_TOKEN_KEY='ugc_gh_token';
+let ghSyncing=false;
+
+function getToken(){return localStorage.getItem(GH_TOKEN_KEY)||'';}
+function showTokenModal(){document.getElementById('gh-modal').style.display='flex';const t=getToken();if(t)document.getElementById('gh-token-input').value=t;}
+function closeTokenModal(){document.getElementById('gh-modal').style.display='none';}
+function saveToken(){
+  const t=document.getElementById('gh-token-input').value.trim();
+  if(!t)return;
+  localStorage.setItem(GH_TOKEN_KEY,t);
+  closeTokenModal();
+  setSyncStatus('syncing','Connecting...');
+  pushTargetsToGH().then(()=>setSyncStatus('ok','Targets: GitHub ✓')).catch(()=>setSyncStatus('error','Token error'));
+}
+function setSyncStatus(state,label){
+  const dot=document.getElementById('sync-dot');
+  const lbl=document.getElementById('sync-label');
+  if(dot){dot.className='sync-dot'+(state==='syncing'?' syncing':state==='error'?' error':'');}
+  if(lbl)lbl.textContent=label;
+}
+
+function targetsObj(){
+  const o={};
+  rows.forEach(r=>{
+    if(r.jt!=='')o[r._id+'_jt']=r.jt;
+    if(r.nt!=='')o[r._id+'_nt']=r.nt;
+    if(r.qt!=='')o[r._id+'_qt']=r.qt;
+  });
+  return o;
+}
+
+async function pushTargetsToGH(){
+  const token=getToken();
+  if(!token)return;
+  ghSyncing=true;
+  setSyncStatus('syncing','Saving...');
+  const content=btoa(unescape(encodeURIComponent(JSON.stringify(targetsObj(),null,2))));
+  // Get current SHA if file exists
+  let sha='';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}});
+    if(r.ok){const d=await r.json();sha=d.sha;}
+  }catch(e){}
+  // Write file
+  const body={message:'Update targets',content};
+  if(sha)body.sha=sha;
+  const res=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
+    method:'PUT',
+    headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  ghSyncing=false;
+  if(!res.ok)throw new Error('GitHub write failed');
+  setSyncStatus('ok','Targets: GitHub ✓');
+}
+
+async function loadTargetsFromGH(){
+  const token=getToken();
+  if(!token){setSyncStatus('','Targets: local only');return;}
+  setSyncStatus('syncing','Loading...');
+  try{
+    const r=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{
+      headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(r.ok){
+      const d=await r.json();
+      const s=JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,'')))));
+      rows.forEach(row=>{
+        if(s[row._id+'_jt']!==undefined)row.jt=s[row._id+'_jt'];
+        if(s[row._id+'_nt']!==undefined)row.nt=s[row._id+'_nt'];
+        if(s[row._id+'_qt']!==undefined)row.qt=s[row._id+'_qt'];
+      });
+      // also sync to localStorage as backup
+      localStorage.setItem(STORE,JSON.stringify(s));
+      setSyncStatus('ok','Targets: GitHub ✓');
+    } else {
+      setSyncStatus('ok','Targets: GitHub (no targets yet)');
+    }
+  }catch(e){
+    // fallback to localStorage
+    loadT_local();
+    setSyncStatus('error','GitHub offline — using local');
+  }
+}
+
+function loadT(){loadT_local();loadTargetsFromGH();}
+function loadT_local(){try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');rows.forEach(r=>{if(s[r._id+'_jt']!==undefined)r.jt=s[r._id+'_jt'];if(s[r._id+'_nt']!==undefined)r.nt=s[r._id+'_nt'];if(s[r._id+'_qt']!==undefined)r.qt=s[r._id+'_qt'];})}catch(e){}}
+function saveT(){
+  const o=targetsObj();
+  localStorage.setItem(STORE,JSON.stringify(o));
+  pushTargetsToGH().catch(e=>setSyncStatus('error','Save failed — stored locally'));
+}
+
 function n(v){const x=parseFloat(v);return isNaN(x)?null:x;}
 function fmt(v){return(v===''||v==null)?'<span class="muted">—</span>':v;}
 function fmtWC(v){const x=parseInt(v);return(!x||x===0)?'<span class="muted">—</span>':x.toLocaleString('en-IN');}
@@ -414,7 +543,10 @@ let yFilterMonth='all',yCompareMonths=[];
 function yMonths(){return[...new Set(YDATA.map(r=>r[YF.month]))].sort((a,b)=>{const sa=YDATA.find(r=>r[YF.month]===a)?.[YF.msort]||'';;const sb=YDATA.find(r=>r[YF.month]===b)?.[YF.msort]||'';;return sa.localeCompare(sb);});}
 function yFiltered(){
   const q=(document.getElementById('y-search')||{value:''}).value.toLowerCase().trim();
-  const months=yCompareMonths.length===2?yCompareMonths:(yFilterMonth==='all'?null:[yFilterMonth]);
+  let months=null;
+  if(yCompareMonths.length===2) months=yCompareMonths;
+  else if(yCompareMonths.length===1) months=yCompareMonths;
+  else if(yFilterMonth!=='all') months=[yFilterMonth];
   return YDATA.filter(r=>{
     if(months&&!months.includes(r[YF.month]))return false;
     if(q&&!r[YF.show].toLowerCase().includes(q)&&!r[YF.id].toLowerCase().includes(q))return false;
@@ -434,12 +566,29 @@ function renderYFilters(){
   }).join('');
   el.querySelectorAll('.pill').forEach(btn=>btn.addEventListener('click',()=>{
     const val=btn.dataset.ypill;
-    if(val==='all'){yCompareMonths=[];yFilterMonth='all';}
-    else if(yCompareMonths.includes(val)){yCompareMonths=yCompareMonths.filter(x=>x!==val);if(yCompareMonths.length===0)yFilterMonth='all';}
-    else if(yCompareMonths.length>0){yCompareMonths=yCompareMonths.length<2?[...yCompareMonths,val]:[yCompareMonths[1],val];}
-    else if(yFilterMonth===val){yFilterMonth='all';}
-    else if(yFilterMonth!=='all'){yCompareMonths=[yFilterMonth,val];yFilterMonth='all';}
-    else{yFilterMonth=val;}
+    if(val==='all'){
+      // Reset everything
+      yCompareMonths=[];yFilterMonth='all';
+    } else if(yCompareMonths.includes(val)){
+      // Deselect from compare
+      yCompareMonths=yCompareMonths.filter(x=>x!==val);
+      if(yCompareMonths.length===0)yFilterMonth='all';
+    } else if(yCompareMonths.length===2){
+      // Already comparing 2 — swap oldest
+      yCompareMonths=[yCompareMonths[1],val];
+    } else if(yCompareMonths.length===1){
+      // Add second compare month
+      yCompareMonths=[...yCompareMonths,val];
+    } else if(yFilterMonth===val){
+      // Clicking active single filter — deselect
+      yFilterMonth='all';
+    } else if(yFilterMonth!=='all'){
+      // Clicking different month while one is already selected — enter compare mode
+      yCompareMonths=[yFilterMonth,val];yFilterMonth='all';
+    } else {
+      // Fresh click from All months
+      yFilterMonth=val;
+    }
     renderYearly();
   }));
   const banner=document.getElementById('y-compare-banner');
