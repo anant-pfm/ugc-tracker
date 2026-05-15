@@ -176,10 +176,10 @@ table.ytbl td.left{text-align:left}
     <button class="grp-btn g-pr on" id="grp-pr" onclick="toggleGrp('pr')"><span class="grp-dot"></span>Production</button>
   </div>
   <div class="frow">
-    <div class="swrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="sinput" id="wsearch" type="text" placeholder="Search show name..." oninput="renderBody()"></div>
-    <select class="ssel" id="fstatus" onchange="renderBody()"><option value="">All statuses</option><option value="Running">Running</option><option value="Paused">Paused</option></select>
-    <select class="ssel" id="fwriter" onchange="renderBody()"><option value="">All writers</option></select>
-    <select class="ssel" id="fpod" onchange="renderBody()"><option value="">All POD leads</option></select>
+    <div class="swrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="sinput" id="wsearch" type="text" placeholder="Search show name..." oninput="rWeekly()"></div>
+    <select class="ssel" id="fstatus" onchange="rWeekly()"><option value="">All statuses</option><option value="Running">Running</option><option value="Paused">Paused</option></select>
+    <select class="ssel" id="fwriter" onchange="rWeekly()"><option value="">All writers</option></select>
+    <select class="ssel" id="fpod" onchange="rWeekly()"><option value="">All POD leads</option></select>
   </div>
   <div class="stats-grid" id="wstats"></div>
   <div class="tbl-card"><div class="tbl-scroll"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
