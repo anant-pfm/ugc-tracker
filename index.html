@@ -105,6 +105,9 @@ td.left{text-align:left}
 .ec{display:flex;align-items:center;justify-content:center;gap:3px}
 .ei2{width:54px;padding:2px 4px;border-radius:5px;font-size:11px;font-family:'DM Mono',monospace;border:1px solid var(--bds);background:transparent;color:var(--tx);text-align:center;outline:none}
 .ei2:focus,.ei2.dirty{border-color:var(--blue);background:var(--blue-l)}
+.ei2.ovr{border-color:var(--amber);background:var(--amber-l);color:var(--amber-t)}
+.rbtn{padding:1px 5px;border-radius:4px;font-size:11px;border:1px solid var(--amber-b);background:var(--amber-l);color:var(--amber-t);cursor:pointer;font-family:'DM Sans',sans-serif;line-height:1}
+.rbtn:hover{background:var(--amber-b)}
 .sb{padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;border:none;background:var(--blue);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif}
 .tfoot{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--bd);background:var(--sf2);flex-wrap:wrap;gap:5px}
 .tft{font-size:10px;color:var(--t3)}
@@ -238,8 +241,44 @@ const STORE='ugc_v7';
 const GRP={ij:true,km:true,sc:true,er:true,pr:true};
 let yFM='all',yCmp=[],ySort='',yMinAct='';
 
-function loadT(){try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');rows.forEach(r=>{if(s[r._key+'j']!==undefined)r.jt=s[r._key+'j'];if(s[r._key+'n']!==undefined)r.nt=s[r._key+'n'];if(s[r._key+'q']!==undefined)r.qt=s[r._key+'q'];});}catch(e){}}
-function saveT(){const o={};rows.forEach(r=>{if(r.jt!=='')o[r._key+'j']=r.jt;if(r.nt!=='')o[r._key+'n']=r.nt;if(r.qt!=='')o[r._key+'q']=r.qt;});localStorage.setItem(STORE,JSON.stringify(o));}
+function loadT(){
+  // Excel targets are in WDATA (r.jt/nt/qt already set from r[F.jt] etc at row init)
+  // localStorage only stores USER OVERRIDES — apply them on top
+  try{
+    const s=JSON.parse(localStorage.getItem(STORE)||'{}');
+    rows.forEach(r=>{
+      if(s[r._key+'j']!==undefined)r.jt=s[r._key+'j'];
+      if(s[r._key+'n']!==undefined)r.nt=s[r._key+'n'];
+      if(s[r._key+'q']!==undefined)r.qt=s[r._key+'q'];
+    });
+  }catch(e){}
+}
+function saveT(){
+  // saveT is now a no-op — use saveOverride() for explicit edits
+  // Kept for compatibility
+}
+function saveOverride(key,f,val){
+  // Marks a target as user-overridden in localStorage
+  const s=JSON.parse(localStorage.getItem(STORE)||'{}');
+  s[key+f]=val;
+  localStorage.setItem(STORE,JSON.stringify(s));
+}
+function clearOverride(key,f){
+  // Resets cell back to Excel value; removes user override
+  const s=JSON.parse(localStorage.getItem(STORE)||'{}');
+  delete s[key+f];
+  localStorage.setItem(STORE,JSON.stringify(s));
+  const row=rows.find(r=>r._key===key);
+  if(row){
+    const excelVal={j:row._d[F.jt],n:row._d[F.nt],q:row._d[F.qt]};
+    const fmap={j:'jt',n:'nt',q:'qt'};
+    row[fmap[f]]=excelVal[f]||'';
+  }
+  rHead();rBody();toast('Reset to Excel value');
+}
+function isOverridden(key,f){
+  try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');return s[key+f]!==undefined;}catch(e){return false;}
+}
 
 function nv(v){const x=parseFloat(v);return isNaN(x)?null:x;}
 function fmt(v){return(v===''||v==null)?'<span class="mu">&#8212;</span>':v;}
@@ -352,17 +391,23 @@ function rBody(){
     if(GRP.km){c+=`<td class="td-km mn">${fN(d[F.k_ttd_sc])}</td><td class="td-kmc mn">${fN(d[F.l_ttd_er])}</td><td class="td-kmc mn">${fN(d[F.m_ttd_rel])}</td>`;}
     if(GRP.sc){
       if(showPrev)c+=`<td class="td-ps"><span class="pv">${pr&&pr.jt?pr.jt:'&#8212;'}</span></td>`;
-      c+=`<td class="td-sc"><div class="ec"><input class="ei2${jD?' dirty':''}" value="${esc(jt)}" data-k="${row._key}" data-f="j" oninput="mDirty(this)" onkeydown="kChk(event,this)">${jD?`<button class="sb" onclick="comT('${row._key}','j')">Save</button>`:''}</div></td>`;
+      const jtOvr=isOverridden(row._key,'j');
+      const jtExcel=row._d[F.jt];
+      c+=`<td class="td-sc"><div class="ec"><input class="ei2${jD?' dirty':jtOvr?' ovr':''}" value="${esc(jt)}" placeholder="${esc(jtExcel||'')}" data-k="${row._key}" data-f="j" oninput="mDirty(this)" onkeydown="kChk(event,this)">${jD?`<button class="sb" onclick="comT('${row._key}','j')">Save</button>`:jtOvr?`<button class="rbtn" onclick="clearOverride('${row._key}','j')" title="Reset to Excel value (${esc(jtExcel)})">&#8635;</button>`:''}</div></td>`;
       c+=`<td class="td-scc mnb">${fmt(d[F.sub])}</td><td class="td-scc mn">${fWC(d[F.wc])}</td>`;
     }
     if(GRP.er){
       if(showPrev)c+=`<td class="td-pe"><span class="pv">${pr&&pr.nt?pr.nt:'&#8212;'}</span></td>`;
-      c+=`<td class="td-er"><div class="ec"><input class="ei2${nD?' dirty':''}" value="${esc(nt)}" data-k="${row._key}" data-f="n" oninput="mDirty(this)" onkeydown="kChk(event,this)">${nD?`<button class="sb" onclick="comT('${row._key}','n')">Save</button>`:''}</div></td>`;
+      const ntOvr=isOverridden(row._key,'n');
+      const ntExcel=row._d[F.nt];
+      c+=`<td class="td-er"><div class="ec"><input class="ei2${nD?' dirty':ntOvr?' ovr':''}" value="${esc(nt)}" placeholder="${esc(ntExcel||'')}" data-k="${row._key}" data-f="n" oninput="mDirty(this)" onkeydown="kChk(event,this)">${nD?`<button class="sb" onclick="comT('${row._key}','n')">Save</button>`:ntOvr?`<button class="rbtn" onclick="clearOverride('${row._key}','n')" title="Reset to Excel value (${esc(ntExcel)})">&#8635;</button>`:''}</div></td>`;
       c+=`<td class="td-erc mnb">${fmt(d[F.er])}</td><td class="td-erc mn" style="color:${nv(d[F.pend])!==null&&nv(d[F.pend])<0?'var(--red-t)':'inherit'}">${fmt(d[F.pend])}</td>`;
     }
     if(GRP.pr){
       if(showPrev)c+=`<td class="td-pp"><span class="pv">${pr&&pr.qt?pr.qt:'&#8212;'}</span></td>`;
-      c+=`<td class="td-pr"><div class="ec"><input class="ei2${qD?' dirty':''}" value="${esc(qt)}" data-k="${row._key}" data-f="q" oninput="mDirty(this)" onkeydown="kChk(event,this)">${qD?`<button class="sb" onclick="comT('${row._key}','q')">Save</button>`:''}</div></td>`;
+      const qtOvr=isOverridden(row._key,'q');
+      const qtExcel=row._d[F.qt];
+      c+=`<td class="td-pr"><div class="ec"><input class="ei2${qD?' dirty':qtOvr?' ovr':''}" value="${esc(qt)}" placeholder="${esc(qtExcel||'')}" data-k="${row._key}" data-f="q" oninput="mDirty(this)" onkeydown="kChk(event,this)">${qD?`<button class="sb" onclick="comT('${row._key}','q')">Save</button>`:qtOvr?`<button class="rbtn" onclick="clearOverride('${row._key}','q')" title="Reset to Excel value (${esc(qtExcel)})">&#8635;</button>`:''}</div></td>`;
       c+=`<td class="td-prc mnb">${fmt(d[F.live])}</td><td class="td-prc">${lpH}</td>`;
     }
     return c+'</tr>';
@@ -374,7 +419,7 @@ function setWk(w){fWk=w;rWeekly();}
 function togglePrev(){showPrev=!showPrev;document.getElementById('prev-tog').classList.toggle('on',showPrev);rHead();rBody();}
 function mDirty(el){const k=el.dataset.k,f=el.dataset.f;dirty[k+f]=el.value;el.classList.add('dirty');let b=el.nextElementSibling;if(!b||b.tagName!=='BUTTON'){b=document.createElement('button');b.className='sb';b.textContent='Save';b.setAttribute('onclick',`comT('${k}','${f}')`);el.parentNode.appendChild(b);}}
 function kChk(e,el){if(e.key==='Enter')comT(el.dataset.k,el.dataset.f);}
-function comT(k,f){const key=k+f,val=dirty[key];if(val===undefined)return;const row=rows.find(r=>r._key===k);if(row){const fmap={j:'jt',n:'nt',q:'qt'};row[fmap[f]]=val;delete dirty[key];}saveT();rHead();rBody();toast('Target saved');}
+function comT(k,f){const key=k+f,val=dirty[key];if(val===undefined)return;const row=rows.find(r=>r._key===k);if(row){const fmap={j:'jt',n:'nt',q:'qt'};row[fmap[f]]=val;delete dirty[key];}saveOverride(k,f,val);rHead();rBody();toast('Target saved');}
 function exportCSV(){
   const list=filtered();
   const h=['Production Show ID','Week','Show Name','Status','Writer','POD Lead','Producer','Scripts to Record (I)','Duration Live hrs (J)','TTD Scripts (K)','TTD ER (L)','TTD Release (M)','Script Target','Scripts Submitted','Word Count','ER Target','ER Approved','Approval Pending','Release Target','Live Episodes'];
