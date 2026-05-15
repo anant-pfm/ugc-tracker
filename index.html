@@ -6,46 +6,27 @@
 <title>UGC Production Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f2f1ed;--sf:#fff;--sf2:#f7f6f3;--bd:#e5e3db;--bds:#ccc9be;
-  --tx:#18170f;--t2:#57554c;--t3:#9b9890;
-  --blue:#1a56db;--blue-l:#eff4ff;--blue-b:#b4c8fd;--blue-t:#1e3a8a;
-  --green:#047857;--green-l:#ecfdf5;--green-b:#6ee7b7;--green-t:#064e3b;
-  --amber:#b45309;--amber-l:#fffbeb;--amber-b:#fcd34d;--amber-t:#78350f;
-  --red:#dc2626;--red-t:#991b1b;
-  --purple:#6d28d9;--purple-l:#f5f3ff;--purple-b:#c4b5fd;--purple-t:#4c1d95;
-  --slate:#475569;--slate-l:#f1f5f9;--slate-b:#cbd5e1;--slate-t:#1e293b;
-  --teal:#0e7490;--teal-l:#ecfeff;--teal-t:#164e63;
-  --indigo:#4338ca;--indigo-l:#eef2ff;--indigo-b:#a5b4fc;--indigo-t:#312e81;
-}
+:root{--bg:#f2f1ed;--sf:#fff;--sf2:#f7f6f3;--bd:#e5e3db;--bds:#ccc9be;--tx:#18170f;--t2:#57554c;--t3:#9b9890;--blue:#1a56db;--blue-l:#eff4ff;--blue-b:#b4c8fd;--blue-t:#1e3a8a;--green:#047857;--green-l:#ecfdf5;--green-b:#6ee7b7;--green-t:#064e3b;--amber:#b45309;--amber-l:#fffbeb;--amber-b:#fcd34d;--amber-t:#78350f;--red:#dc2626;--red-t:#991b1b;--purple:#6d28d9;--purple-l:#f5f3ff;--purple-b:#c4b5fd;--purple-t:#4c1d95;--slate:#475569;--slate-l:#f1f5f9;--slate-t:#1e293b;--indigo:#4338ca;--indigo-l:#eef2ff;--indigo-t:#312e81;--teal:#0e7490;--teal-l:#ecfeff;--teal-t:#164e63}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;min-height:100vh}
-
-/* TOPBAR */
 .topbar{background:var(--tx);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300}
 .tb-l{display:flex;align-items:center;gap:8px}
 .tb-logo{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center}
 .tb-logo svg{width:13px;height:13px}
 .tb-title{font-size:13px;font-weight:600;color:#fff}
-.tb-tag{font-size:10px;color:rgba(255,255,255,.4);padding:2px 7px;border-radius:20px;border:1px solid rgba(255,255,255,.15)}
+.tb-tag{font-size:10px;color:rgba(255,255,255,.45);padding:2px 7px;border-radius:20px;border:1px solid rgba(255,255,255,.15)}
 .tb-r{display:flex;align-items:center;gap:8px}
 .zoom-sel{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.75);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;outline:none}
-
-/* TABS */
-.tab-nav{background:var(--tx);padding:0 20px;display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.1)}
-.tab-btn{padding:9px 16px;font-size:12px;font-weight:500;color:rgba(255,255,255,.45);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;transition:color .12s,border-color .12s}
+.tab-nav{background:var(--tx);padding:0 20px;display:flex;border-bottom:1px solid rgba(255,255,255,.1)}
+.tab-btn{padding:9px 16px;font-size:12px;font-weight:500;color:rgba(255,255,255,.45);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent}
 .tab-btn.active{color:#fff;border-bottom-color:#fff}
-
-/* MAIN */
 .main{padding:18px 20px 60px;max-width:100%;margin:0 auto}
 .tab-panel{display:none}.tab-panel.active{display:block}
-
-/* TOOLBAR */
-.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
 .tbl-l{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.tbl-r{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tbl-r{display:flex;align-items:center;gap:6px}
 .filter-pills{display:flex;gap:4px;flex-wrap:wrap}
-.pill{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--bds);background:var(--sf);color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s}
+.pill{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--bds);background:var(--sf);color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif}
 .pill:hover{border-color:var(--blue);color:var(--blue)}
 .pill.active{background:var(--tx);border-color:var(--tx);color:#fff}
 .toggle-wrap{display:flex;align-items:center;gap:6px;padding:4px 11px;border-radius:8px;border:1px solid var(--bds);background:var(--sf);cursor:pointer;user-select:none;font-size:12px;font-weight:500;color:var(--t2)}
@@ -56,61 +37,53 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .toggle-wrap.on .toggle-sw::after{transform:translateX(12px)}
 .btn-sm{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;border:1px solid var(--bds);background:var(--sf);color:var(--t2);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
 .btn-sm svg{width:13px;height:13px}
-
-/* FILTER ROW */
-.filter-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:12px}
-.search-wrap{position:relative}
-.search-wrap svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:12px;height:12px;color:var(--t3);pointer-events:none}
-.search-input{padding:5px 10px 5px 28px;border-radius:7px;border:1px solid var(--bds);background:var(--sf);font-size:12px;font-family:'DM Sans',sans-serif;color:var(--tx);outline:none;width:190px}
-.sel-filter{padding:5px 9px;border-radius:7px;border:1px solid var(--bds);background:var(--sf);font-size:12px;font-family:'DM Sans',sans-serif;color:var(--t2);outline:none;cursor:pointer}
-
-/* COLUMN GROUP TOGGLES */
-.grp-toggles{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:12px;padding:8px 12px;background:var(--sf);border:1px solid var(--bd);border-radius:10px}
-.grp-lbl{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-right:4px}
-.grp-btn{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;border:1px solid var(--bds);background:var(--sf2);color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s;display:flex;align-items:center;gap:4px}
-.grp-btn.on{color:var(--sf)}
+.grp-bar{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:10px;padding:7px 12px;background:var(--sf);border:1px solid var(--bd);border-radius:10px}
+.grp-lbl{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-right:2px}
+.grp-btn{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500;border:1px solid var(--bds);background:var(--sf2);color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px}
+.grp-btn.on{color:#fff}
 .grp-btn.on.g-ij{background:var(--slate);border-color:var(--slate)}
 .grp-btn.on.g-km{background:var(--indigo);border-color:var(--indigo)}
 .grp-btn.on.g-sc{background:var(--blue);border-color:var(--blue)}
 .grp-btn.on.g-er{background:var(--green);border-color:var(--green)}
 .grp-btn.on.g-pr{background:var(--amber);border-color:var(--amber)}
-.grp-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
-
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px}
-.stat-card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
-.stat-icon{width:24px;height:24px;border-radius:6px;background:var(--sf2);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
-.stat-icon svg{width:12px;height:12px;color:var(--t2)}
-.stat-label{font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
-.stat-value{font-size:22px;font-weight:600;letter-spacing:-.5px;line-height:1.1}
-.sv-blue{color:var(--blue)}.sv-green{color:var(--green)}.sv-amber{color:var(--amber)}
-
-/* TABLE */
-.table-card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.grp-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.frow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.swrap{position:relative}
+.swrap svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:12px;height:12px;color:var(--t3);pointer-events:none}
+.sinput{padding:5px 10px 5px 28px;border-radius:7px;border:1px solid var(--bds);background:var(--sf);font-size:12px;font-family:'DM Sans',sans-serif;color:var(--tx);outline:none;width:185px}
+.ssel{padding:5px 9px;border-radius:7px;border:1px solid var(--bds);background:var(--sf);font-size:12px;font-family:'DM Sans',sans-serif;color:var(--t2);outline:none;cursor:pointer}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px;margin-bottom:14px}
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
+.si{width:24px;height:24px;border-radius:6px;background:var(--sf2);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.si svg{width:12px;height:12px;color:var(--t2)}
+.sl{font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.sv{font-size:21px;font-weight:600;letter-spacing:-.5px;line-height:1.1}
+.sv.c-blue{color:var(--blue)}.sv.c-green{color:var(--green)}.sv.c-amber{color:var(--amber)}
+.tbl-card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
 .tbl-scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12px;min-width:900px}
-thead tr.sec-row th{padding:6px 8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--bd);text-align:center}
+thead tr.sr th{padding:6px 8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--bd);text-align:center}
 .th-base{background:var(--sf2);color:var(--t3);text-align:left}
 .th-ij{background:var(--slate-l);color:var(--slate-t);border-left:3px solid var(--slate)}
 .th-km{background:var(--indigo-l);color:var(--indigo-t);border-left:3px solid var(--indigo)}
 .th-sc{background:var(--blue-l);color:var(--blue-t);border-left:3px solid var(--blue)}
 .th-er{background:var(--green-l);color:var(--green-t);border-left:3px solid var(--green)}
 .th-pr{background:var(--amber-l);color:var(--amber-t);border-left:3px solid var(--amber)}
-thead tr.col-row th{padding:7px 8px;font-size:10px;font-weight:600;color:var(--t3);text-align:center;border-bottom:1px solid var(--bd);white-space:nowrap;background:var(--sf)}
-thead tr.col-row th.left{text-align:left}
+thead tr.cr th{padding:7px 8px;font-size:10px;font-weight:600;color:var(--t3);text-align:center;border-bottom:1px solid var(--bd);white-space:nowrap;background:var(--sf)}
+thead tr.cr th.left{text-align:left}
 .ch-ij{background:#f5f7fa;border-left:3px solid var(--slate)}.ch-ijc{background:#f5f7fa}
 .ch-km{background:#f0f0fb;border-left:3px solid var(--indigo)}.ch-kmc{background:#f0f0fb}
 .ch-sc{background:#f7f9ff;border-left:3px solid var(--blue)}.ch-scc{background:#f7f9ff}
 .ch-er{background:#f5fdf9;border-left:3px solid var(--green)}.ch-erc{background:#f5fdf9}
 .ch-pr{background:#fdfcf5;border-left:3px solid var(--amber)}.ch-prc{background:#fdfcf5}
-.ch-ps{background:#edf0fb;border-left:2px dashed var(--blue)}
-.ch-pe{background:#eaf4ee;border-left:2px dashed var(--green)}
-.ch-pp{background:#f5efe0;border-left:2px dashed var(--amber)}
-.edit-icon{color:var(--blue);font-size:9px;margin-left:2px}
+.ch-ps{background:#edf0fb;border-left:2px dashed var(--blue);color:var(--purple-t);font-style:italic}
+.ch-pe{background:#eaf4ee;border-left:2px dashed var(--green);color:var(--purple-t);font-style:italic}
+.ch-pp{background:#f5efe0;border-left:2px dashed var(--amber);color:var(--purple-t);font-style:italic}
+.ei{color:var(--blue);font-size:9px;margin-left:2px}
 tbody tr{border-bottom:1px solid var(--bd)}
 tbody tr:last-child{border-bottom:none}
 tbody tr:hover td{background:var(--sf2)!important}
-td{padding:8px 8px;vertical-align:middle;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td{padding:8px;vertical-align:middle;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 td.left{text-align:left}
 .td-ij{background:#f5f7fa;border-left:3px solid var(--slate)}.td-ijc{background:#f5f7fa}
 .td-km{background:#f0f0fb;border-left:3px solid var(--indigo)}.td-kmc{background:#f0f0fb}
@@ -120,234 +93,190 @@ td.left{text-align:left}
 .td-ps{background:#edf0fb;border-left:2px dashed var(--blue)}
 .td-pe{background:#eaf4ee;border-left:2px dashed var(--green)}
 .td-pp{background:#f5efe0;border-left:2px dashed var(--amber)}
-.show-name{font-weight:500;display:block;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sn{font-weight:500;display:block;max-width:165px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500}
-.badge-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
-.b-run{background:var(--green-l);color:var(--green-t);border:1px solid var(--green-b)}.b-run .badge-dot{background:var(--green)}
-.b-pause{background:var(--amber-l);color:var(--amber-t);border:1px solid var(--amber-b)}.b-pause .badge-dot{background:var(--amber)}
-.muted{color:var(--t3)}
-.num{font-family:'DM Mono',monospace;font-size:11px}
-.num-b{font-weight:600;font-family:'DM Mono',monospace;font-size:11px}
-.prev-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--purple-t);font-style:italic}
-.edit-cell{display:flex;align-items:center;justify-content:center;gap:3px}
-.edit-input{width:54px;padding:2px 4px;border-radius:5px;font-size:11px;font-family:'DM Mono',monospace;border:1px solid var(--bds);background:transparent;color:var(--tx);text-align:center;outline:none}
-.edit-input:focus,.edit-input.dirty{border-color:var(--blue);background:var(--blue-l)}
-.save-btn{padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;border:none;background:var(--blue);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif}
-.table-footer{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--bd);background:var(--sf2);flex-wrap:wrap;gap:5px}
-.tf-text{font-size:10px;color:var(--t3)}
+.dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+.b-run{background:var(--green-l);color:var(--green-t);border:1px solid var(--green-b)}.b-run .dot{background:var(--green)}
+.b-pau{background:var(--amber-l);color:var(--amber-t);border:1px solid var(--amber-b)}.b-pau .dot{background:var(--amber)}
+.mu{color:var(--t3)}
+.mn{font-family:'DM Mono',monospace;font-size:11px}
+.mnb{font-weight:600;font-family:'DM Mono',monospace;font-size:11px}
+.pv{font-family:'DM Mono',monospace;font-size:10px;color:var(--purple-t);font-style:italic}
+.ec{display:flex;align-items:center;justify-content:center;gap:3px}
+.ei2{width:54px;padding:2px 4px;border-radius:5px;font-size:11px;font-family:'DM Mono',monospace;border:1px solid var(--bds);background:transparent;color:var(--tx);text-align:center;outline:none}
+.ei2:focus,.ei2.dirty{border-color:var(--blue);background:var(--blue-l)}
+.sb{padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;border:none;background:var(--blue);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif}
+.tfoot{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--bd);background:var(--sf2);flex-wrap:wrap;gap:5px}
+.tft{font-size:10px;color:var(--t3)}
 kbd{background:var(--bg);border:1px solid var(--bds);border-radius:3px;padding:1px 4px;font-family:'DM Mono',monospace;font-size:9px}
-
-/* YEARLY */
-.y-filter-bar{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.y-search-wrap{position:relative}
-.y-search-wrap svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:12px;height:12px;color:var(--t3);pointer-events:none}
-.y-search{padding:5px 10px 5px 28px;border-radius:7px;border:1px solid var(--bds);background:var(--sf);font-size:12px;font-family:'DM Sans',sans-serif;color:var(--tx);outline:none;width:210px}
-.y-month-grid{display:flex;gap:4px;flex-wrap:wrap}
-.y-pill{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--bds);background:var(--sf);color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s}
-.y-pill:hover{border-color:var(--blue);color:var(--blue)}
-.y-pill.single{background:var(--tx);border-color:var(--tx);color:#fff}
-.y-pill.cmp-a{background:var(--blue);border-color:var(--blue);color:#fff}
-.y-pill.cmp-b{background:var(--purple);border-color:var(--purple);color:#fff}
-.y-compare-bar{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--purple-l);border:1px solid var(--purple-b);border-radius:8px;margin-bottom:12px;font-size:12px;color:var(--purple-t);flex-wrap:wrap}
 .ystats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:14px}
-.ytable-card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.ytcard{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
 table.ytbl{min-width:750px}
 table.ytbl thead th{padding:8px 10px;font-size:10px;font-weight:600;color:var(--t3);background:var(--sf2);border-bottom:1px solid var(--bd);white-space:nowrap;text-align:center}
 table.ytbl thead th.left{text-align:left}
-.h-sc{background:#f0f4ff;color:var(--blue-t)}.h-er{background:#f0fdf7;color:var(--green-t)}
-.h-lv{background:#fffbf0;color:var(--amber-t)}.h-wc{background:#f5f3ff;color:var(--purple-t)}
-.h-dur{background:#ecfeff;color:var(--teal-t)}
+.yh-sc{background:#f0f4ff;color:var(--blue-t)}.yh-er{background:#f0fdf7;color:var(--green-t)}
+.yh-lv{background:#fffbf0;color:var(--amber-t)}.yh-wc{background:#f5f3ff;color:var(--purple-t)}
+.yh-dr{background:#ecfeff;color:var(--teal-t)}
 table.ytbl tbody tr{border-bottom:1px solid var(--bd)}
 table.ytbl tbody tr:last-child{border-bottom:none}
 table.ytbl tbody tr:hover td{background:var(--sf2)!important}
-table.ytbl td{padding:8px 10px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.ytbl td{padding:8px 10px;text-align:center;white-space:nowrap}
 table.ytbl td.left{text-align:left}
-.yt-show{font-weight:500;max-width:200px;display:block;overflow:hidden;text-overflow:ellipsis}
+.yt-ttl{font-weight:500;max-width:200px;display:block;overflow:hidden;text-overflow:ellipsis}
 .yt-id{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3)}
-.yt-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:500}
-
-/* TOAST */
+.yn{font-family:'DM Mono',monospace;font-size:11px;font-weight:500}
+.y-bar{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.y-left{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.y-mp{display:flex;flex-direction:column;gap:2px}
+.yp{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--bds);background:var(--sf);color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.yp:hover{border-color:var(--blue)}
+.yp.single{background:var(--tx);border-color:var(--tx);color:#fff}
+.yp.cmpa{background:var(--blue);border-color:var(--blue);color:#fff}
+.yp.cmpb{background:var(--purple);border-color:var(--purple);color:#fff}
+.ycbar{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--purple-l);border:1px solid var(--purple-b);border-radius:8px;margin-bottom:12px;font-size:12px;color:var(--purple-t);flex-wrap:wrap}
 #toast{position:fixed;bottom:20px;right:20px;z-index:9999;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;background:var(--tx);color:#fff;opacity:0;transition:opacity .2s;pointer-events:none}
 #toast.show{opacity:1}
 </style>
 </head>
 <body>
-
 <header class="topbar">
   <div class="tb-l">
     <div class="tb-logo"><svg viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="white"/><rect x="8" y="1" width="5" height="5" rx="1" fill="white" opacity=".6"/><rect x="1" y="8" width="5" height="5" rx="1" fill="white" opacity=".6"/><rect x="8" y="8" width="5" height="5" rx="1" fill="white" opacity=".3"/></svg></div>
     <span class="tb-title">UGC Production Tracker</span>
-    <span class="tb-tag" id="week-tag"></span>
+    <span class="tb-tag" id="wtag"></span>
   </div>
   <div class="tb-r">
-    <select class="zoom-sel" id="zoom-sel" onchange="applyZoom(this.value)">
-      <option value="1">100%</option>
-      <option value="0.9">90%</option>
-      <option value="0.8">80%</option>
-      <option value="0.75">75%</option>
-      <option value="0.6">60%</option>
-      <option value="0.5">50%</option>
+    <select class="zoom-sel" onchange="applyZoom(this.value)">
+      <option value="1">100%</option><option value="0.9">90%</option><option value="0.8">80%</option><option value="0.75">75%</option><option value="0.6">60%</option><option value="0.5">50%</option>
     </select>
   </div>
 </header>
-
 <nav class="tab-nav">
   <button class="tab-btn active" data-tab="weekly">Weekly Tracker</button>
   <button class="tab-btn" data-tab="yearly">Yearly Tracker</button>
 </nav>
-
 <main class="main">
 
-<!-- WEEKLY -->
 <div class="tab-panel active" id="tab-weekly">
   <div class="toolbar">
     <div class="tbl-l">
-      <div class="filter-pills" id="filter-pills"></div>
-      <div class="toggle-wrap" id="prev-toggle" onclick="togglePrev()">
-        <div class="toggle-sw"></div>
-        <span>Last week targets</span>
-      </div>
+      <div class="filter-pills" id="wpills"></div>
+      <div class="toggle-wrap" id="prev-tog" onclick="togglePrev()"><div class="toggle-sw"></div><span>Last week targets</span></div>
     </div>
     <div class="tbl-r">
-      <button class="btn-sm" onclick="exportCSV()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Export CSV
-      </button>
+      <button class="btn-sm" onclick="exportCSV()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export CSV</button>
     </div>
   </div>
-
-  <!-- Column group toggles -->
-  <div class="grp-toggles">
-    <span class="grp-lbl">Show columns:</span>
-    <button class="grp-btn g-ij on" id="grp-ij" onclick="toggleGrp('ij')"><span class="grp-dot"></span>Scripts &amp; Duration (I–J)</button>
-    <button class="grp-btn g-km on" id="grp-km" onclick="toggleGrp('km')"><span class="grp-dot"></span>TTD Monthwise (K–M)</button>
+  <div class="grp-bar">
+    <span class="grp-lbl">Columns:</span>
+    <button class="grp-btn g-ij on" id="grp-ij" onclick="toggleGrp('ij')"><span class="grp-dot"></span>Scripts &amp; Duration</button>
+    <button class="grp-btn g-km on" id="grp-km" onclick="toggleGrp('km')"><span class="grp-dot"></span>TTD Monthwise</button>
     <button class="grp-btn g-sc on" id="grp-sc" onclick="toggleGrp('sc')"><span class="grp-dot"></span>Scripting</button>
     <button class="grp-btn g-er on" id="grp-er" onclick="toggleGrp('er')"><span class="grp-dot"></span>ER Review</button>
     <button class="grp-btn g-pr on" id="grp-pr" onclick="toggleGrp('pr')"><span class="grp-dot"></span>Production</button>
   </div>
-
-  <div class="filter-row">
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input class="search-input" id="search-show" type="text" placeholder="Search show name…" oninput="renderBody()">
-    </div>
-    <select class="sel-filter" id="filter-status" onchange="renderBody()">
-      <option value="">All statuses</option>
-      <option value="Running">Running</option>
-      <option value="Paused">Paused</option>
-    </select>
-    <select class="sel-filter" id="filter-writer" onchange="renderBody()"><option value="">All writers</option></select>
-    <select class="sel-filter" id="filter-pod" onchange="renderBody()"><option value="">All POD leads</option></select>
+  <div class="frow">
+    <div class="swrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="sinput" id="wsearch" type="text" placeholder="Search show name..." oninput="renderBody()"></div>
+    <select class="ssel" id="fstatus" onchange="renderBody()"><option value="">All statuses</option><option value="Running">Running</option><option value="Paused">Paused</option></select>
+    <select class="ssel" id="fwriter" onchange="renderBody()"><option value="">All writers</option></select>
+    <select class="ssel" id="fpod" onchange="renderBody()"><option value="">All POD leads</option></select>
   </div>
-
-  <div class="stats-grid" id="stats-grid"></div>
-
-  <div class="table-card">
-    <div class="tbl-scroll">
-      <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
-    </div>
-    <div class="table-footer">
-      <span class="tf-text" id="row-count"></span>
-      <span class="tf-text">✎ editable — <kbd>Enter</kbd> or Save · <span style="color:var(--purple-t);font-style:italic">italic</span> = prev week</span>
-    </div>
+  <div class="stats-grid" id="wstats"></div>
+  <div class="tbl-card"><div class="tbl-scroll"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+    <div class="tfoot"><span class="tft" id="wcount"></span><span class="tft">Editable targets: type &amp; <kbd>Enter</kbd> or Save &nbsp;&#183;&nbsp; <span style="color:var(--purple-t);font-style:italic">italic</span> = prev week</span></div>
   </div>
 </div>
 
-<!-- YEARLY -->
 <div class="tab-panel" id="tab-yearly">
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-    <div class="y-filter-bar">
+  <div class="y-bar">
+    <div class="y-left">
       <div>
-        <div class="y-search-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="y-search" id="y-search" type="text" placeholder="Search show name or ID…" oninput="renderYearly()">
-        </div>
-        <div style="font-size:10px;color:var(--t3);margin-top:5px" id="y-hint">Click a month to filter · Click 2 to compare</div>
+        <div class="swrap" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="sinput" id="ysearch" style="width:210px" type="text" placeholder="Search show name or ID..." oninput="renderYearly()"></div>
+        <div style="font-size:10px;color:var(--t3)" id="yhint">Click a month to filter &#183; Click 2 to compare</div>
       </div>
       <div>
         <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Month</div>
-        <div class="y-month-grid" id="y-pills"></div>
+        <div class="y-mp" id="ypills"></div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Filters</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+          <select class="ssel" id="y-sort" onchange="renderYearly()" title="Sort by">
+            <option value="show">Sort: Show title</option>
+            <option value="sub_desc">Sort: Scripts &#8595;</option>
+            <option value="er_desc">Sort: ER &#8595;</option>
+            <option value="live_desc">Sort: Eps live &#8595;</option>
+            <option value="dur_desc">Sort: Duration &#8595;</option>
+          </select>
+          <select class="ssel" id="y-min" onchange="renderYearly()" title="Hide shows with no activity">
+            <option value="">All shows</option>
+            <option value="sub">Has scripts submitted</option>
+            <option value="er">Has ER approved</option>
+            <option value="live">Has eps live</option>
+          </select>
+        </div>
       </div>
     </div>
-    <button class="btn-sm" onclick="exportYCSV()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Export CSV
-    </button>
+    <button class="btn-sm" onclick="exportYCSV()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export CSV</button>
   </div>
-
-  <div id="y-cmp-bar" style="display:none" class="y-compare-bar">
-    <span id="y-cmp-label"></span>
-    <button onclick="clearYCmp()" style="padding:2px 8px;border-radius:4px;border:1px solid var(--purple-b);background:transparent;color:var(--purple-t);cursor:pointer;font-size:11px;margin-left:auto">✕ Clear</button>
-  </div>
-
+  <div id="ycbar" style="display:none" class="ycbar"><span id="yclbl"></span><button onclick="clearCmp()" style="padding:2px 8px;border-radius:4px;border:1px solid var(--purple-b);background:transparent;color:var(--purple-t);cursor:pointer;font-size:11px;margin-left:auto">Clear</button></div>
   <div class="ystats" id="ystats"></div>
-  <div class="ytable-card">
-    <div class="tbl-scroll">
-      <table class="ytbl"><thead id="ythead"></thead><tbody id="ytbody"></tbody></table>
-    </div>
-    <div class="table-footer">
-      <span class="tf-text" id="y-count"></span>
-      <span class="tf-text" id="y-footer-hint"></span>
-    </div>
+  <div class="ytcard"><div class="tbl-scroll"><table class="ytbl"><thead id="ythead"></thead><tbody id="ytbody"></tbody></table></div>
+    <div class="tfoot"><span class="tft" id="ycount"></span></div>
   </div>
 </div>
-
 </main>
 <div id="toast"></div>
 
 <script>
-/* ── DATA ── */
-const WDATA = [["b9727274f880f47671ad54caad4904a491fad9c7", "W1 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "18", "18", "41129", "0", "", "28", "-28", "", "36", "-36", "2026-05-04"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W1 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "15", "15", "35950", "0", "", "20", "-20", "", "24", "-24", "2026-05-04"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W1 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "12", "12", "28878", "0", "", "13", "-13", "", "17", "-17", "2026-05-04"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W1 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "20", "18", "45583", "2", "", "22", "-22", "", "15", "-15", "2026-05-04"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W1 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["", "W1 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["", "W1 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W1 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "40", "30", "65086", "10", "", "34", "-34", "", "32", "-32", "2026-05-04"], ["", "W1 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W1 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "0", "", "0", "0", "", "8", "-8", "2026-05-04"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W1 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "10", "12", "24413", "-2", "", "13", "-13", "", "11", "-11", "2026-05-04"], ["", "W1 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W1 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "1", "2732", "-1", "", "1", "-1", "", "3", "-3", "2026-05-04"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W1 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "18", "354", "882175", "-336", "", "25", "-25", "", "20", "-20", "2026-05-04"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W1 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "23", "56248", "-23", "", "14", "-14", "", "24", "-24", "2026-05-04"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W1 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W1 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W1 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W1 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "20", "19", "41346", "1", "", "0", "0", "", "0", "0", "2026-05-04"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W1 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W1 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "0", "", "0", "0", "", "1", "-1", "2026-05-04"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W1 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "12", "15", "33622", "-3", "", "19", "-19", "", "21", "-21", "2026-05-04"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W1 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W1 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "30", "29", "68961", "1", "", "11", "-11", "", "19", "-19", "2026-05-04"], ["6867922e795be5da6320ef1d28567452800209ba", "W1 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "30", "30", "72191", "0", "", "5", "-5", "", "5", "-5", "2026-05-04"], ["54847eda0794e861da74c1034ace021b4643357b", "W1 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W1 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W1 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "10", "20", "43065", "-10", "", "12", "-12", "", "14", "-14", "2026-05-04"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W1 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "13", "30909", "-13", "", "0", "0", "", "0", "0", "2026-05-04"], ["", "W1 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["", "W1 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["", "W1 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["", "W1 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-04"], ["b9727274f880f47671ad54caad4904a491fad9c7", "W2 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "", "14", "33750", "-14", "", "53", "-53", "", "3", "-3", "2026-05-11"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W2 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "", "11", "26596", "-11", "", "12", "-12", "", "10", "-10", "2026-05-11"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W2 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "", "16", "39232", "-16", "", "8", "-8", "", "4", "-4", "2026-05-11"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W2 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "", "23", "67066", "-23", "", "26", "-26", "", "11", "-11", "2026-05-11"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W2 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["", "W2 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["", "W2 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W2 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "", "35", "74539", "-35", "", "37", "-37", "", "15", "-15", "2026-05-11"], ["", "W2 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W2 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "0", "", "13", "-13", "", "3", "-3", "2026-05-11"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W2 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "", "50", "99489", "-50", "", "12", "-12", "", "0", "0", "2026-05-11"], ["", "W2 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W2 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "0", "0", "0", "", "0", "0", "", "1", "-1", "2026-05-11"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W2 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "", "1", "3118", "-1", "", "21", "-21", "", "10", "-10", "2026-05-11"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W2 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "35", "81586", "-35", "", "39", "-39", "", "15", "-15", "2026-05-11"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W2 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W2 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W2 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W2 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "", "6", "13415", "-6", "", "4", "-4", "", "0", "0", "2026-05-11"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W2 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W2 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W2 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "", "11", "24077", "-11", "", "11", "-11", "", "7", "-7", "2026-05-11"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W2 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W2 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "", "31", "72615", "-31", "", "28", "-28", "", "0", "0", "2026-05-11"], ["6867922e795be5da6320ef1d28567452800209ba", "W2 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "", "30", "69830", "-30", "", "4", "-4", "", "3", "-3", "2026-05-11"], ["54847eda0794e861da74c1034ace021b4643357b", "W2 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "7", "17509", "-7", "", "7", "-7", "", "0", "0", "2026-05-11"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W2 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W2 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "", "13", "22736", "-13", "", "11", "-11", "", "10", "-10", "2026-05-11"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W2 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "6", "14583", "-6", "", "15", "-15", "", "0", "0", "2026-05-11"], ["", "W2 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["", "W2 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["", "W2 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["", "W2 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-11"], ["b9727274f880f47671ad54caad4904a491fad9c7", "W3 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W3 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W3 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W3 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W3 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W3 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W3 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W3 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W3 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W3 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W3 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W3 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W3 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W3 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W3 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W3 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W3 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W3 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W3 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W3 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["6867922e795be5da6320ef1d28567452800209ba", "W3 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["54847eda0794e861da74c1034ace021b4643357b", "W3 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W3 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W3 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W3 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["", "W3 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-18"], ["b9727274f880f47671ad54caad4904a491fad9c7", "W4 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W4 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W4 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W4 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W4 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W4 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W4 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W4 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W4 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W4 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W4 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W4 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W4 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W4 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W4 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W4 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W4 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W4 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W4 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W4 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["6867922e795be5da6320ef1d28567452800209ba", "W4 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["54847eda0794e861da74c1034ace021b4643357b", "W4 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W4 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W4 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W4 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"], ["", "W4 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "0", "", "0", "0", "", "0", "0", "2026-05-25"]];
-const YDATA = [["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "May 2025", "2025-05", 5, 4, 0, 11453, 0.0], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Jun 2025", "2025-06", 114, 14, 0, 251274, 0.0], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Jun 2025", "2025-06", 107, 21, 5, 226343, 1.27], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Jul 2025", "2025-07", 63, 27, 1, 137688, 0.2], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Jul 2025", "2025-07", 61, 35, 46, 127886, 10.62], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Aug 2025", "2025-08", 41, 25, 57, 88539, 12.84], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Aug 2025", "2025-08", 78, 58, 46, 169508, 9.59], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Sep 2025", "2025-09", 67, 66, 66, 148526, 13.22], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Sep 2025", "2025-09", 62, 84, 66, 130604, 14.54], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Sep 2025", "2025-09", 12, 12, 0, 26348, 0.0], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Sep 2025", "2025-09", 328, 200, 193, 581538, 46.39], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Oct 2025", "2025-10", 58, 57, 54, 120239, 10.87], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Oct 2025", "2025-10", 82, 70, 88, 175312, 18.91], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Oct 2025", "2025-10", 2, 0, 0, 5354, 0.0], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Oct 2025", "2025-10", 10, 8, 49, 20118, 9.26], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Oct 2025", "2025-10", 78, 71, 52, 212840, 12.7], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Nov 2025", "2025-11", 79, 72, 62, 186517, 12.05], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Nov 2025", "2025-11", 88, 100, 96, 224416, 20.59], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Nov 2025", "2025-11", 18, 16, 0, 51526, 0.0], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Nov 2025", "2025-11", 110, 103, 60, 197684, 11.45], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Nov 2025", "2025-11", 64, 67, 62, 169323, 14.8], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Dec 2025", "2025-12", 124, 79, 87, 280829, 16.73], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Dec 2025", "2025-12", 85, 87, 97, 215316, 22.26], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Dec 2025", "2025-12", 40, 43, 43, 117845, 10.71], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Dec 2025", "2025-12", 15, 0, 0, 36635, 0.0], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Dec 2025", "2025-12", 0, 0, 16, 0, 3.59], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Dec 2025", "2025-12", 97, 81, 100, 279381, 23.86], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Jan 2026", "2026-01", 86, 79, 73, 204974, 15.87], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Jan 2026", "2026-01", 5, 79, 71, 12679, 18.21], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Jan 2026", "2026-01", 101, 54, 55, 313663, 14.74], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Jan 2026", "2026-01", 29, 12, 0, 56476, 0.0], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Jan 2026", "2026-01", 35, 27, 13, 76278, 3.53], ["b236b697a3dda78049a484b58d63a75f4503ad66", "Rudra - Rise of Supreme Yoddha - Production Show_id", "Jan 2026", "2026-01", 9, 5, 0, 21313, 0.0], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Jan 2026", "2026-01", 36, 24, 1, 93807, 0.25], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Jan 2026", "2026-01", 80, 90, 77, 246960, 18.58], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Feb 2026", "2026-02", 117, 111, 85, 258593, 16.1], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Feb 2026", "2026-02", 37, 67, 77, 96061, 19.69], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "Divine Power - Production Show_id", "Feb 2026", "2026-02", 16, 2, 0, 40451, 0.0], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Feb 2026", "2026-02", 26, 51, 50, 79899, 13.79], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Feb 2026", "2026-02", 41, 48, 24, 87743, 4.39], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Feb 2026", "2026-02", 35, 52, 46, 86291, 12.09], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "Feb 2026", "2026-02", 3, 0, 0, 7076, 0.0], ["b236b697a3dda78049a484b58d63a75f4503ad66", "Rudra - Rise of Supreme Yoddha - Production Show_id", "Feb 2026", "2026-02", 48, 47, 37, 106586, 7.76], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Feb 2026", "2026-02", 46, 56, 49, 109460, 11.62], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "Feb 2026", "2026-02", 8, 0, 0, 19302, 0.0], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Feb 2026", "2026-02", 82, 71, 78, 234623, 22.13], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "Beggar Husband - Production Show_id", "Mar 2026", "2026-03", 20, 19, 1, 43482, 0.26], ["54847eda0794e861da74c1034ace021b4643357b", "Billionaire King's Love (Production)", "Mar 2026", "2026-03", 52, 45, 25, 120552, 5.27], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Mar 2026", "2026-03", 140, 154, 143, 309961, 29.8], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Mar 2026", "2026-03", 122, 86, 86, 286178, 20.08], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "Divine Power - Production Show_id", "Mar 2026", "2026-03", 36, 42, 37, 83944, 9.8], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "Ek Stranger Se Pyar- Production Id", "Mar 2026", "2026-03", 1, 1, 0, 2454, 0.0], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Mar 2026", "2026-03", 38, 61, 66, 102254, 17.55], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Mar 2026", "2026-03", 0, 10, 46, 0, 8.65], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Mar 2026", "2026-03", 74, 73, 66, 181849, 18.87], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "Mar 2026", "2026-03", 34, 22, 1, 71597, 0.25], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "Reborn to Rule Production Show_id", "Mar 2026", "2026-03", 1, 1, 0, 3317, 0.0], ["b236b697a3dda78049a484b58d63a75f4503ad66", "Rudra - Rise of Supreme Yoddha - Production Show_id", "Mar 2026", "2026-03", 0, 5, 20, 0, 3.88], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Mar 2026", "2026-03", 76, 54, 66, 179832, 14.18], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "Mar 2026", "2026-03", 36, 42, 40, 87697, 10.39], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Mar 2026", "2026-03", 5, 0, 0, 10462, 0.0], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "The Immortal (Production)", "Mar 2026", "2026-03", 47, 30, 8, 95325, 1.39], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Mar 2026", "2026-03", 94, 91, 83, 266579, 22.67], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "Beggar Husband - 2", "Apr 2026", "2026-04", 49, 60, 44, 107746, 10.07], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "Beggar Husband - Production Show_id", "Apr 2026", "2026-04", 30, 31, 45, 66943, 9.8], ["54847eda0794e861da74c1034ace021b4643357b", "Billionaire King's Love (Production)", "Apr 2026", "2026-04", 0, 7, 25, 0, 4.86], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Apr 2026", "2026-04", 116, 116, 137, 257545, 26.2], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Apr 2026", "2026-04", 70, 90, 88, 160198, 19.75], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "Divine Power - Production Show_id", "Apr 2026", "2026-04", 0, 0, 5, 0, 1.19], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "Doctor Mafia King", "Apr 2026", "2026-04", 8, 8, 8, 10921, 1.16], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "Ek Stranger Se Pyar- Production Id", "Apr 2026", "2026-04", 49, 43, 27, 117909, 6.24], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Apr 2026", "2026-04", 18, 18, 26, 44619, 6.42], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Apr 2026", "2026-04", 45, 33, 10, 106085, 2.11], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Apr 2026", "2026-04", 52, 50, 57, 118775, 15.17], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "Mahagatha - Production", "Apr 2026", "2026-04", 57, 1012, 1003, 127511, 230.81], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "Malang - Production Id", "Apr 2026", "2026-04", 12, 453, 453, 22962, 91.66], ["661dba879cabc615ad2774813367b442a8ba7a6c", "My Devil Wife -Production Id", "Apr 2026", "2026-04", 23, 0, 0, 49863, 0.0], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "My Millionaire System", "Apr 2026", "2026-04", 15, 14, 0, 31729, 0.0], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "Apr 2026", "2026-04", 13, 28, 39, 29188, 9.7], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "Reborn to Rule Production Show_id", "Apr 2026", "2026-04", 46, 46, 47, 77827, 9.91], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Apr 2026", "2026-04", 61, 61, 47, 144543, 10.15], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "Apr 2026", "2026-04", 37, 33, 27, 79308, 6.33], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Apr 2026", "2026-04", 57, 57, 36, 128597, 8.57], ["6867922e795be5da6320ef1d28567452800209ba", "The Dimension God - Production Id", "Apr 2026", "2026-04", 25, 13, 13, 60805, 3.37], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "The Immortal (Production)", "Apr 2026", "2026-04", 9, 26, 48, 22238, 9.0], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Apr 2026", "2026-04", 79, 73, 86, 215904, 26.17], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "Beggar Husband - 2", "May 2026", "2026-05", 26, 30, 28, 57699, 6.35], ["54847eda0794e861da74c1034ace021b4643357b", "Billionaire King's Love (Production)", "May 2026", "2026-05", 7, 7, 0, 17509, 0.0], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "May 2026", "2026-05", 32, 81, 39, 74879, 7.4], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "May 2026", "2026-05", 26, 32, 34, 62546, 7.6], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "Ek Stranger Se Pyar- Production Id", "May 2026", "2026-05", 60, 39, 19, 141576, 4.32], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "May 2026", "2026-05", 1, 1, 4, 2732, 0.96], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "May 2026", "2026-05", 58, 53, 39, 137834, 8.15], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "May 2026", "2026-05", 28, 21, 21, 68110, 5.52], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "Mahagatha - Production", "May 2026", "2026-05", 41, 48, 26, 112649, 5.98], ["661dba879cabc615ad2774813367b442a8ba7a6c", "My Devil Wife -Production Id", "May 2026", "2026-05", 19, 15, 0, 45492, 0.0], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "My Millionaire System", "May 2026", "2026-05", 33, 23, 24, 65801, 5.14], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "May 2026", "2026-05", 0, 0, 1, 0, 0.25], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "Reborn to Rule Production Show_id", "May 2026", "2026-05", 25, 4, 0, 54761, 0.0], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "May 2026", "2026-05", 0, 13, 11, 0, 2.37], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "May 2026", "2026-05", 62, 25, 11, 123902, 2.59], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "May 2026", "2026-05", 65, 71, 47, 139625, 11.38], ["6867922e795be5da6320ef1d28567452800209ba", "The Dimension God - Production Id", "May 2026", "2026-05", 60, 9, 8, 142021, 2.06], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "May 2026", "2026-05", 355, 46, 30, 885293, 9.44]];
+// ── Auth guard ─────────────────────────────────────────────
+(function(){if(!sessionStorage.getItem('ugc_auth_v1'))window.location.replace('login.html');})();
 
-/* ── FIELD MAP (WDATA) ──
-  0:prod_id  1:wk  2:show  3:status  4:writer  5:pod  6:producer
-  7:i_scripts  8:j_dur  9:k_ttd_sc  10:l_ttd_er  11:m_ttd_rel
-  12:jt(script_tgt)  13:sub  14:wc  15:missed_sc
-  16:nt(er_tgt)  17:er_approv  18:approv_pend
-  19:qt(prod_tgt)  20:live_eps  21:missed_prod
-  22:wkdate
+/* ===== DATA (21 fields per row) =====
+   0:prod_id  1:wk  2:show  3:status  4:writer  5:pod  6:producer
+   7:i_scripts  8:j_dur  9:k_ttd_sc  10:l_ttd_er  11:m_ttd_rel
+   12:jt(script tgt)  13:sub  14:wc
+   15:nt(ER tgt)  16:er  17:pend
+   18:qt(prod tgt)  19:live
+   20:wkdate
 */
+const WDATA=[["b9727274f880f47671ad54caad4904a491fad9c7", "W1 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "18", "18", "41129", "", "28", "-28", "", "36", "2026-05-04"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W1 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "15", "15", "35950", "", "20", "-20", "", "24", "2026-05-04"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W1 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "12", "12", "28878", "", "13", "-13", "", "17", "2026-05-04"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W1 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "20", "18", "45583", "", "22", "-22", "", "15", "2026-05-04"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W1 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["", "W1 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["", "W1 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W1 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "40", "30", "65086", "", "34", "-34", "", "32", "2026-05-04"], ["", "W1 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W1 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "", "0", "0", "", "8", "2026-05-04"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W1 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "10", "12", "24413", "", "13", "-13", "", "11", "2026-05-04"], ["", "W1 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W1 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "1", "2732", "", "1", "-1", "", "3", "2026-05-04"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W1 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "18", "354", "882175", "", "25", "-25", "", "20", "2026-05-04"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W1 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "23", "56248", "", "14", "-14", "", "24", "2026-05-04"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W1 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W1 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W1 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W1 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "20", "19", "41346", "", "0", "0", "", "0", "2026-05-04"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W1 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W1 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "", "0", "0", "", "1", "2026-05-04"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W1 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "12", "15", "33622", "", "19", "-19", "", "21", "2026-05-04"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W1 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W1 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "30", "29", "68961", "", "11", "-11", "", "19", "2026-05-04"], ["6867922e795be5da6320ef1d28567452800209ba", "W1 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "30", "30", "72191", "", "5", "-5", "", "5", "2026-05-04"], ["54847eda0794e861da74c1034ace021b4643357b", "W1 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W1 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W1 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "10", "20", "43065", "", "12", "-12", "", "14", "2026-05-04"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W1 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "13", "30909", "", "0", "0", "", "0", "2026-05-04"], ["", "W1 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["", "W1 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["", "W1 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["", "W1 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-04"], ["b9727274f880f47671ad54caad4904a491fad9c7", "W2 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "", "14", "33750", "", "53", "-53", "", "3", "2026-05-11"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W2 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "", "11", "26596", "", "12", "-12", "", "10", "2026-05-11"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W2 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "", "16", "39232", "", "8", "-8", "", "4", "2026-05-11"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W2 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "", "23", "67066", "", "26", "-26", "", "11", "2026-05-11"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W2 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["", "W2 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["", "W2 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W2 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "", "35", "74539", "", "37", "-37", "", "15", "2026-05-11"], ["", "W2 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W2 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "", "13", "-13", "", "3", "2026-05-11"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W2 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "", "50", "99489", "", "12", "-12", "", "0", "2026-05-11"], ["", "W2 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W2 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "0", "0", "", "0", "0", "", "1", "2026-05-11"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W2 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "", "1", "3118", "", "21", "-21", "", "10", "2026-05-11"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W2 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "35", "81586", "", "39", "-39", "", "15", "2026-05-11"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W2 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W2 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W2 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W2 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "", "6", "13415", "", "4", "-4", "", "0", "2026-05-11"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W2 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W2 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W2 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "", "11", "24077", "", "11", "-11", "", "7", "2026-05-11"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W2 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W2 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "", "31", "72615", "", "28", "-28", "", "0", "2026-05-11"], ["6867922e795be5da6320ef1d28567452800209ba", "W2 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "", "30", "69830", "", "4", "-4", "", "3", "2026-05-11"], ["54847eda0794e861da74c1034ace021b4643357b", "W2 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "7", "17509", "", "7", "-7", "", "0", "2026-05-11"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W2 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W2 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "", "13", "22736", "", "11", "-11", "", "10", "2026-05-11"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W2 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "6", "14583", "", "15", "-15", "", "0", "2026-05-11"], ["", "W2 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["", "W2 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["", "W2 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["", "W2 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-11"], ["b9727274f880f47671ad54caad4904a491fad9c7", "W3 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W3 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W3 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W3 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W3 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W3 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W3 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W3 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W3 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W3 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W3 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W3 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W3 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W3 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W3 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W3 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W3 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W3 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W3 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W3 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["6867922e795be5da6320ef1d28567452800209ba", "W3 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["54847eda0794e861da74c1034ace021b4643357b", "W3 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W3 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W3 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W3 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["", "W3 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-18"], ["b9727274f880f47671ad54caad4904a491fad9c7", "W4 - May'26", "Brahmand Ka Rakshak", "Running", "Trupti", "Vijay", "", "1037", 161.29, "32", "81", "39", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "W4 - May'26", "Brahmyodha the Destroyer", "Running", "Deepaa", "Shivani", "", "828", 183.11, "26", "32", "34", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "W4 - May'26", "King of Dragon", "Running", "Deepaa", "Amit Rajak", "", "239", 55.19, "28", "21", "21", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "W4 - May'26", "Mahagatha", "", "Shivam", "NItesh", "", "98", 236.79, "41", "48", "26", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "W4 - May'26", "Malang", "Paused", "Trupti", "Mauli", "", "12", 91.66, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "Married to a Hard Hearted", "", "Trupti", "Monika UGC", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "My Mysterious Queen", "", "Deepaa", "Mona", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "W4 - May'26", "Tere Ishq Mein", "Running", "Trupti", "Pooja Sharma", "", "259", 44.25, "65", "71", "47", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "Reborn In martial World", "", "Trupti", "Prasenjeet", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["bb6f447c782519839d8793fda0d35f90bad4421a", "W4 - May'26", "Ruthless", "Running", "Trupti", "Prasenjeet", "", "219", 38.57, "0", "13", "11", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "W4 - May'26", "Saaya the Dark Love", "Running", "Deepaa", "", "", "143", 19.31, "62", "25", "11", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "Shunya Samrat", "", "Trupti", "Harish (UGC)", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "W4 - May'26", "SRGJ / EHK", "Running", "Asma", "Avneet", "", "244", 64.17, "1", "1", "4", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "W4 - May'26", "The Worrior - Ajith", "Running", "Deepaa", "Dayaram (UGC) + Naznin", "", "1257", 196.75, "355", "46", "30", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "W4 - May'26", "His Secret Fortune", "Running", "Trupti", "Pooja Sharma", "", "173", 23.3, "58", "53", "39", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["b236b697a3dda78049a484b58d63a75f4503ad66", "W4 - May'26", "Rudra - Rise of the Supreme Yoddha", "Paused", "Deepaa", "Atrij", "", "57", 11.64, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "W4 - May'26", "Divine Power", "Paused", "Shivam", "", "", "52", 10.99, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["ef9669389baf6711142a1ec22c3505fc714d91c0", "W4 - May'26", "Abhimanyu Legend Yoddha", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "W4 - May'26", "Reborn to Rule", "Running", "", "", "", "72", 9.91, "25", "4", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "W4 - May'26", "The Immortal", "Paused", "Trupti", "Mauli", "", "56", 10.39, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "W4 - May'26", "Mystic Fate System", "Paused", "Deepaa", "March W1", "", "50", 10.19, "0", "0", "1", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "W4 - May'26", "Beggar Husband - 2", "Running", "", "", "", "75", 16.42, "26", "30", "28", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "W4 - May'26", "Beggar Husband - Pnakaj", "Paused", "Shivam", "March W1", "", "50", 10.07, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "W4 - May'26", "Ek stranger se Pyaar", "Running", "Trupti", "Atrij", "", "110", 10.56, "60", "39", "19", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["6867922e795be5da6320ef1d28567452800209ba", "W4 - May'26", "The Dimension God", "Running", "Trupti", "", "", "85", 5.43, "60", "9", "8", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["54847eda0794e861da74c1034ace021b4643357b", "W4 - May'26", "Billionaire King's love", "Paused", "Trupti", "", "", "59", 10.12, "7", "7", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "W4 - May'26", "Doctor Mafia King", "", "", "", "", "8", 1.16, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "W4 - May'26", "My millionaire system", "Running", "", "", "", "48", 5.14, "33", "23", "24", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["661dba879cabc615ad2774813367b442a8ba7a6c", "W4 - May'26", "My Devil Wife", "", "", "", "", "42", 0, "19", "15", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "The Legend Gods", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "Hidden King", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "Devil's Revenge | डेविल्स रिवेंज | Author - Pawan Kumar", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"], ["", "W4 - May'26", "Supreme Ansh: Protector or Destroyer | सुप्रीम अंश प्रोटेक्टर या डिस्ट्रॉयर | Author - Shubham", "", "", "", "", "0", 0, "0", "0", "0", "", "0", "0", "", "0", "0", "", "0", "2026-05-25"]];
+const YDATA=[["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "May 2025", "2025-05", 5, 4, 0, 11453, 0.0], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Jun 2025", "2025-06", 114, 14, 0, 251274, 0.0], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Jun 2025", "2025-06", 107, 21, 5, 226343, 1.27], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Jul 2025", "2025-07", 63, 27, 1, 137688, 0.2], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Jul 2025", "2025-07", 61, 35, 46, 127886, 10.62], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Aug 2025", "2025-08", 41, 25, 57, 88539, 12.84], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Aug 2025", "2025-08", 78, 58, 46, 169508, 9.59], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Sep 2025", "2025-09", 67, 66, 66, 148526, 13.22], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Sep 2025", "2025-09", 62, 84, 66, 130604, 14.54], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Sep 2025", "2025-09", 12, 12, 0, 26348, 0.0], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Sep 2025", "2025-09", 328, 200, 193, 581538, 46.39], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Oct 2025", "2025-10", 58, 57, 54, 120239, 10.87], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Oct 2025", "2025-10", 82, 70, 88, 175312, 18.91], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Oct 2025", "2025-10", 2, 0, 0, 5354, 0.0], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Oct 2025", "2025-10", 10, 8, 49, 20118, 9.26], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Oct 2025", "2025-10", 78, 71, 52, 212840, 12.7], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Nov 2025", "2025-11", 79, 72, 62, 186517, 12.05], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Nov 2025", "2025-11", 88, 100, 96, 224416, 20.59], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Nov 2025", "2025-11", 18, 16, 0, 51526, 0.0], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Nov 2025", "2025-11", 110, 103, 60, 197684, 11.45], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Nov 2025", "2025-11", 64, 67, 62, 169323, 14.8], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Dec 2025", "2025-12", 124, 79, 87, 280829, 16.73], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Dec 2025", "2025-12", 85, 87, 97, 215316, 22.26], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Dec 2025", "2025-12", 40, 43, 43, 117845, 10.71], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Dec 2025", "2025-12", 15, 0, 0, 36635, 0.0], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Dec 2025", "2025-12", 0, 0, 16, 0, 3.59], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Dec 2025", "2025-12", 97, 81, 100, 279381, 23.86], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Jan 2026", "2026-01", 86, 79, 73, 204974, 15.87], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Jan 2026", "2026-01", 5, 79, 71, 12679, 18.21], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Jan 2026", "2026-01", 101, 54, 55, 313663, 14.74], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Jan 2026", "2026-01", 29, 12, 0, 56476, 0.0], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Jan 2026", "2026-01", 35, 27, 13, 76278, 3.53], ["b236b697a3dda78049a484b58d63a75f4503ad66", "Rudra - Rise of Supreme Yoddha - Production Show_id", "Jan 2026", "2026-01", 9, 5, 0, 21313, 0.0], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Jan 2026", "2026-01", 36, 24, 1, 93807, 0.25], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Jan 2026", "2026-01", 80, 90, 77, 246960, 18.58], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Feb 2026", "2026-02", 117, 111, 85, 258593, 16.1], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Feb 2026", "2026-02", 37, 67, 77, 96061, 19.69], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "Divine Power - Production Show_id", "Feb 2026", "2026-02", 16, 2, 0, 40451, 0.0], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Feb 2026", "2026-02", 26, 51, 50, 79899, 13.79], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Feb 2026", "2026-02", 41, 48, 24, 87743, 4.39], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Feb 2026", "2026-02", 35, 52, 46, 86291, 12.09], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "Feb 2026", "2026-02", 3, 0, 0, 7076, 0.0], ["b236b697a3dda78049a484b58d63a75f4503ad66", "Rudra - Rise of Supreme Yoddha - Production Show_id", "Feb 2026", "2026-02", 48, 47, 37, 106586, 7.76], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Feb 2026", "2026-02", 46, 56, 49, 109460, 11.62], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "Feb 2026", "2026-02", 8, 0, 0, 19302, 0.0], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Feb 2026", "2026-02", 82, 71, 78, 234623, 22.13], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "Beggar Husband - Production Show_id", "Mar 2026", "2026-03", 20, 19, 1, 43482, 0.26], ["54847eda0794e861da74c1034ace021b4643357b", "Billionaire King's Love (Production)", "Mar 2026", "2026-03", 52, 45, 25, 120552, 5.27], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Mar 2026", "2026-03", 140, 154, 143, 309961, 29.8], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Mar 2026", "2026-03", 122, 86, 86, 286178, 20.08], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "Divine Power - Production Show_id", "Mar 2026", "2026-03", 36, 42, 37, 83944, 9.8], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "Ek Stranger Se Pyar- Production Id", "Mar 2026", "2026-03", 1, 1, 0, 2454, 0.0], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Mar 2026", "2026-03", 38, 61, 66, 102254, 17.55], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Mar 2026", "2026-03", 0, 10, 46, 0, 8.65], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Mar 2026", "2026-03", 74, 73, 66, 181849, 18.87], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "Mar 2026", "2026-03", 34, 22, 1, 71597, 0.25], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "Reborn to Rule Production Show_id", "Mar 2026", "2026-03", 1, 1, 0, 3317, 0.0], ["b236b697a3dda78049a484b58d63a75f4503ad66", "Rudra - Rise of Supreme Yoddha - Production Show_id", "Mar 2026", "2026-03", 0, 5, 20, 0, 3.88], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Mar 2026", "2026-03", 76, 54, 66, 179832, 14.18], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "Mar 2026", "2026-03", 36, 42, 40, 87697, 10.39], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Mar 2026", "2026-03", 5, 0, 0, 10462, 0.0], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "The Immortal (Production)", "Mar 2026", "2026-03", 47, 30, 8, 95325, 1.39], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Mar 2026", "2026-03", 94, 91, 83, 266579, 22.67], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "Beggar Husband - 2", "Apr 2026", "2026-04", 49, 60, 44, 107746, 10.07], ["2f705add1a4571e3dcc4eb1426edfaa372c9cee8", "Beggar Husband - Production Show_id", "Apr 2026", "2026-04", 30, 31, 45, 66943, 9.8], ["54847eda0794e861da74c1034ace021b4643357b", "Billionaire King's Love (Production)", "Apr 2026", "2026-04", 0, 7, 25, 0, 4.86], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "Apr 2026", "2026-04", 116, 116, 137, 257545, 26.2], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "Apr 2026", "2026-04", 70, 90, 88, 160198, 19.75], ["b4277fe045604b0c31d4c58c59733d8d995662ff", "Divine Power - Production Show_id", "Apr 2026", "2026-04", 0, 0, 5, 0, 1.19], ["1b4ecb8a0d96b42675a2bbd2a9bd28ef4d28a0dd", "Doctor Mafia King", "Apr 2026", "2026-04", 8, 8, 8, 10921, 1.16], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "Ek Stranger Se Pyar- Production Id", "Apr 2026", "2026-04", 49, 43, 27, 117909, 6.24], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "Apr 2026", "2026-04", 18, 18, 26, 44619, 6.42], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "Apr 2026", "2026-04", 45, 33, 10, 106085, 2.11], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "Apr 2026", "2026-04", 52, 50, 57, 118775, 15.17], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "Mahagatha - Production", "Apr 2026", "2026-04", 57, 1012, 1003, 127511, 230.81], ["4c7fcc2bad9d3ae4744be2bd73cd8a625a0277d5", "Malang - Production Id", "Apr 2026", "2026-04", 12, 453, 453, 22962, 91.66], ["661dba879cabc615ad2774813367b442a8ba7a6c", "My Devil Wife -Production Id", "Apr 2026", "2026-04", 23, 0, 0, 49863, 0.0], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "My Millionaire System", "Apr 2026", "2026-04", 15, 14, 0, 31729, 0.0], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "Apr 2026", "2026-04", 13, 28, 39, 29188, 9.7], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "Reborn to Rule Production Show_id", "Apr 2026", "2026-04", 46, 46, 47, 77827, 9.91], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "Apr 2026", "2026-04", 61, 61, 47, 144543, 10.15], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "Apr 2026", "2026-04", 37, 33, 27, 79308, 6.33], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "Apr 2026", "2026-04", 57, 57, 36, 128597, 8.57], ["6867922e795be5da6320ef1d28567452800209ba", "The Dimension God - Production Id", "Apr 2026", "2026-04", 25, 13, 13, 60805, 3.37], ["b19f613216d474cd2927d5f4832a949dca2dc33e", "The Immortal (Production)", "Apr 2026", "2026-04", 9, 26, 48, 22238, 9.0], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "Apr 2026", "2026-04", 79, 73, 86, 215904, 26.17], ["120f01928bb6593698eaa96f46a52b5ddab649bd", "Beggar Husband - 2", "May 2026", "2026-05", 26, 30, 28, 57699, 6.35], ["54847eda0794e861da74c1034ace021b4643357b", "Billionaire King's Love (Production)", "May 2026", "2026-05", 7, 7, 0, 17509, 0.0], ["b9727274f880f47671ad54caad4904a491fad9c7", "Brahmand Ka Rakshak - Production Show", "May 2026", "2026-05", 32, 81, 39, 74879, 7.4], ["5baf4c80faf4b2d4eb9401a1d0081872e0158e89", "Brahmyodha : The Destroyer - Production showId", "May 2026", "2026-05", 26, 32, 34, 62546, 7.6], ["5a7d21f6ad9df12be70cd9439dd850c36627991d", "Ek Stranger Se Pyar- Production Id", "May 2026", "2026-05", 60, 39, 19, 141576, 4.32], ["394d109f7b50d9a46fb591dbaaba2d0aac90a696", "Empire of Hidden King (SRGJ) - Production Show_id", "May 2026", "2026-05", 1, 1, 4, 2732, 0.96], ["017fddbaa7617afdd8289be5c433df09dcde1da2", "His Secret Fortune - Production Show_id", "May 2026", "2026-05", 58, 53, 39, 137834, 8.15], ["96f1f89e4494e06fb7f9e3c4645563fa62ef9320", "King of Dragon - Production Show_id", "May 2026", "2026-05", 28, 21, 21, 68110, 5.52], ["773d29931b435627d0ca406e1ea1425e9a1dbcb6", "Mahagatha - Production", "May 2026", "2026-05", 41, 48, 26, 112649, 5.98], ["661dba879cabc615ad2774813367b442a8ba7a6c", "My Devil Wife -Production Id", "May 2026", "2026-05", 19, 15, 0, 45492, 0.0], ["9afaea00813dcb4fc57a46df70a2e3e1066af919", "My Millionaire System", "May 2026", "2026-05", 33, 23, 24, 65801, 5.14], ["6b246320a4c5853ce55127d5e00ee8805a97659a", "Mystic Fate System - Production Show_id", "May 2026", "2026-05", 0, 0, 1, 0, 0.25], ["c6ddafe0c1c28e76700ec68e65063945a05ee155", "Reborn to Rule Production Show_id", "May 2026", "2026-05", 25, 4, 0, 54761, 0.0], ["bb6f447c782519839d8793fda0d35f90bad4421a", "Ruthless", "May 2026", "2026-05", 0, 13, 11, 0, 2.37], ["7ea3277f02ef13c60cfa72336d009bf7ee6c17e8", "Saaya the Dark Love - Production Show_id", "May 2026", "2026-05", 62, 25, 11, 123902, 2.59], ["aab7b2fa6301b585dcebf9ec60cf4371307ad469", "Tere Ishq Mein (OBH)  - Production Show_id", "May 2026", "2026-05", 65, 71, 47, 139625, 11.38], ["6867922e795be5da6320ef1d28567452800209ba", "The Dimension God - Production Id", "May 2026", "2026-05", 60, 9, 8, 142021, 2.06], ["5066c0736f9e9444f2b4da840d6860b1f7f47d11", "The Warrior | Author - Dayaram Prajapati - Replica (For Production Only)", "May 2026", "2026-05", 355, 46, 30, 885293, 9.44]];
+
 const F={prod_id:0,wk:1,show:2,status:3,writer:4,pod:5,producer:6,
   i_sc:7,j_dur:8,k_ttd_sc:9,l_ttd_er:10,m_ttd_rel:11,
-  jt:12,sub:13,wc:14,
-  nt:16,er:17,pend:18,
-  qt:19,live:20,
-  wkdate:22};
+  jt:12,sub:13,wc:14,nt:15,er:16,pend:17,qt:18,live:19,wkdate:20};
+const YF={id:0,show:1,month:2,msort:3,sub:4,er:5,live:6,wc:7,dur:8};
 
-/* ── STATE ── */
-let rows=WDATA.map((r,i)=>({_id:i,_key:`${r[F.prod_id]}_${r[F.wk]}`,_d:[...r],jt:r[F.jt],nt:r[F.nt],qt:r[F.qt]}));
-let filterWk=null,showPrev=false;
+const rows=WDATA.map((r,i)=>({_id:i,_key:(r[0]||'x')+'__'+r[1],_d:[...r],jt:r[12],nt:r[15],qt:r[18]}));
+let fWk=null,showPrev=false;
 const dirty={};
-const STORE='ugc_v5_keys';
+const STORE='ugc_v7';
 const GRP={ij:true,km:true,sc:true,er:true,pr:true};
+let yFM='all',yCmp=[];
 
-/* ── TARGETS PERSIST ── */
-function loadT(){try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');rows.forEach(r=>{if(s[r._key+'_jt']!==undefined)r.jt=s[r._key+'_jt'];if(s[r._key+'_nt']!==undefined)r.nt=s[r._key+'_nt'];if(s[r._key+'_qt']!==undefined)r.qt=s[r._key+'_qt'];})}catch(e){}}
-function saveT(){const o={};rows.forEach(r=>{if(r.jt!=='')o[r._key+'_jt']=r.jt;if(r.nt!=='')o[r._key+'_nt']=r.nt;if(r.qt!=='')o[r._key+'_qt']=r.qt;});localStorage.setItem(STORE,JSON.stringify(o));}
+function loadT(){try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');rows.forEach(r=>{if(s[r._key+'j']!==undefined)r.jt=s[r._key+'j'];if(s[r._key+'n']!==undefined)r.nt=s[r._key+'n'];if(s[r._key+'q']!==undefined)r.qt=s[r._key+'q'];});}catch(e){}}
+function saveT(){const o={};rows.forEach(r=>{if(r.jt!=='')o[r._key+'j']=r.jt;if(r.nt!=='')o[r._key+'n']=r.nt;if(r.qt!=='')o[r._key+'q']=r.qt;});localStorage.setItem(STORE,JSON.stringify(o));}
 
-/* ── UTILS ── */
-function n(v){const x=parseFloat(v);return isNaN(x)?null:x;}
-function fmt(v){return(v===''||v==null)?'<span class="muted">—</span>':v;}
-function fmtN(v){const x=parseFloat(v);if(isNaN(x)||x===0)return'<span class="muted">—</span>';return x%1===0?Math.round(x).toLocaleString('en-IN'):x.toLocaleString('en-IN',{maximumFractionDigits:2});}
-function fmtWC(v){const x=parseInt(v);return(!x||x===0)?'<span class="muted">—</span>':x.toLocaleString('en-IN');}
+function nv(v){const x=parseFloat(v);return isNaN(x)?null:x;}
+function fmt(v){return(v===''||v==null)?'<span class="mu">&#8212;</span>':v;}
+function fN(v){if(v===''||v==null)return'<span class="mu">&#8212;</span>';const x=parseFloat(v);if(isNaN(x)||x===0)return'<span class="mu">&#8212;</span>';return x%1===0?Math.round(x).toLocaleString('en-IN'):x.toFixed(2);}
+function fWC(v){const x=parseInt(v);return(!x||x===0)?'<span class="mu">&#8212;</span>':x.toLocaleString('en-IN');}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function today(){return new Date().toISOString().slice(0,10);}
-let toastT;
-function toast(m){const e=document.getElementById('toast');e.textContent=m;e.className='show';clearTimeout(toastT);toastT=setTimeout(()=>e.className='',2500);}
 function applyZoom(v){document.body.style.zoom=parseFloat(v);try{localStorage.setItem('ugc_zoom',v);}catch(e){}}
+let tT;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.className='show';clearTimeout(tT);tT=setTimeout(()=>e.className='',2500);}
 
-/* ── WEEK HELPERS ── */
-function uniqueWeeks(){return[...new Set(rows.map(r=>r._d[F.wk]).filter(Boolean))];}
-function sortedWeeks(){return uniqueWeeks().sort((a,b)=>{const ra=rows.find(r=>r._d[F.wk]===a),rb=rows.find(r=>r._d[F.wk]===b);return((ra?ra._d[F.wkdate]:'')||'').localeCompare((rb?rb._d[F.wkdate]:'')||'');});}
-function prevWeek(){const w=sortedWeeks(),i=w.indexOf(filterWk);return i>0?w[i-1]:null;}
+function uWks(){return[...new Set(rows.map(r=>r._d[F.wk]).filter(Boolean))];}
+function sortWks(){return uWks().sort((a,b)=>{const ra=rows.find(r=>r._d[F.wk]===a),rb=rows.find(r=>r._d[F.wk]===b);return((ra&&ra._d[F.wkdate])||'').localeCompare((rb&&rb._d[F.wkdate])||'');});}
+function prevWk(){const w=sortWks(),i=w.indexOf(fWk);return i>0?w[i-1]:null;}
 function filtered(){
-  const q=(document.getElementById('search-show')||{value:''}).value.toLowerCase();
-  const st=(document.getElementById('filter-status')||{value:''}).value;
-  const wr=(document.getElementById('filter-writer')||{value:''}).value;
-  const pod=(document.getElementById('filter-pod')||{value:''}).value;
+  const q=(document.getElementById('wsearch')||{value:''}).value.toLowerCase();
+  const st=(document.getElementById('fstatus')||{value:''}).value;
+  const wr=(document.getElementById('fwriter')||{value:''}).value;
+  const pod=(document.getElementById('fpod')||{value:''}).value;
   return rows.filter(r=>{
-    if(r._d[F.wk]!==filterWk)return false;
+    if(r._d[F.wk]!==fWk)return false;
     if(q&&!r._d[F.show].toLowerCase().includes(q))return false;
     if(st&&r._d[F.status]!==st)return false;
     if(wr&&r._d[F.writer]!==wr)return false;
@@ -355,389 +284,218 @@ function filtered(){
     return true;
   });
 }
-function prevRowFor(show){const pw=prevWeek();if(!pw)return null;return rows.find(r=>r._d[F.wk]===pw&&r._d[F.show]===show)||null;}
-function getT(row,field){const k=`${row._key}_${field}`;return dirty[k]!==undefined?dirty[k]:row[field];}
+function pRow(show){const pw=prevWk();if(!pw)return null;return rows.find(r=>r._d[F.wk]===pw&&r._d[F.show]===show)||null;}
+function gT(row,f){const k=row._key+f;return dirty[k]!==undefined?dirty[k]:row[f];}
 
-/* ── COLUMN GROUP TOGGLE ── */
-function toggleGrp(g){
-  GRP[g]=!GRP[g];
-  const btn=document.getElementById('grp-'+g);
-  btn.classList.toggle('on',GRP[g]);
-  renderHead();renderBody();
-}
+function toggleGrp(g){GRP[g]=!GRP[g];document.getElementById('grp-'+g).classList.toggle('on',GRP[g]);rHead();rBody();}
 
-/* ── DROPDOWNS ── */
-function populateDropdowns(){
-  const wkRows=rows.filter(r=>r._d[F.wk]===filterWk);
-  const ws=document.getElementById('filter-writer'),ps=document.getElementById('filter-pod');
+function popDDs(){
+  const wr=rows.filter(r=>r._d[F.wk]===fWk);
+  const ws=document.getElementById('fwriter'),ps=document.getElementById('fpod');
   const cw=ws.value,cp=ps.value;
-  const writers=[...new Set(wkRows.map(r=>r._d[F.writer]).filter(Boolean))].sort();
-  const pods=[...new Set(wkRows.map(r=>r._d[F.pod]).filter(Boolean))].sort();
+  const writers=[...new Set(wr.map(r=>r._d[F.writer]).filter(Boolean))].sort();
+  const pods=[...new Set(wr.map(r=>r._d[F.pod]).filter(Boolean))].sort();
   ws.innerHTML='<option value="">All writers</option>'+writers.map(w=>`<option value="${esc(w)}"${cw===w?' selected':''}>${esc(w)}</option>`).join('');
   ps.innerHTML='<option value="">All POD leads</option>'+pods.map(p=>`<option value="${esc(p)}"${cp===p?' selected':''}>${esc(p)}</option>`).join('');
 }
 
-/* ── RENDER FILTERS ── */
-function renderFilters(){
-  const wks=sortedWeeks();
-  const el=document.getElementById('filter-pills');
-  el.innerHTML=wks.map(w=>`<button class="pill${filterWk===w?' active':''}" data-week="${esc(w)}">${esc(w)}</button>`).join('');
-  el.querySelectorAll('.pill').forEach(btn=>btn.addEventListener('click',()=>setFilter(btn.dataset.week)));
-  document.getElementById('week-tag').textContent=filterWk||'';
-  const hasPrev=prevWeek()!==null;
-  const tog=document.getElementById('prev-toggle');
-  tog.style.opacity=hasPrev?'1':'0.4';tog.style.pointerEvents=hasPrev?'auto':'none';
+function rFilters(){
+  const wks=sortWks();
+  const el=document.getElementById('wpills');
+  el.innerHTML=wks.map(w=>`<button class="pill${fWk===w?' active':''}" data-w="${esc(w)}">${esc(w)}</button>`).join('');
+  el.querySelectorAll('.pill').forEach(b=>b.addEventListener('click',()=>setWk(b.dataset.w)));
+  document.getElementById('wtag').textContent=fWk||'';
+  const hp=prevWk()!==null;
+  const tog=document.getElementById('prev-tog');
+  tog.style.opacity=hp?'1':'0.4';tog.style.pointerEvents=hp?'auto':'none';
 }
 
-/* ── RENDER STATS ── */
-function renderStats(){
+function rStats(){
   const list=filtered();
   const run=list.filter(r=>r._d[F.status]==='Running').length;
   const pau=list.filter(r=>r._d[F.status]==='Paused').length;
-  const sub=list.reduce((s,r)=>s+(n(r._d[F.sub])||0),0);
-  const er=list.reduce((s,r)=>s+(n(r._d[F.er])||0),0);
-  const lv=list.reduce((s,r)=>s+(n(r._d[F.live])||0),0);
-  const sc=list.reduce((s,r)=>s+(n(r._d[F.i_sc])||0),0);
+  const sub=list.reduce((s,r)=>s+(nv(r._d[F.sub])||0),0);
+  const er=list.reduce((s,r)=>s+(nv(r._d[F.er])||0),0);
+  const lv=list.reduce((s,r)=>s+(nv(r._d[F.live])||0),0);
+  const isc=list.reduce((s,r)=>s+(nv(r._d[F.i_sc])||0),0);
   const items=[
-    {l:'Shows',v:list.length,i:iGrid,c:''},
-    {l:'Running',v:run,i:iPlay,c:'sv-green'},
-    {l:'Paused',v:pau,i:iPause,c:'sv-amber'},
-    {l:'Scripts submitted',v:sub.toLocaleString('en-IN'),i:iFile,c:'sv-blue'},
-    {l:'ER approved',v:er,i:iCheck,c:'sv-green'},
-    {l:'Live episodes',v:lv,i:iBroadcast,c:''},
-    {l:'Scripts to record',v:sc.toLocaleString('en-IN'),i:iGrid,c:''},
+    {l:'Shows',v:list.length,i:iG,c:''},
+    {l:'Running',v:run,i:iPl,c:'c-green'},
+    {l:'Paused',v:pau,i:iPa,c:'c-amber'},
+    {l:'Scripts submitted',v:sub.toLocaleString('en-IN'),i:iF,c:'c-blue'},
+    {l:'ER approved',v:er,i:iCk,c:'c-green'},
+    {l:'Live episodes',v:lv,i:iBc,c:''},
+    {l:'Scripts to record',v:isc.toLocaleString('en-IN'),i:iG,c:''},
   ];
-  document.getElementById('stats-grid').innerHTML=items.map(it=>`<div class="stat-card"><div class="stat-icon">${it.i}</div><div class="stat-label">${it.l}</div><div class="stat-value ${it.c}">${it.v}</div></div>`).join('');
+  document.getElementById('wstats').innerHTML=items.map(it=>`<div class="sc"><div class="si">${it.i}</div><div class="sl">${it.l}</div><div class="sv ${it.c}">${it.v}</div></div>`).join('');
 }
 
-/* ── RENDER HEAD ── */
-function renderHead(){
-  const pw=showPrev?prevWeek():null;
-  const pwL=pw?`<span style="font-size:8px;opacity:.6">(${esc(pw)})</span>`:'';
-  // count colspan per section
-  const sCols=pw?4:3; // prev_sc_tgt + sc_tgt + submitted + wc  (minus prev when off)
-  const eCols=pw?4:3;
-  const pCols=pw?4:3;
-  let secRow=`<tr class="sec-row">
-    <th colspan="5" class="th-base">Show details</th>`;
-  if(GRP.ij) secRow+=`<th colspan="2" class="th-ij">Scripts &amp; Duration (I–J)</th>`;
-  if(GRP.km) secRow+=`<th colspan="3" class="th-km">TTD Monthwise (K–M)</th>`;
-  if(GRP.sc) secRow+=`<th colspan="${sCols}" class="th-sc">Scripting</th>`;
-  if(GRP.er) secRow+=`<th colspan="${eCols}" class="th-er">ER Review</th>`;
-  if(GRP.pr) secRow+=`<th colspan="${pCols}" class="th-pr">Production</th>`;
-  secRow+='</tr>';
-
-  let colRow=`<tr class="col-row">
-    <th class="left" style="width:165px">Show name</th>
-    <th style="width:76px">Status</th>
-    <th style="width:64px">Writer</th>
-    <th style="width:82px">POD lead</th>
-    <th style="width:84px">Producer</th>`;
-  if(GRP.ij){
-    colRow+=`<th class="ch-ij" style="width:68px">Scripts (I)</th>`;
-    colRow+=`<th class="ch-ijc" style="width:76px">Dur. hrs (J)</th>`;
-  }
-  if(GRP.km){
-    colRow+=`<th class="ch-km" style="width:64px">TTD Scripts (K)</th>`;
-    colRow+=`<th class="ch-kmc" style="width:60px">TTD ER (L)</th>`;
-    colRow+=`<th class="ch-kmc" style="width:64px">TTD Rel. (M)</th>`;
-  }
-  if(GRP.sc){
-    colRow+=pw?`<th class="ch-ps" style="width:82px;color:var(--purple-t);font-style:italic">◀ Prev script tgt ${pwL}</th>`:'';
-    colRow+=`<th class="ch-sc" style="width:84px">Script target <span class="edit-icon">✎</span></th>`;
-    colRow+=`<th class="ch-scc" style="width:70px">Submitted</th>`;
-    colRow+=`<th class="ch-scc" style="width:74px">Word count</th>`;
-  }
-  if(GRP.er){
-    colRow+=pw?`<th class="ch-pe" style="width:82px;color:var(--purple-t);font-style:italic">◀ Prev ER tgt ${pwL}</th>`:'';
-    colRow+=`<th class="ch-er" style="width:84px">ER target <span class="edit-icon">✎</span></th>`;
-    colRow+=`<th class="ch-erc" style="width:70px">Approved</th>`;
-    colRow+=`<th class="ch-erc" style="width:66px">Pending</th>`;
-  }
-  if(GRP.pr){
-    colRow+=pw?`<th class="ch-pp" style="width:82px;color:var(--purple-t);font-style:italic">◀ Prev rel. tgt ${pwL}</th>`:'';
-    colRow+=`<th class="ch-pr" style="width:84px">Release target <span class="edit-icon">✎</span></th>`;
-    colRow+=`<th class="ch-prc" style="width:66px">Live eps</th>`;
-    colRow+=`<th class="ch-prc" style="width:66px">Pending</th>`;
-  }
-  colRow+='</tr>';
-  document.getElementById('thead').innerHTML=secRow+colRow;
+function rHead(){
+  const pw=showPrev?prevWk():null;
+  const pl=pw?`<span style="font-size:8px;opacity:.6">(${esc(pw)})</span>`:'';
+  const sc=pw?4:3,ec=pw?4:3,pc=pw?4:3;
+  let sec='<tr class="sr"><th colspan="5" class="th-base">Show details</th>';
+  if(GRP.ij)sec+='<th colspan="2" class="th-ij">Scripts &amp; Duration</th>';
+  if(GRP.km)sec+='<th colspan="3" class="th-km">TTD Monthwise</th>';
+  if(GRP.sc)sec+=`<th colspan="${sc}" class="th-sc">Scripting</th>`;
+  if(GRP.er)sec+=`<th colspan="${ec}" class="th-er">ER Review</th>`;
+  if(GRP.pr)sec+=`<th colspan="${pc}" class="th-pr">Production</th>`;
+  sec+='</tr>';
+  let col='<tr class="cr"><th class="left" style="width:162px">Show name</th><th style="width:75px">Status</th><th style="width:62px">Writer</th><th style="width:80px">POD lead</th><th style="width:82px">Producer</th>';
+  if(GRP.ij){col+='<th class="ch-ij" style="width:66px">Scripts</th><th class="ch-ijc" style="width:74px">Dur hrs</th>';}
+  if(GRP.km){col+='<th class="ch-km" style="width:62px">TTD Scripts</th><th class="ch-kmc" style="width:58px">TTD ER</th><th class="ch-kmc" style="width:62px">TTD Release</th>';}
+  if(GRP.sc){if(pw)col+=`<th class="ch-ps" style="width:80px">&#9664; Prev script ${pl}</th>`;col+=`<th class="ch-sc" style="width:82px">Script target <span class="ei">&#9998;</span></th><th class="ch-scc" style="width:68px">Submitted</th><th class="ch-scc" style="width:72px">Word count</th>`;}
+  if(GRP.er){if(pw)col+=`<th class="ch-pe" style="width:80px">&#9664; Prev ER ${pl}</th>`;col+=`<th class="ch-er" style="width:82px">ER target <span class="ei">&#9998;</span></th><th class="ch-erc" style="width:68px">Approved</th><th class="ch-erc" style="width:64px">Pending</th>`;}
+  if(GRP.pr){if(pw)col+=`<th class="ch-pp" style="width:80px">&#9664; Prev rel ${pl}</th>`;col+=`<th class="ch-pr" style="width:82px">Release target <span class="ei">&#9998;</span></th><th class="ch-prc" style="width:64px">Live eps</th><th class="ch-prc" style="width:64px">Pending</th>`;}
+  col+='</tr>';
+  document.getElementById('thead').innerHTML=sec+col;
 }
 
-/* ── RENDER BODY ── */
-function renderBody(){
+function rBody(){
   const list=filtered();
-  document.getElementById('row-count').textContent=`Showing ${list.length} shows`;
+  document.getElementById('wcount').textContent='Showing '+list.length+' shows';
   document.getElementById('tbody').innerHTML=list.map((row,i)=>{
-    const d=row._d;
-    const st=d[F.status];
-    const badge=st==='Running'?'<span class="badge b-run"><span class="badge-dot"></span>Running</span>':st==='Paused'?'<span class="badge b-pause"><span class="badge-dot"></span>Paused</span>':'<span class="muted">—</span>';
-    const jt=getT(row,'jt'),nt=getT(row,'nt'),qt=getT(row,'qt');
-    const jD=dirty[`${row._key}_jt`]!==undefined,nD=dirty[`${row._key}_nt`]!==undefined,qD=dirty[`${row._key}_qt`]!==undefined;
-    const pr=showPrev?prevRowFor(d[F.show]):null;
-    const live=n(d[F.live]),qtN=n(qt);
-    const lp=(live!==null&&qtN!==null&&qtN!==0)?live-qtN:null;
-    const lpH=lp!==null?`<span class="num" style="color:${lp<0?'var(--red-t)':'var(--green)'}">${lp>0?'+':''}${lp}</span>`:'<span class="muted">—</span>';
+    const d=row._d,st=d[F.status];
+    const badge=st==='Running'?'<span class="badge b-run"><span class="dot"></span>Running</span>':st==='Paused'?'<span class="badge b-pau"><span class="dot"></span>Paused</span>':'<span class="mu">&#8212;</span>';
+    const jt=gT(row,'jt'),nt=gT(row,'nt'),qt=gT(row,'qt');
+    const jD=dirty[row._key+'j']!==undefined,nD=dirty[row._key+'n']!==undefined,qD=dirty[row._key+'q']!==undefined;
+    const pr=showPrev?pRow(d[F.show]):null;
+    const lv=nv(d[F.live]),qtN=nv(qt);
+    const lp=(lv!==null&&qtN!==null&&qtN!==0)?lv-qtN:null;
+    const lpH=lp!==null?`<span class="mn" style="color:${lp<0?'var(--red-t)':'var(--green)'}">${lp>0?'+':''}${lp}</span>`:'<span class="mu">&#8212;</span>';
     const bg=i%2===0?'':' style="background:var(--sf2)"';
-    let cells=`<tr${bg}>
-      <td class="left"><span class="show-name" title="${esc(d[F.show])}">${esc(d[F.show])}</span></td>
-      <td>${badge}</td>
-      <td class="muted num" title="${esc(d[F.writer])}">${esc(d[F.writer])||'—'}</td>
-      <td class="muted" title="${esc(d[F.pod])}">${esc(d[F.pod])||'—'}</td>
-      <td class="muted" title="${esc(d[F.producer])}">${esc(d[F.producer])||'—'}</td>`;
-    if(GRP.ij){
-      cells+=`<td class="td-ij num">${fmtN(d[F.i_sc])}</td>`;
-      cells+=`<td class="td-ijc num">${fmtN(d[F.j_dur])}</td>`;
-    }
-    if(GRP.km){
-      cells+=`<td class="td-km num">${fmtN(d[F.k_ttd_sc])}</td>`;
-      cells+=`<td class="td-kmc num">${fmtN(d[F.l_ttd_er])}</td>`;
-      cells+=`<td class="td-kmc num">${fmtN(d[F.m_ttd_rel])}</td>`;
-    }
+    let c=`<tr${bg}><td class="left"><span class="sn" title="${esc(d[F.show])}">${esc(d[F.show])}</span></td><td>${badge}</td><td class="mu">${esc(d[F.writer])||'&#8212;'}</td><td class="mu">${esc(d[F.pod])||'&#8212;'}</td><td class="mu">${esc(d[F.producer])||'&#8212;'}</td>`;
+    if(GRP.ij){c+=`<td class="td-ij mn">${fN(d[F.i_sc])}</td><td class="td-ijc mn">${fN(d[F.j_dur])}</td>`;}
+    if(GRP.km){c+=`<td class="td-km mn">${fN(d[F.k_ttd_sc])}</td><td class="td-kmc mn">${fN(d[F.l_ttd_er])}</td><td class="td-kmc mn">${fN(d[F.m_ttd_rel])}</td>`;}
     if(GRP.sc){
-      if(showPrev) cells+=`<td class="td-ps"><span class="prev-val">${pr?pr.jt||'—':'—'}</span></td>`;
-      cells+=`<td class="td-sc"><div class="edit-cell"><input class="edit-input${jD?' dirty':''}" value="${esc(jt)}" data-key="${row._key}" data-field="jt" oninput="markDirty(this)" onkeydown="keyCheck(event,this)">${jD?`<button class="save-btn" onclick="commitT('${row._key}','jt')">Save</button>`:''}</div></td>`;
-      cells+=`<td class="td-scc num-b">${fmt(d[F.sub])}</td>`;
-      cells+=`<td class="td-scc num">${fmtWC(d[F.wc])}</td>`;
+      if(showPrev)c+=`<td class="td-ps"><span class="pv">${pr&&pr.jt?pr.jt:'&#8212;'}</span></td>`;
+      c+=`<td class="td-sc"><div class="ec"><input class="ei2${jD?' dirty':''}" value="${esc(jt)}" data-k="${row._key}" data-f="j" oninput="mDirty(this)" onkeydown="kChk(event,this)">${jD?`<button class="sb" onclick="comT('${row._key}','j')">Save</button>`:''}</div></td>`;
+      c+=`<td class="td-scc mnb">${fmt(d[F.sub])}</td><td class="td-scc mn">${fWC(d[F.wc])}</td>`;
     }
     if(GRP.er){
-      if(showPrev) cells+=`<td class="td-pe"><span class="prev-val">${pr?pr.nt||'—':'—'}</span></td>`;
-      cells+=`<td class="td-er"><div class="edit-cell"><input class="edit-input${nD?' dirty':''}" value="${esc(nt)}" data-key="${row._key}" data-field="nt" oninput="markDirty(this)" onkeydown="keyCheck(event,this)">${nD?`<button class="save-btn" onclick="commitT('${row._key}','nt')">Save</button>`:''}</div></td>`;
-      cells+=`<td class="td-erc num-b">${fmt(d[F.er])}</td>`;
-      cells+=`<td class="td-erc num" style="color:${n(d[F.pend])!==null&&n(d[F.pend])<0?'var(--red-t)':'inherit'}">${fmt(d[F.pend])}</td>`;
+      if(showPrev)c+=`<td class="td-pe"><span class="pv">${pr&&pr.nt?pr.nt:'&#8212;'}</span></td>`;
+      c+=`<td class="td-er"><div class="ec"><input class="ei2${nD?' dirty':''}" value="${esc(nt)}" data-k="${row._key}" data-f="n" oninput="mDirty(this)" onkeydown="kChk(event,this)">${nD?`<button class="sb" onclick="comT('${row._key}','n')">Save</button>`:''}</div></td>`;
+      c+=`<td class="td-erc mnb">${fmt(d[F.er])}</td><td class="td-erc mn" style="color:${nv(d[F.pend])!==null&&nv(d[F.pend])<0?'var(--red-t)':'inherit'}">${fmt(d[F.pend])}</td>`;
     }
     if(GRP.pr){
-      if(showPrev) cells+=`<td class="td-pp"><span class="prev-val">${pr?pr.qt||'—':'—'}</span></td>`;
-      cells+=`<td class="td-pr"><div class="edit-cell"><input class="edit-input${qD?' dirty':''}" value="${esc(qt)}" data-key="${row._key}" data-field="qt" oninput="markDirty(this)" onkeydown="keyCheck(event,this)">${qD?`<button class="save-btn" onclick="commitT('${row._key}','qt')">Save</button>`:''}</div></td>`;
-      cells+=`<td class="td-prc num-b">${fmt(d[F.live])}</td>`;
-      cells+=`<td class="td-prc">${lpH}</td>`;
+      if(showPrev)c+=`<td class="td-pp"><span class="pv">${pr&&pr.qt?pr.qt:'&#8212;'}</span></td>`;
+      c+=`<td class="td-pr"><div class="ec"><input class="ei2${qD?' dirty':''}" value="${esc(qt)}" data-k="${row._key}" data-f="q" oninput="mDirty(this)" onkeydown="kChk(event,this)">${qD?`<button class="sb" onclick="comT('${row._key}','q')">Save</button>`:''}</div></td>`;
+      c+=`<td class="td-prc mnb">${fmt(d[F.live])}</td><td class="td-prc">${lpH}</td>`;
     }
-    cells+='</tr>';
-    return cells;
+    return c+'</tr>';
   }).join('');
 }
 
-function renderWeekly(){renderFilters();populateDropdowns();renderStats();renderHead();renderBody();}
-function setFilter(w){filterWk=w;renderWeekly();}
-function togglePrev(){showPrev=!showPrev;document.getElementById('prev-toggle').classList.toggle('on',showPrev);renderHead();renderBody();}
-function markDirty(el){
-  const key=el.dataset.key,field=el.dataset.field;
-  dirty[`${key}_${field}`]=el.value;el.classList.add('dirty');
-  let btn=el.nextElementSibling;
-  if(!btn||btn.tagName!=='BUTTON'){btn=document.createElement('button');btn.className='save-btn';btn.textContent='Save';btn.setAttribute('onclick',`commitT('${key}','${field}')`);el.parentNode.appendChild(btn);}
-}
-function keyCheck(e,el){if(e.key==='Enter')commitT(el.dataset.key,el.dataset.field);}
-function commitT(key,field){
-  const k=`${key}_${field}`,val=dirty[k];if(val===undefined)return;
-  const row=rows.find(r=>r._key===key);if(row){row[field]=val;delete dirty[k];}
-  saveT();renderHead();renderBody();toast('Target saved');
-}
+function rWeekly(){rFilters();popDDs();rStats();rHead();rBody();}
+function setWk(w){fWk=w;rWeekly();}
+function togglePrev(){showPrev=!showPrev;document.getElementById('prev-tog').classList.toggle('on',showPrev);rHead();rBody();}
+function mDirty(el){const k=el.dataset.k,f=el.dataset.f;dirty[k+f]=el.value;el.classList.add('dirty');let b=el.nextElementSibling;if(!b||b.tagName!=='BUTTON'){b=document.createElement('button');b.className='sb';b.textContent='Save';b.setAttribute('onclick',`comT('${k}','${f}')`);el.parentNode.appendChild(b);}}
+function kChk(e,el){if(e.key==='Enter')comT(el.dataset.k,el.dataset.f);}
+function comT(k,f){const key=k+f,val=dirty[key];if(val===undefined)return;const row=rows.find(r=>r._key===k);if(row){const fmap={j:'jt',n:'nt',q:'qt'};row[fmap[f]]=val;delete dirty[key];}saveT();rHead();rBody();toast('Target saved');}
 function exportCSV(){
   const list=filtered();
-  const h=['Production Show ID','Week','Show Name','Status','Writer','POD Lead','Producer',
-    'Scripts to Record (I)','Duration Live hrs (J)',
-    'TTD Scripts (K)','TTD ER (L)','TTD Release (M)',
-    'Script Target','Scripts Submitted','Word Count',
-    'ER Target','ER Approved','Approval Pending',
-    'Release Target','Live Episodes'];
-  const csvRows=[h,...list.map(row=>{
-    const d=row._d;
-    return[d[F.prod_id],d[F.wk],d[F.show],d[F.status],d[F.writer],d[F.pod],d[F.producer],
-      d[F.i_sc],d[F.j_dur],d[F.k_ttd_sc],d[F.l_ttd_er],d[F.m_ttd_rel],
-      getT(row,'jt'),d[F.sub],d[F.wc],
-      getT(row,'nt'),d[F.er],d[F.pend],
-      getT(row,'qt'),d[F.live]];
-  })];
-  dlCSV(csvRows,`weekly_${(filterWk||'export').replace(/[^a-z0-9]/gi,'_')}_${today()}.csv`);
+  const h=['Production Show ID','Week','Show Name','Status','Writer','POD Lead','Producer','Scripts to Record (I)','Duration Live hrs (J)','TTD Scripts (K)','TTD ER (L)','TTD Release (M)','Script Target','Scripts Submitted','Word Count','ER Target','ER Approved','Approval Pending','Release Target','Live Episodes'];
+  dlCSV([h,...list.map(row=>{const d=row._d;return[d[F.prod_id],d[F.wk],d[F.show],d[F.status],d[F.writer],d[F.pod],d[F.producer],d[F.i_sc],d[F.j_dur],d[F.k_ttd_sc],d[F.l_ttd_er],d[F.m_ttd_rel],gT(row,'jt'),d[F.sub],d[F.wc],gT(row,'nt'),d[F.er],d[F.pend],gT(row,'qt'),d[F.live]];})],'weekly_'+(fWk||'export').replace(/[^a-z0-9]/gi,'_')+'_'+today()+'.csv');
 }
 
-/* ── YEARLY ── */
-const YF={id:0,show:1,month:2,msort:3,sub:4,er:5,live:6,wc:7,dur:8};
-let yFilterMonth='all',yCmpMonths=[];
-
-function yMonths(){
-  return[...new Set(YDATA.map(r=>r[YF.month]))].sort((a,b)=>{
-    const sa=YDATA.find(r=>r[YF.month]===a)?.[YF.msort]||'';
-    const sb=YDATA.find(r=>r[YF.month]===b)?.[YF.msort]||'';
-    return sa.localeCompare(sb);
-  });
-}
-function yFiltered(){
-  const q=(document.getElementById('y-search')||{value:''}).value.toLowerCase().trim();
+/* YEARLY */
+function yMonths(){return[...new Set(YDATA.map(r=>r[YF.month]))].sort((a,b)=>{const sa=YDATA.find(r=>r[YF.month]===a)?.[YF.msort]||'',sb=YDATA.find(r=>r[YF.month]===b)?.[YF.msort]||'';return sa.localeCompare(sb);});}
+function yFilt(){
+  const q=(document.getElementById('ysearch')||{value:''}).value.toLowerCase().trim();
+  const sortBy=(document.getElementById('y-sort')||{value:'show'}).value;
+  const minAct=(document.getElementById('y-min')||{value:''}).value;
   let months=null;
-  if(yCmpMonths.length>=1)months=yCmpMonths;
-  else if(yFilterMonth!=='all')months=[yFilterMonth];
-  return YDATA.filter(r=>{
+  if(yCmp.length>=1)months=yCmp;
+  else if(yFM!=='all')months=[yFM];
+  let list=YDATA.filter(r=>{
     if(months&&!months.includes(r[YF.month]))return false;
     if(q&&!r[YF.show].toLowerCase().includes(q)&&!r[YF.id].toLowerCase().includes(q))return false;
+    if(minAct==='sub'&&!(r[YF.sub]>0))return false;
+    if(minAct==='er'&&!(r[YF.er]>0))return false;
+    if(minAct==='live'&&!(r[YF.live]>0))return false;
     return true;
   });
+  if(sortBy==='sub_desc')list.sort((a,b)=>b[YF.sub]-a[YF.sub]);
+  else if(sortBy==='er_desc')list.sort((a,b)=>b[YF.er]-a[YF.er]);
+  else if(sortBy==='live_desc')list.sort((a,b)=>b[YF.live]-a[YF.live]);
+  else if(sortBy==='dur_desc')list.sort((a,b)=>b[YF.dur]-a[YF.dur]);
+  else list.sort((a,b)=>a[YF.show].localeCompare(b[YF.show]));
+  return list;
 }
-function clearYCmp(){yCmpMonths=[];yFilterMonth='all';renderYearly();}
-
-function renderYPills(){
+function clearCmp(){yCmp=[];yFM='all';renderYearly();}
+function rYPills(){
   const months=yMonths();
-  const el=document.getElementById('y-pills');
-  el.innerHTML=months.map(m=>{
-    let cls='y-pill';
-    if(yCmpMonths[0]===m)cls+=' cmp-a';
-    else if(yCmpMonths[1]===m)cls+=' cmp-b';
-    else if(yCmpMonths.length===0&&yFilterMonth===m)cls+=' single';
-    return`<button class="${cls}" data-m="${esc(m)}">${esc(m)}</button>`;
-  }).join('');
-  el.querySelectorAll('.y-pill').forEach(btn=>btn.addEventListener('click',()=>{
-    const m=btn.dataset.m;
-    if(yCmpMonths.includes(m)){
-      yCmpMonths=yCmpMonths.filter(x=>x!==m);
-      if(yCmpMonths.length===0)yFilterMonth='all';
-    } else if(yCmpMonths.length===2){
-      yCmpMonths=[yCmpMonths[1],m];
-    } else if(yCmpMonths.length===1){
-      yCmpMonths=[...yCmpMonths,m];
-    } else if(yFilterMonth===m){
-      yFilterMonth='all';
-    } else if(yFilterMonth!=='all'){
-      yCmpMonths=[yFilterMonth,m];yFilterMonth='all';
-    } else {
-      yFilterMonth=m;
-    }
+  const el=document.getElementById('ypills');
+  // Group by year
+  const byYear={};
+  months.forEach(m=>{
+    const parts=m.split(' ');
+    const yr=parts[parts.length-1];
+    if(!byYear[yr])byYear[yr]=[];
+    byYear[yr].push(m);
+  });
+  const years=Object.keys(byYear).sort();
+  let html='';
+  years.forEach(yr=>{
+    html+=`<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.6px;margin-bottom:4px;text-transform:uppercase">${yr}</div><div style="display:flex;gap:4px;flex-wrap:wrap">`;
+    byYear[yr].forEach(m=>{
+      const mon=m.split(' ')[0];
+      let c='yp';
+      if(yCmp[0]===m)c+=' cmpa';
+      else if(yCmp[1]===m)c+=' cmpb';
+      else if(yCmp.length===0&&yFM===m)c+=' single';
+      html+=`<button class="${c}" data-m="${esc(m)}">${esc(mon)}</button>`;
+    });
+    html+='</div></div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.yp').forEach(b=>b.addEventListener('click',()=>{
+    const m=b.dataset.m;
+    if(yCmp.includes(m)){yCmp=yCmp.filter(x=>x!==m);if(yCmp.length===0)yFM='all';}
+    else if(yCmp.length===2){yCmp=[yCmp[1],m];}
+    else if(yCmp.length===1){yCmp=[...yCmp,m];}
+    else if(yFM===m){yFM='all';}
+    else if(yFM!=='all'){yCmp=[yFM,m];yFM='all';}
+    else{yFM=m;}
     renderYearly();
   }));
-  const isC=yCmpMonths.length===2;
-  const bar=document.getElementById('y-cmp-bar');
-  bar.style.display=isC?'flex':'none';
-  if(isC)document.getElementById('y-cmp-label').textContent=`Comparing ${yCmpMonths[0]} vs ${yCmpMonths[1]}`;
-  const hint=document.getElementById('y-hint');
-  if(hint){
-    if(isC)hint.textContent='Compare mode — click a coloured pill to deselect';
-    else if(yFilterMonth!=='all')hint.textContent='Single month — click another to compare';
-    else hint.textContent='Click a month to filter · Click 2 to compare';
-  }
+  const isC=yCmp.length===2;
+  document.getElementById('ycbar').style.display=isC?'flex':'none';
+  if(isC)document.getElementById('yclbl').textContent='Comparing '+yCmp[0]+' vs '+yCmp[1];
+  const h=document.getElementById('yhint');
+  if(h){if(isC)h.textContent='Compare mode - click coloured pill to deselect';else if(yFM!=='all')h.textContent='Single month - click another to compare';else h.textContent='Click a month to filter - Click 2 to compare';}
 }
-function renderYStats(){
-  const list=yFiltered();
-  const items=[
-    {l:'Scripts submitted',v:Math.round(list.reduce((s,r)=>s+r[YF.sub],0)).toLocaleString('en-IN'),i:iFile,c:'sv-blue'},
-    {l:'Editorial reviewed',v:Math.round(list.reduce((s,r)=>s+r[YF.er],0)).toLocaleString('en-IN'),i:iCheck,c:'sv-green'},
-    {l:'Eps made live',v:Math.round(list.reduce((s,r)=>s+r[YF.live],0)).toLocaleString('en-IN'),i:iBroadcast,c:'sv-amber'},
-    {l:'Scripts WC',v:Math.round(list.reduce((s,r)=>s+r[YF.wc],0)).toLocaleString('en-IN'),i:iGrid,c:''},
-    {l:'Live duration (hr)',v:list.reduce((s,r)=>s+r[YF.dur],0).toFixed(1),i:iPlay,c:''},
-  ];
-  document.getElementById('ystats').innerHTML=items.map(it=>`<div class="stat-card"><div class="stat-icon">${it.i}</div><div class="stat-label">${it.l}</div><div class="stat-value ${it.c}">${it.v}</div></div>`).join('');
-}
-const YCOLS=['Scripts submitted','Editorial reviewed','Eps made live','Scripts WC','Live dur. (hr)'];
+function rYStats(){const list=yFilt();const items=[{l:'Scripts submitted',v:Math.round(list.reduce((s,r)=>s+r[YF.sub],0)).toLocaleString('en-IN'),i:iF,c:'c-blue'},{l:'Editorial reviewed',v:Math.round(list.reduce((s,r)=>s+r[YF.er],0)).toLocaleString('en-IN'),i:iCk,c:'c-green'},{l:'Eps made live',v:Math.round(list.reduce((s,r)=>s+r[YF.live],0)).toLocaleString('en-IN'),i:iBc,c:'c-amber'},{l:'Scripts WC',v:Math.round(list.reduce((s,r)=>s+r[YF.wc],0)).toLocaleString('en-IN'),i:iG,c:''},{l:'Live duration (hr)',v:list.reduce((s,r)=>s+r[YF.dur],0).toFixed(1),i:iPl,c:''}];document.getElementById('ystats').innerHTML=items.map(it=>`<div class="sc"><div class="si">${it.i}</div><div class="sl">${it.l}</div><div class="sv ${it.c}">${it.v}</div></div>`).join('');}
+const YCOLS=['Scripts Submitted','Editorial Reviewed','Eps Made Live','Scripts WC','Live Duration (hr)'];
 const YKEYS=[YF.sub,YF.er,YF.live,YF.wc,YF.dur];
-const YCLS=['h-sc','h-er','h-lv','h-wc','h-dur'];
-function renderYHead(){
-  const isC=yCmpMonths.length===2;const[mA,mB]=yCmpMonths;
-  let h=`<tr><th class="left" style="width:110px">Show ID</th><th class="left" style="width:200px">Show title</th>`;
-  if(isC){YCOLS.forEach((col,i)=>{
-    h+=`<th class="${YCLS[i]}" style="min-width:100px">${col}<br><span style="font-size:9px;opacity:.75">${esc(mA)}</span></th>`;
-    h+=`<th class="${YCLS[i]}" style="min-width:100px;border-left:1px dashed var(--bds)">${col}<br><span style="font-size:9px;opacity:.75">${esc(mB)}</span></th>`;
-    h+=`<th style="min-width:70px;background:#fafaf8;font-size:9px">Diff</th>`;
-  });}
-  else{YCOLS.forEach((col,i)=>h+=`<th class="${YCLS[i]}" style="min-width:110px">${col}</th>`);}
-  h+='</tr>';
-  document.getElementById('ythead').innerHTML=h;
+const YCLS=['yh-sc','yh-er','yh-lv','yh-wc','yh-dr'];
+function rYHead(){const isC=yCmp.length===2;const[mA,mB]=yCmp;let h='<tr><th class="left" style="width:110px">Show ID</th><th class="left" style="width:195px">Show title</th>';if(isC){YCOLS.forEach((col,i)=>{h+=`<th class="${YCLS[i]}" style="min-width:95px">${col}<br><span style="font-size:9px;opacity:.75">${esc(mA)}</span></th><th class="${YCLS[i]}" style="min-width:95px;border-left:1px dashed var(--bds)">${col}<br><span style="font-size:9px;opacity:.75">${esc(mB)}</span></th><th style="min-width:65px;background:#fafaf8;font-size:9px">Diff</th>`;});}else{YCOLS.forEach((col,i)=>h+=`<th class="${YCLS[i]}" style="min-width:110px">${col}</th>`);}h+='</tr>';document.getElementById('ythead').innerHTML=h;}
+function rYBody(){
+  const isC=yCmp.length===2;const[mA,mB]=yCmp;const list=yFilt();const q=(document.getElementById('ysearch')||{value:''}).value.toLowerCase().trim();let html='';
+  if(isC){const shows=[...new Set(YDATA.map(r=>r[YF.id]))];let cnt=0;shows.forEach(sid=>{const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA),rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);if(!rA&&!rB)return;const sn=(rA||rB)[YF.show];if(q&&!sn.toLowerCase().includes(q)&&!sid.toLowerCase().includes(q))return;cnt++;const bg=cnt%2===0?' style="background:var(--sf2)"':'';let c=`<tr${bg}><td class="left"><span class="yt-id" title="${esc(sid)}">${esc(sid.slice(0,12))}...</span></td><td class="left"><span class="yt-ttl" title="${esc(sn)}">${esc(sn)}</span></td>`;YKEYS.forEach(k=>{const vA=rA?rA[k]:0,vB=rB?rB[k]:0,d=vB-vA,isDur=k===YF.dur;const fv=v=>v>0?(isDur?v.toFixed(2):Math.round(v).toLocaleString('en-IN')):'<span class="mu">&#8212;</span>';const fd=d=>d===0?'<span class="mu">0</span>':`<span style="color:${d>0?'var(--green)':'var(--red-t)'};font-family:'DM Mono',monospace;font-size:10px;font-weight:500">${d>0?'+':''}${isDur?d.toFixed(2):Math.round(d).toLocaleString('en-IN')}</span>`;c+=`<td class="yn">${fv(vA)}</td><td class="yn" style="border-left:1px dashed var(--bds)">${fv(vB)}</td><td style="background:#fafaf8;text-align:center">${fd(d)}</td>`;});html+=c+'</tr>';});document.getElementById('ycount').textContent='Showing '+cnt+' shows';}
+  else{document.getElementById('ycount').textContent='Showing '+list.length+' rows';html=list.map((r,i)=>{const bg=i%2===0?'':' style="background:var(--sf2)"';return`<tr${bg}><td class="left"><span class="yt-id" title="${esc(r[YF.id])}">${esc(r[YF.id].slice(0,12))}...</span></td><td class="left"><span class="yt-ttl" title="${esc(r[YF.show])}">${esc(r[YF.show])}</span></td><td class="yn" style="color:var(--blue-t)">${r[YF.sub]>0?Math.round(r[YF.sub]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--green-t)">${r[YF.er]>0?Math.round(r[YF.er]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--amber-t)">${r[YF.live]>0?Math.round(r[YF.live]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--purple-t)">${r[YF.wc]>0?Math.round(r[YF.wc]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--teal-t)">${r[YF.dur]>0?r[YF.dur].toFixed(2):'<span class="mu">&#8212;</span>'}</td></tr>`;}).join('');}
+  document.getElementById('ytbody').innerHTML=html;
 }
-function renderYBody(){
-  const isC=yCmpMonths.length===2;const[mA,mB]=yCmpMonths;
-  const list=yFiltered();
-  const q=(document.getElementById('y-search')||{value:''}).value.toLowerCase().trim();
-  let rows2='';
-  if(isC){
-    const shows=[...new Set(YDATA.map(r=>r[YF.id]))];
-    let cnt=0;
-    shows.forEach(sid=>{
-      const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA);
-      const rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);
-      if(!rA&&!rB)return;
-      const sn=(rA||rB)[YF.show];
-      if(q&&!sn.toLowerCase().includes(q)&&!sid.toLowerCase().includes(q))return;
-      cnt++;const bg=cnt%2===0?' style="background:var(--sf2)"':'';
-      let cells=`<tr${bg}><td class="left"><span class="yt-id" title="${esc(sid)}">${esc(sid.slice(0,12))}…</span></td><td class="left"><span class="yt-show" title="${esc(sn)}">${esc(sn)}</span></td>`;
-      YKEYS.forEach(k=>{
-        const vA=rA?rA[k]:0,vB=rB?rB[k]:0,diff=vB-vA,isDur=k===YF.dur;
-        const fv=v=>v>0?(isDur?v.toFixed(2):Math.round(v).toLocaleString('en-IN')):'<span class="muted">—</span>';
-        const fd=d=>d===0?'<span class="muted">0</span>':`<span style="color:${d>0?'var(--green)':'var(--red-t)'};font-family:'DM Mono',monospace;font-size:10px;font-weight:500">${d>0?'+':''}${isDur?d.toFixed(2):Math.round(d).toLocaleString('en-IN')}</span>`;
-        cells+=`<td class="yt-num">${fv(vA)}</td><td class="yt-num" style="border-left:1px dashed var(--bds)">${fv(vB)}</td><td style="background:#fafaf8;text-align:center">${fd(diff)}</td>`;
-      });
-      rows2+=cells+'</tr>';
-    });
-    document.getElementById('y-count').textContent=`Showing ${cnt} shows`;
-  } else {
-    document.getElementById('y-count').textContent=`Showing ${list.length} rows`;
-    rows2=list.map((r,i)=>{
-      const bg=i%2===0?'':' style="background:var(--sf2)"';
-      return`<tr${bg}>
-        <td class="left"><span class="yt-id" title="${esc(r[YF.id])}">${esc(r[YF.id].slice(0,12))}…</span></td>
-        <td class="left"><span class="yt-show" title="${esc(r[YF.show])}">${esc(r[YF.show])}</span></td>
-        <td class="yt-num" style="color:var(--blue-t)">${r[YF.sub]>0?Math.round(r[YF.sub]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
-        <td class="yt-num" style="color:var(--green-t)">${r[YF.er]>0?Math.round(r[YF.er]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
-        <td class="yt-num" style="color:var(--amber-t)">${r[YF.live]>0?Math.round(r[YF.live]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
-        <td class="yt-num" style="color:var(--purple-t)">${r[YF.wc]>0?Math.round(r[YF.wc]).toLocaleString('en-IN'):'<span class="muted">—</span>'}</td>
-        <td class="yt-num" style="color:var(--teal-t)">${r[YF.dur]>0?r[YF.dur].toFixed(2):'<span class="muted">—</span>'}</td>
-      </tr>`;
-    }).join('');
-  }
-  document.getElementById('ytbody').innerHTML=rows2;
-}
-function renderYearly(){renderYPills();renderYStats();renderYHead();renderYBody();}
-function exportYCSV(){
-  const isC=yCmpMonths.length===2;const[mA,mB]=yCmpMonths;
-  let h,data2;
-  if(isC){
-    h=['Show ID','Show Title',...YCOLS.flatMap(c=>[`${c} (${mA})`,`${c} (${mB})`,`${c} Diff`])];
-    const shows=[...new Set(YDATA.map(r=>r[YF.id]))];
-    const q=(document.getElementById('y-search')||{value:''}).value.toLowerCase().trim();
-    data2=[];
-    shows.forEach(sid=>{
-      const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA);
-      const rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);
-      if(!rA&&!rB)return;
-      const sn=(rA||rB)[YF.show];
-      if(q&&!sn.toLowerCase().includes(q)&&!sid.toLowerCase().includes(q))return;
-      data2.push([sid,sn,...YKEYS.flatMap(k=>{const vA=rA?rA[k]:0,vB=rB?rB[k]:0;return[vA,vB,vB-vA];})]);
-    });
-  } else {
-    h=['Show ID','Show Title','Month','Scripts Submitted','Editorial Reviewed','Eps Made Live','Scripts WC','Live Duration (hr)'];
-    data2=yFiltered().map(r=>[r[YF.id],r[YF.show],r[YF.month],r[YF.sub],r[YF.er],r[YF.live],r[YF.wc],r[YF.dur]]);
-  }
-  dlCSV([h,...data2],`yearly_${today()}.csv`);
-}
+function renderYearly(){rYPills();rYStats();rYHead();rYBody();}
+function exportYCSV(){const isC=yCmp.length===2;const[mA,mB]=yCmp;let h,data;if(isC){h=['Show ID','Show Title',...YCOLS.flatMap(c=>[c+' ('+mA+')',c+' ('+mB+')',c+' Diff'])];const shows=[...new Set(YDATA.map(r=>r[YF.id]))];const q=(document.getElementById('ysearch')||{value:''}).value.toLowerCase().trim();data=[];shows.forEach(sid=>{const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA),rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);if(!rA&&!rB)return;const sn=(rA||rB)[YF.show];if(q&&!sn.toLowerCase().includes(q)&&!sid.toLowerCase().includes(q))return;data.push([sid,sn,...YKEYS.flatMap(k=>{const vA=rA?rA[k]:0,vB=rB?rB[k]:0;return[vA,vB,vB-vA];})]);});}else{h=['Show ID','Show Title','Month','Scripts Submitted','Editorial Reviewed','Eps Made Live','Scripts WC','Live Duration (hr)'];data=yFilt().map(r=>[r[YF.id],r[YF.show],r[YF.month],r[YF.sub],r[YF.er],r[YF.live],r[YF.wc],r[YF.dur]]);}dlCSV([h,...data],'yearly_'+today()+'.csv');}
 
-/* ── SHARED ── */
-function dlCSV(rows3,filename){
-  const csv=rows3.map(r=>r.map(v=>{const s=String(v==null?'':v);return(s.includes(',')||s.includes('"'))?`"${s.replace(/"/g,'""')}"`:`${s}`;}).join(',')).join('
-');
-  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();toast('CSV downloaded');
-}
+function dlCSV(rows,fn){const csv=rows.map(r=>r.map(v=>{const s=String(v==null?'':v);return(s.includes(',')||s.includes('"'))?'"'+s.replace(/"/g,'""')+'"':s;}).join(',')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;a.click();toast('CSV downloaded');}
 
-/* ── ICONS ── */
-const iGrid=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`;
-const iPlay=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-const iPause=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
-const iFile=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`;
-const iCheck=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
-const iBroadcast=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>`;
+const iG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>';
+const iPl='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+const iPa='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+const iF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
+const iCk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+const iBc='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>';
 
-/* ── TABS ── */
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-  });
-});
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active');}));
 
-/* ── INIT ── */
 loadT();
-const wks=sortedWeeks();filterWk=wks[wks.length-1]||null;
-renderWeekly();
+const initW=sortWks();
+fWk=initW[initW.length-1]||null;
+rWeekly();
 renderYearly();
-try{const z=localStorage.getItem('ugc_zoom');if(z){document.body.style.zoom=parseFloat(z);const s=document.getElementById('zoom-sel');if(s)s.value=z;}}catch(e){}
+try{const z=localStorage.getItem('ugc_zoom');if(z){document.body.style.zoom=parseFloat(z);}}catch(e){}
 </script>
 </body>
 </html>
