@@ -47,6 +47,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;min-height:100vh}
 .topbar{background:var(--tx);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300}
+[data-theme="dark"] .topbar{background:#0a0a09}
 .tb-l{display:flex;align-items:center;gap:8px}
 .tb-logo{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center}
 .tb-logo svg{width:13px;height:13px}
@@ -55,6 +56,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .tb-r{display:flex;align-items:center;gap:8px}
 .zoom-sel{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.75);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;outline:none}
 .tab-nav{background:var(--tx);padding:0 20px;display:flex;border-bottom:1px solid rgba(255,255,255,.1)}
+[data-theme="dark"] .tab-nav{background:#0a0a09;border-bottom-color:rgba(255,255,255,.08)}
 .tab-btn{padding:9px 16px;font-size:12px;font-weight:500;color:rgba(255,255,255,.45);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent}
 .tab-btn.active{color:#fff;border-bottom-color:#fff}
 .main{padding:18px 20px 60px;max-width:100%;margin:0 auto}
@@ -314,7 +316,7 @@ table.ytbl td.left{text-align:left}
     <div class="y-left">
       <div>
         <div class="swrap" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="sinput" id="ysearch" style="width:210px" type="text" placeholder="Search show name or ID..." oninput="rYearly()"></div>
-        <div style="font-size:10px;color:var(--t3)" id="yhint">Click a month to filter &#183; Click 2 to compare</div>
+        <div style="font-size:10px;color:var(--t3)" id="yhint">Click a month to filter · Click 2 to compare</div>
       </div>
       <div>
         <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Month</div>
@@ -701,7 +703,7 @@ function rYPills(){
   if(hint){
     if(isC) hint.textContent='Compare mode &#8212; click coloured pill to deselect';
     else if(yFM!=='all') hint.textContent='Single month &#8212; click another to compare';
-    else hint.textContent='Click a month to filter &#183; Click 2 to compare';
+    else hint.textContent='Click a month to filter · Click 2 to compare';
   }
 }
 function rYStats(){
