@@ -178,8 +178,8 @@ table.ytbl td.left{text-align:left}
   <div class="frow">
     <div class="swrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="sinput" id="wsearch" type="text" placeholder="Search show name..." oninput="rWeekly()"></div>
     <select class="ssel" id="fstatus" onchange="rWeekly()"><option value="">All statuses</option><option value="Running">Running</option><option value="Paused">Paused</option></select>
-    <select class="ssel" id="fwriter" onchange="rWeekly()"><option value="">All writers</option></select>
     <select class="ssel" id="fpod" onchange="rWeekly()"><option value="">All POD leads</option></select>
+    <select class="ssel" id="fwriter" onchange="rWeekly()"><option value="">All writers</option></select>
   </div>
   <div class="stats-grid" id="wstats"></div>
   <div class="tbl-card"><div class="tbl-scroll"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
@@ -278,8 +278,8 @@ function popDDs(){
   const cw=ws.value,cp=ps.value;
   const writers=[...new Set(wr.map(r=>r._d[F.writer]).filter(Boolean))].sort();
   const pods=[...new Set(wr.map(r=>r._d[F.pod]).filter(Boolean))].sort();
-  ws.innerHTML='<option value="">All writers</option>'+writers.map(w=>`<option value="${esc(w)}"${cw===w?' selected':''}>${esc(w)}</option>`).join('');
   ps.innerHTML='<option value="">All POD leads</option>'+pods.map(p=>`<option value="${esc(p)}"${cp===p?' selected':''}>${esc(p)}</option>`).join('');
+  ws.innerHTML='<option value="">All writers</option>'+writers.map(w=>`<option value="${esc(w)}"${cw===w?' selected':''}>${esc(w)}</option>`).join('');
 }
 
 function rFilters(){
@@ -324,7 +324,7 @@ function rHead(){
   if(GRP.er)sec+=`<th colspan="${ec}" class="th-er">ER Review</th>`;
   if(GRP.pr)sec+=`<th colspan="${pc}" class="th-pr">Production</th>`;
   sec+='</tr>';
-  let col='<tr class="cr"><th class="left" style="width:162px">Show name</th><th style="width:75px">Status</th><th style="width:62px">Writer</th><th style="width:80px">POD lead</th><th style="width:82px">Producer</th>';
+  let col='<tr class="cr"><th class="left" style="width:162px">Show name</th><th style="width:75px">Status</th><th style="width:80px">POD lead</th><th style="width:62px">Writer</th><th style="width:82px">Producer</th>';
   if(GRP.ij){col+='<th class="ch-ij" style="width:66px">Scripts</th><th class="ch-ijc" style="width:74px">Dur hrs</th>';}
   if(GRP.km){col+='<th class="ch-km" style="width:62px">TTD Scripts</th><th class="ch-kmc" style="width:58px">TTD ER</th><th class="ch-kmc" style="width:62px">TTD Release</th>';}
   if(GRP.sc){if(pw)col+=`<th class="ch-ps" style="width:80px">&#9664; Prev script ${pl}</th>`;col+=`<th class="ch-sc" style="width:82px">Script target <span class="ei">&#9998;</span></th><th class="ch-scc" style="width:68px">Submitted</th><th class="ch-scc" style="width:72px">Word count</th>`;}
@@ -347,7 +347,7 @@ function rBody(){
     const lp=(lv!==null&&qtN!==null&&qtN!==0)?lv-qtN:null;
     const lpH=lp!==null?`<span class="mn" style="color:${lp<0?'var(--red-t)':'var(--green)'}">${lp>0?'+':''}${lp}</span>`:'<span class="mu">&#8212;</span>';
     const bg=i%2===0?'':' style="background:var(--sf2)"';
-    let c=`<tr${bg}><td class="left"><span class="sn" title="${esc(d[F.show])}">${esc(d[F.show])}</span></td><td>${badge}</td><td class="mu">${esc(d[F.writer])||'&#8212;'}</td><td class="mu">${esc(d[F.pod])||'&#8212;'}</td><td class="mu">${esc(d[F.producer])||'&#8212;'}</td>`;
+    let c=`<tr${bg}><td class="left"><span class="sn" title="${esc(d[F.show])}">${esc(d[F.show])}</span></td><td>${badge}</td><td class="mu">${esc(d[F.pod])||'&#8212;'}</td><td class="mu">${esc(d[F.writer])||'&#8212;'}</td><td class="mu">${esc(d[F.producer])||'&#8212;'}</td>`;
     if(GRP.ij){c+=`<td class="td-ij mn">${fN(d[F.i_sc])}</td><td class="td-ijc mn">${fN(d[F.j_dur])}</td>`;}
     if(GRP.km){c+=`<td class="td-km mn">${fN(d[F.k_ttd_sc])}</td><td class="td-kmc mn">${fN(d[F.l_ttd_er])}</td><td class="td-kmc mn">${fN(d[F.m_ttd_rel])}</td>`;}
     if(GRP.sc){
