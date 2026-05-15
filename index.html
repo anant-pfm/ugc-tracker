@@ -198,24 +198,7 @@ table.ytbl td.left{text-align:left}
         <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Month</div>
         <div class="y-mp" id="ypills"></div>
       </div>
-      <div>
-        <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Filters</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-          <select class="ssel" id="y-sort" onchange="renderYearly()" title="Sort by">
-            <option value="show">Sort: Show title</option>
-            <option value="sub_desc">Sort: Scripts &#8595;</option>
-            <option value="er_desc">Sort: ER &#8595;</option>
-            <option value="live_desc">Sort: Eps live &#8595;</option>
-            <option value="dur_desc">Sort: Duration &#8595;</option>
-          </select>
-          <select class="ssel" id="y-min" onchange="renderYearly()" title="Hide shows with no activity">
-            <option value="">All shows</option>
-            <option value="sub">Has scripts submitted</option>
-            <option value="er">Has ER approved</option>
-            <option value="live">Has eps live</option>
-          </select>
-        </div>
-      </div>
+
     </div>
     <button class="btn-sm" onclick="exportYCSV()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export CSV</button>
   </div>
@@ -253,7 +236,7 @@ let fWk=null,showPrev=false;
 const dirty={};
 const STORE='ugc_v7';
 const GRP={ij:true,km:true,sc:true,er:true,pr:true};
-let yFM='all',yCmp=[];
+let yFM='all',yCmp=[],ySort='',yMinAct='';
 
 function loadT(){try{const s=JSON.parse(localStorage.getItem(STORE)||'{}');rows.forEach(r=>{if(s[r._key+'j']!==undefined)r.jt=s[r._key+'j'];if(s[r._key+'n']!==undefined)r.nt=s[r._key+'n'];if(s[r._key+'q']!==undefined)r.qt=s[r._key+'q'];});}catch(e){}}
 function saveT(){const o={};rows.forEach(r=>{if(r.jt!=='')o[r._key+'j']=r.jt;if(r.nt!=='')o[r._key+'n']=r.nt;if(r.qt!=='')o[r._key+'q']=r.qt;});localStorage.setItem(STORE,JSON.stringify(o));}
@@ -402,23 +385,22 @@ function exportCSV(){
 function yMonths(){return[...new Set(YDATA.map(r=>r[YF.month]))].sort((a,b)=>{const sa=YDATA.find(r=>r[YF.month]===a)?.[YF.msort]||'',sb=YDATA.find(r=>r[YF.month]===b)?.[YF.msort]||'';return sa.localeCompare(sb);});}
 function yFilt(){
   const q=(document.getElementById('ysearch')||{value:''}).value.toLowerCase().trim();
-  const sortBy=(document.getElementById('y-sort')||{value:'show'}).value;
-  const minAct=(document.getElementById('y-min')||{value:''}).value;
   let months=null;
   if(yCmp.length>=1)months=yCmp;
   else if(yFM!=='all')months=[yFM];
   let list=YDATA.filter(r=>{
     if(months&&!months.includes(r[YF.month]))return false;
     if(q&&!r[YF.show].toLowerCase().includes(q)&&!r[YF.id].toLowerCase().includes(q))return false;
-    if(minAct==='sub'&&!(r[YF.sub]>0))return false;
-    if(minAct==='er'&&!(r[YF.er]>0))return false;
-    if(minAct==='live'&&!(r[YF.live]>0))return false;
+    if(yMinAct==='sub'&&!(r[YF.sub]>0))return false;
+    if(yMinAct==='er'&&!(r[YF.er]>0))return false;
+    if(yMinAct==='live'&&!(r[YF.live]>0))return false;
     return true;
   });
-  if(sortBy==='sub_desc')list.sort((a,b)=>b[YF.sub]-a[YF.sub]);
-  else if(sortBy==='er_desc')list.sort((a,b)=>b[YF.er]-a[YF.er]);
-  else if(sortBy==='live_desc')list.sort((a,b)=>b[YF.live]-a[YF.live]);
-  else if(sortBy==='dur_desc')list.sort((a,b)=>b[YF.dur]-a[YF.dur]);
+  if(ySort==='sub')list.sort((a,b)=>b[YF.sub]-a[YF.sub]);
+  else if(ySort==='er')list.sort((a,b)=>b[YF.er]-a[YF.er]);
+  else if(ySort==='live')list.sort((a,b)=>b[YF.live]-a[YF.live]);
+  else if(ySort==='wc')list.sort((a,b)=>b[YF.wc]-a[YF.wc]);
+  else if(ySort==='dur')list.sort((a,b)=>b[YF.dur]-a[YF.dur]);
   else list.sort((a,b)=>a[YF.show].localeCompare(b[YF.show]));
   return list;
 }
@@ -469,11 +451,52 @@ function rYStats(){const list=yFilt();const items=[{l:'Scripts submitted',v:Math
 const YCOLS=['Scripts Submitted','Editorial Reviewed','Eps Made Live','Scripts WC','Live Duration (hr)'];
 const YKEYS=[YF.sub,YF.er,YF.live,YF.wc,YF.dur];
 const YCLS=['yh-sc','yh-er','yh-lv','yh-wc','yh-dr'];
-function rYHead(){const isC=yCmp.length===2;const[mA,mB]=yCmp;let h='<tr><th class="left" style="width:110px">Show ID</th><th class="left" style="width:195px">Show title</th>';if(isC){YCOLS.forEach((col,i)=>{h+=`<th class="${YCLS[i]}" style="min-width:95px">${col}<br><span style="font-size:9px;opacity:.75">${esc(mA)}</span></th><th class="${YCLS[i]}" style="min-width:95px;border-left:1px dashed var(--bds)">${col}<br><span style="font-size:9px;opacity:.75">${esc(mB)}</span></th><th style="min-width:65px;background:#fafaf8;font-size:9px">Diff</th>`;});}else{YCOLS.forEach((col,i)=>h+=`<th class="${YCLS[i]}" style="min-width:110px">${col}</th>`);}h+='</tr>';document.getElementById('ythead').innerHTML=h;}
+function rYHead(){
+  const isC=yCmp.length===2;const[mA,mB]=yCmp;
+  const sortKeys=['sub','er','live','wc','dur'];
+  const sortArrow=(k)=>{
+    if(ySort!==k)return`<span style="opacity:.3;margin-left:4px;font-size:9px">&#8597;</span>`;
+    return`<span style="margin-left:4px;font-size:9px;color:inherit">&#8595;</span>`;
+  };
+  let h='<tr><th class="left" style="width:110px">Show ID</th><th class="left" style="width:195px">Show title</th>';
+  if(isC){
+    YCOLS.forEach((col,i)=>{
+      const k=sortKeys[i];
+      h+=`<th class="${YCLS[i]}" style="min-width:95px;cursor:pointer;user-select:none" onclick="setYSort('${k}')">${col}${sortArrow(k)}<br><span style="font-size:9px;opacity:.75">${esc(mA)}</span></th>`;
+      h+=`<th class="${YCLS[i]}" style="min-width:95px;border-left:1px dashed var(--bds);cursor:pointer;user-select:none" onclick="setYSort('${k}')">${col}${sortArrow(k)}<br><span style="font-size:9px;opacity:.75">${esc(mB)}</span></th>`;
+      h+=`<th style="min-width:65px;background:#fafaf8;font-size:9px">Diff</th>`;
+    });
+  } else {
+    YCOLS.forEach((col,i)=>{
+      const k=sortKeys[i];
+      h+=`<th class="${YCLS[i]}" style="min-width:110px;cursor:pointer;user-select:none" onclick="setYSort('${k}')">${col}${sortArrow(k)}</th>`;
+    });
+  }
+  h+='</tr>';
+  document.getElementById('ythead').innerHTML=h;
+}
+function setYSort(k){ySort=(ySort===k?'':k);renderYearly();}
 function rYBody(){
   const isC=yCmp.length===2;const[mA,mB]=yCmp;const list=yFilt();const q=(document.getElementById('ysearch')||{value:''}).value.toLowerCase().trim();let html='';
-  if(isC){const shows=[...new Set(YDATA.map(r=>r[YF.id]))];let cnt=0;shows.forEach(sid=>{const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA),rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);if(!rA&&!rB)return;const sn=(rA||rB)[YF.show];if(q&&!sn.toLowerCase().includes(q)&&!sid.toLowerCase().includes(q))return;cnt++;const bg=cnt%2===0?' style="background:var(--sf2)"':'';let c=`<tr${bg}><td class="left"><span class="yt-id" title="${esc(sid)}">${esc(sid.slice(0,12))}...</span></td><td class="left"><span class="yt-ttl" title="${esc(sn)}">${esc(sn)}</span></td>`;YKEYS.forEach(k=>{const vA=rA?rA[k]:0,vB=rB?rB[k]:0,d=vB-vA,isDur=k===YF.dur;const fv=v=>v>0?(isDur?v.toFixed(2):Math.round(v).toLocaleString('en-IN')):'<span class="mu">&#8212;</span>';const fd=d=>d===0?'<span class="mu">0</span>':`<span style="color:${d>0?'var(--green)':'var(--red-t)'};font-family:'DM Mono',monospace;font-size:10px;font-weight:500">${d>0?'+':''}${isDur?d.toFixed(2):Math.round(d).toLocaleString('en-IN')}</span>`;c+=`<td class="yn">${fv(vA)}</td><td class="yn" style="border-left:1px dashed var(--bds)">${fv(vB)}</td><td style="background:#fafaf8;text-align:center">${fd(d)}</td>`;});html+=c+'</tr>';});document.getElementById('ycount').textContent='Showing '+cnt+' shows';}
-  else{document.getElementById('ycount').textContent='Showing '+list.length+' rows';html=list.map((r,i)=>{const bg=i%2===0?'':' style="background:var(--sf2)"';return`<tr${bg}><td class="left"><span class="yt-id" title="${esc(r[YF.id])}">${esc(r[YF.id].slice(0,12))}...</span></td><td class="left"><span class="yt-ttl" title="${esc(r[YF.show])}">${esc(r[YF.show])}</span></td><td class="yn" style="color:var(--blue-t)">${r[YF.sub]>0?Math.round(r[YF.sub]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--green-t)">${r[YF.er]>0?Math.round(r[YF.er]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--amber-t)">${r[YF.live]>0?Math.round(r[YF.live]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--purple-t)">${r[YF.wc]>0?Math.round(r[YF.wc]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td><td class="yn" style="color:var(--teal-t)">${r[YF.dur]>0?r[YF.dur].toFixed(2):'<span class="mu">&#8212;</span>'}</td></tr>`;}).join('');}
+  if(isC){const shows=[...new Set(YDATA.map(r=>r[YF.id]))];let cnt=0;shows.forEach(sid=>{const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA),rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);if(!rA&&!rB)return;const sn=(rA||rB)[YF.show];if(q&&!sn.toLowerCase().includes(q)&&!sid.toLowerCase().includes(q))return;cnt++;const bg=cnt%2===0?' style="background:var(--sf2)"':'';let c=`<tr${bg}><td class="left"><span class="yt-id" title="${esc(sid)}">${esc(sid.slice(0,12))}...</span></td><td class="left"><span class="yt-ttl" title="${esc(sn)}">${esc(sn)}</span></td>`;const YCOL_COLORS=[
+  'var(--blue-t)','var(--green-t)','var(--amber-t)','var(--purple-t)','var(--teal-t)'
+];
+YKEYS.forEach((k,ki)=>{
+  const vA=rA?rA[k]:0,vB=rB?rB[k]:0,d=vB-vA,isDur=k===YF.dur;
+  const clr=YCOL_COLORS[ki];
+  const fv=v=>v>0?`<span style="color:${clr};font-family:'DM Mono',monospace;font-weight:600">${isDur?v.toFixed(2):Math.round(v).toLocaleString('en-IN')}</span>`:'<span class="mu">&#8212;</span>';
+  const fd=d=>d===0?'<span class="mu">0</span>':`<span style="color:${d>0?'var(--green)':'var(--red-t)'};font-family:'DM Mono',monospace;font-size:10px;font-weight:600">${d>0?'+':''}${isDur?d.toFixed(2):Math.round(d).toLocaleString('en-IN')}</span>`;
+  c+=`<td class="yn">${fv(vA)}</td><td class="yn" style="border-left:1px dashed var(--bds)">${fv(vB)}</td><td style="background:#fafaf8;text-align:center">${fd(d)}</td>`;
+});html+=c+'</tr>';});document.getElementById('ycount').textContent='Showing '+cnt+' shows';}
+  else{document.getElementById('ycount').textContent='Showing '+list.length+' rows';html=list.map((r,i)=>{const bg=i%2===0?'':' style="background:var(--sf2)"';return`<tr${bg}>
+  <td class="left"><span class="yt-id" title="${esc(r[YF.id])}">${esc(r[YF.id].slice(0,12))}...</span></td>
+  <td class="left"><span class="yt-ttl" title="${esc(r[YF.show])}">${esc(r[YF.show])}</span></td>
+  <td class="yn" style="color:var(--blue-t);font-weight:600;background:#f7f9ff">${r[YF.sub]>0?Math.round(r[YF.sub]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td>
+  <td class="yn" style="color:var(--green-t);font-weight:600;background:#f5fdf9">${r[YF.er]>0?Math.round(r[YF.er]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td>
+  <td class="yn" style="color:var(--amber-t);font-weight:600;background:#fdfcf5">${r[YF.live]>0?Math.round(r[YF.live]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td>
+  <td class="yn" style="color:var(--purple-t);font-weight:600;background:#f8f6ff">${r[YF.wc]>0?Math.round(r[YF.wc]).toLocaleString('en-IN'):'<span class="mu">&#8212;</span>'}</td>
+  <td class="yn" style="color:var(--teal-t);font-weight:600;background:#f0fdff">${r[YF.dur]>0?r[YF.dur].toFixed(2):'<span class="mu">&#8212;</span>'}</td>
+</tr>`;}).join('');}
   document.getElementById('ytbody').innerHTML=html;
 }
 function renderYearly(){rYPills();rYStats();rYHead();rYBody();}
