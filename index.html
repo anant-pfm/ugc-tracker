@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f2f1ed;--sf:#fff;--sf2:#f7f6f3;--bd:#e5e3db;--bds:#ccc9be;--tx:#18170f;--t2:#57554c;--t3:#9b9890;--blue:#1a56db;--blue-l:#eff4ff;--blue-b:#b4c8fd;--blue-t:#1e3a8a;--green:#047857;--green-l:#ecfdf5;--green-b:#6ee7b7;--green-t:#064e3b;--amber:#b45309;--amber-l:#fffbeb;--amber-b:#fcd34d;--amber-t:#78350f;--red:#dc2626;--red-t:#991b1b;--purple:#6d28d9;--purple-l:#f5f3ff;--purple-b:#c4b5fd;--purple-t:#4c1d95;--slate:#475569;--slate-l:#f1f5f9;--slate-t:#1e293b;--indigo:#4338ca;--indigo-l:#eef2ff;--indigo-t:#312e81;--teal:#0e7490;--teal-l:#ecfeff;--teal-t:#164e63}
+[data-theme="dark"]{--bg:#111110;--sf:#1c1c1a;--sf2:#232321;--bd:#2a2a27;--bds:#3a3a36;--tx:#f0ede8;--t2:#a8a49c;--t3:#5a5750;--blue-l:#1a2540;--blue-b:#2d4a8a;--blue-t:#93b4fd;--green-l:#0d2218;--green-b:#1a4a30;--green-t:#6ee7b7;--amber-l:#2a1f0a;--amber-b:#5a3a0a;--amber-t:#fcd34d;--purple-l:#1e1430;--purple-b:#4a2d8a;--purple-t:#c4b5fd;--slate-l:#1a1f2a;--slate-t:#94a3b8;--indigo-l:#1a1a30;--indigo-t:#a5b4fc;--teal-l:#0a2228;--teal-t:#67e8f9}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;min-height:100vh}
 .topbar{background:var(--tx);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300}
@@ -133,8 +134,35 @@ table.ytbl td.left{text-align:left}
 .yp.cmpa{background:var(--blue);border-color:var(--blue);color:#fff}
 .yp.cmpb{background:var(--purple);border-color:var(--purple);color:#fff}
 .ycbar{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--purple-l);border:1px solid var(--purple-b);border-radius:8px;margin-bottom:12px;font-size:12px;color:var(--purple-t);flex-wrap:wrap}
-#toast{position:fixed;bottom:20px;right:20px;z-index:9999;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;background:var(--tx);color:#fff;opacity:0;transition:opacity .2s;pointer-events:none}
+#toast{position:fixed;bottom:20px;right:20px;z-index:9999;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;background:var(--tx);color:var(--bg);opacity:0;transition:opacity .2s;pointer-events:none}
 #toast.show{opacity:1}
+/* Dark mode cell tints */
+[data-theme="dark"] .td-ij,[data-theme="dark"] .td-ijc{background:#1e2230}
+[data-theme="dark"] .td-km,[data-theme="dark"] .td-kmc{background:#1e1e30}
+[data-theme="dark"] .td-sc,[data-theme="dark"] .td-scc{background:#1a2038}
+[data-theme="dark"] .td-er,[data-theme="dark"] .td-erc{background:#0d2018}
+[data-theme="dark"] .td-pr,[data-theme="dark"] .td-prc{background:#281c08}
+[data-theme="dark"] .td-ps{background:#1a2038}
+[data-theme="dark"] .td-pe{background:#0d2018}
+[data-theme="dark"] .td-pp{background:#281c08}
+[data-theme="dark"] .ch-ij,[data-theme="dark"] .ch-ijc{background:#1e2230}
+[data-theme="dark"] .ch-km,[data-theme="dark"] .ch-kmc{background:#1e1e30}
+[data-theme="dark"] .ch-sc,[data-theme="dark"] .ch-scc{background:#1a2038}
+[data-theme="dark"] .ch-er,[data-theme="dark"] .ch-erc{background:#0d2018}
+[data-theme="dark"] .ch-pr,[data-theme="dark"] .ch-prc{background:#281c08}
+[data-theme="dark"] .yh-sc{background:#1a2040}
+[data-theme="dark"] .yh-er{background:#0d2020}
+[data-theme="dark"] .yh-lv{background:#281c08}
+[data-theme="dark"] .yh-wc{background:#1e1438}
+[data-theme="dark"] .yh-dr{background:#0a2230}
+/* Toggle switch */
+.theme-toggle{display:flex;align-items:center;gap:6px}
+.theme-toggle svg{width:14px;height:14px;color:rgba(255,255,255,.6)}
+.theme-toggle svg.active{color:#fff}
+.tswitch{width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.25);position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
+.tswitch.dark{background:rgba(99,102,241,.6);border-color:rgba(99,102,241,.8)}
+.tswitch-thumb{position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tswitch.dark .tswitch-thumb{transform:translateX(16px)}
 </style>
 </head>
 <body>
@@ -145,6 +173,11 @@ table.ytbl td.left{text-align:left}
     <span class="tb-tag" id="wtag"></span>
   </div>
   <div class="tb-r">
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+      <svg id="sun-icon" class="active" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <div class="tswitch" id="tswitch"><div class="tswitch-thumb"></div></div>
+      <svg id="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </div>
     <select class="zoom-sel" onchange="applyZoom(this.value)">
       <option value="1">100%</option><option value="0.9">90%</option><option value="0.8">80%</option><option value="0.75">75%</option><option value="0.6">60%</option><option value="0.5">50%</option>
     </select>
@@ -191,7 +224,7 @@ table.ytbl td.left{text-align:left}
     <div class="y-left">
       <div>
         <div class="swrap" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="sinput" id="ysearch" style="width:210px" type="text" placeholder="Search show name or ID..." oninput="rYearly()"></div>
-        <div style="font-size:10px;color:var(--t3)" id="yhint">Click a month to filter & Click 2 to compare</div>
+        <div style="font-size:10px;color:var(--t3)" id="yhint">Click a month to filter &#183; Click 2 to compare</div>
       </div>
       <div>
         <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Month</div>
@@ -578,7 +611,7 @@ function rYPills(){
   if(hint){
     if(isC) hint.textContent='Compare mode &#8212; click coloured pill to deselect';
     else if(yFM!=='all') hint.textContent='Single month &#8212; click another to compare';
-    else hint.textContent='Click a month to filter & Click 2 to compare';
+    else hint.textContent='Click a month to filter &#183; Click 2 to compare';
   }
 }
 function rYStats(){
@@ -712,6 +745,22 @@ document.querySelectorAll('.tab-btn').forEach(b=>{
   });
 });
 
+// ── THEME ─────────────────────────────────────────────────────────────────────
+function toggleTheme(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  setTheme(isDark?'light':'dark');
+}
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const sw=document.getElementById('tswitch');
+  const sun=document.getElementById('sun-icon');
+  const moon=document.getElementById('moon-icon');
+  if(sw) sw.classList.toggle('dark',t==='dark');
+  if(sun){sun.classList.toggle('active',t==='light');}
+  if(moon){moon.classList.toggle('active',t==='dark');}
+  try{localStorage.setItem('ugc_theme',t);}catch(e){}
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 loadT();
 const initW=sortWks();
@@ -719,6 +768,7 @@ fWk=initW[initW.length-1]||null;
 rWeekly();
 rYearly();
 try{const z=localStorage.getItem('ugc_zoom');if(z){document.body.style.zoom=parseFloat(z);}}catch(e){}
+try{const t=localStorage.getItem('ugc_theme')||'light';setTheme(t);}catch(e){}
 </script>
 </body>
 </html>
