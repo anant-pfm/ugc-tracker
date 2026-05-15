@@ -114,9 +114,9 @@ kbd{background:var(--bg);border:1px solid var(--bds);border-radius:3px;padding:1
 table.ytbl{min-width:750px}
 table.ytbl thead th{padding:8px 10px;font-size:10px;font-weight:600;color:var(--t3);background:var(--sf2);border-bottom:1px solid var(--bd);white-space:nowrap;text-align:center}
 table.ytbl thead th.left{text-align:left}
-.yh-sc{background:#f0f4ff;color:var(--blue-t)}.yh-er{background:#f0fdf7;color:var(--green-t)}
-.yh-lv{background:#fffbf0;color:var(--amber-t)}.yh-wc{background:#f5f3ff;color:var(--purple-t)}
-.yh-dr{background:#ecfeff;color:var(--teal-t)}
+.yh-sc{background:#dbe8ff;color:var(--blue-t)}.yh-er{background:#d4f5e6;color:var(--green-t)}
+.yh-lv{background:#fef0cc;color:var(--amber-t)}.yh-wc{background:#ede8ff;color:var(--purple-t)}
+.yh-dr{background:#ccf5fa;color:var(--teal-t)}
 table.ytbl tbody tr{border-bottom:1px solid var(--bd)}
 table.ytbl tbody tr:last-child{border-bottom:none}
 table.ytbl tbody tr:hover td{background:var(--sf2)!important}
@@ -455,8 +455,9 @@ function rYHead(){
   const isC=yCmp.length===2;const[mA,mB]=yCmp;
   const sortKeys=['sub','er','live','wc','dur'];
   const sortArrow=(k)=>{
-    if(ySort!==k)return`<span style="opacity:.3;margin-left:4px;font-size:9px">&#8597;</span>`;
-    return`<span style="margin-left:4px;font-size:9px;color:inherit">&#8595;</span>`;
+    if(ySort!==k)return`<span style="opacity:.25;margin-left:5px;font-size:13px;vertical-align:middle">&#8597;</span>`;
+    // currently always descending when active
+    return`<span style="margin-left:5px;font-size:14px;font-weight:700;color:#166534;vertical-align:middle">&#8595;</span>`;
   };
   let h='<tr><th class="left" style="width:110px">Show ID</th><th class="left" style="width:195px">Show title</th>';
   if(isC){
