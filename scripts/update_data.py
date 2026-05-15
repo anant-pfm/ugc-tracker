@@ -2,9 +2,7 @@
 """
 UGC Tracker — Data Update Script
 Usage: python scripts/update_data.py path/to/UGC_Production_Tracker.xlsx
-
 Reads Monthwise and Dump sheets, generates data.js in the root directory.
-Run this every time you upload a new version of the Excel file.
 """
 
 import sys, os, json, math
@@ -16,10 +14,9 @@ def clean(v):
     if isinstance(v, float) and math.isnan(v): return ''
     s = str(v)
     if s.endswith('.0') and s[:-2].lstrip('-').isdigit(): s = s[:-2]
-    if s in ['nan', 'None']: return ''
-    return s.strip()
+    return '' if s in ['nan', 'None'] else s.strip()
 
-def clean_num(v):
+def cn(v):
     if isinstance(v, float):
         if math.isnan(v) or math.isinf(v): return 0
         return round(v, 2)
@@ -27,35 +24,38 @@ def clean_num(v):
 
 def process_monthwise(xl_path):
     df = pd.read_excel(xl_path, sheet_name='Monthwise', header=None)
-    data = df.iloc[4:].copy()
-    data = data[data[3].notna()].reset_index(drop=True)
+    data = df.iloc[4:][df.iloc[4:][3].notna()].reset_index(drop=True)
     rows = []
     for _, r in data.iterrows():
-        wk_start = ''
-        # week start is in col 21 (new file) or 20 (old file)
-        for idx in [21, 20]:
+        wk = ''
+        for idx in [24, 21, 20]:
             if idx < len(r) and pd.notna(r[idx]):
-                try:
-                    wk_start = str(r[idx])[:10]
-                    break
+                try: wk = str(r[idx])[:10]; break
                 except: pass
         rows.append([
-            clean(r[0]),   # week_month
-            clean(r[3]),   # show_name
-            clean(r[4]),   # prod_status
-            clean(r[5]),   # writer
-            clean(r[6]),   # pod_lead
-            clean(r[7]),   # producer
-            clean(r[8]),   # till_date_scripts
-            clean(r[10]),  # j_target (Week's Target - scripting)
-            clean(r[11]),  # scripts_submitted
-            clean(r[12]),  # scripts_wc
-            clean(r[14]),  # n_target (Week's Target - ER)
-            clean(r[15]),  # er_approved
-            clean(r[16]),  # approval_pending
-            clean(r[17]),  # q_target (Week's Target - prod)
-            clean(r[18]),  # live_episodes
-            wk_start,
+            clean(r[2]),   # 0: Production Show_id (col C)
+            clean(r[0]),   # 1: week_month
+            clean(r[3]),   # 2: show_name
+            clean(r[4]),   # 3: prod_status
+            clean(r[5]),   # 4: writer
+            clean(r[6]),   # 5: pod_lead
+            clean(r[7]),   # 6: producer
+            clean(r[8]),   # 7: Scripts to record (col I)
+            cn(r[9]) if pd.notna(r[9]) else '',  # 8: Duration Live hrs (col J)
+            clean(r[10]),  # 9:  TTD Scripts (col K)
+            clean(r[11]),  # 10: TTD ER (col L)
+            clean(r[12]),  # 11: TTD Release (col M)
+            clean(r[13]),  # 12: Script target / Week's Target (col N)
+            clean(r[14]),  # 13: Scripts submitted (col O)
+            clean(r[15]),  # 14: Scripts WC (col P)
+            clean(r[16]),  # 15: Missed by scripting (col Q)
+            clean(r[17]),  # 16: ER target / Week's Target (col R)
+            clean(r[18]),  # 17: ER approved (col S)
+            clean(r[19]),  # 18: Approval pending (col T)
+            clean(r[20]),  # 19: Release target / Week's Target (col U)
+            clean(r[21]),  # 20: Live episodes (col V)
+            clean(r[22]),  # 21: Missed by prod (col W)
+            wk,            # 22: week_start_date
         ])
     return rows
 
@@ -70,67 +70,37 @@ def process_dump(xl_path):
                 'Under Review (word count)', 'Released (hr)']:
         df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
     grp = df.groupby(['Show ID', 'Show Title', 'month_key', 'month_sort'], as_index=False).agg(
-        scripts_sub=('Under Review (scripts)', 'sum'),
-        er_scripts=('Approved (scripts)', 'sum'),
-        ep_live=('Released (eps)', 'sum'),
-        scripts_wc=('Under Review (word count)', 'sum'),
-        ep_live_hr=('Released (hr)', 'sum'),
-    )
-    grp = grp.sort_values(['month_sort', 'Show Title']).reset_index(drop=True)
-    rows = []
-    for _, r in grp.iterrows():
-        rows.append([
-            str(r['Show ID']), str(r['Show Title']),
-            str(r['month_key']), str(r['month_sort']),
-            clean_num(r['scripts_sub']), clean_num(r['er_scripts']),
-            clean_num(r['ep_live']), clean_num(r['scripts_wc']),
-            clean_num(r['ep_live_hr']),
-        ])
-    return rows
+        a=('Under Review (scripts)', 'sum'), b=('Approved (scripts)', 'sum'),
+        c=('Released (eps)', 'sum'), d=('Under Review (word count)', 'sum'),
+        e=('Released (hr)', 'sum'),
+    ).sort_values(['month_sort', 'Show Title']).reset_index(drop=True)
+    return [[str(r['Show ID']), str(r['Show Title']), str(r['month_key']), str(r['month_sort']),
+             cn(r.a), cn(r.b), cn(r.c), cn(r.d), cn(r.e)] for _, r in grp.iterrows()]
 
 def main():
     if len(sys.argv) < 2:
         print("Usage: python scripts/update_data.py path/to/file.xlsx")
         sys.exit(1)
-
     xl_path = sys.argv[1]
     if not os.path.exists(xl_path):
-        print(f"File not found: {xl_path}")
-        sys.exit(1)
+        print(f"File not found: {xl_path}"); sys.exit(1)
 
     print(f"Reading {xl_path} ...")
     weekly = process_monthwise(xl_path)
     yearly = process_dump(xl_path)
-    print(f"  Weekly rows: {len(weekly)}")
-    print(f"  Yearly rows: {len(yearly)}")
+    print(f"  Weekly rows: {len(weekly)}, Yearly rows: {len(yearly)}")
+    print(f"  Weeks: {list(set(r[1] for r in weekly))}")
 
     today = datetime.today().strftime('%d %b %Y')
     out_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data.js')
-
     with open(out_path, 'w', encoding='utf-8') as f:
-        f.write(f"""// ─────────────────────────────────────────────────────────────────
-//  UGC PRODUCTION TRACKER — DATA FILE
-//  Auto-generated on {today}
-//  Source: {os.path.basename(xl_path)}
-//
-//  To regenerate: python scripts/update_data.py path/to/file.xlsx
-// ─────────────────────────────────────────────────────────────────
-
-// WEEKLY DATA (Monthwise sheet)
-// Columns: [week_month, show_name, prod_status, writer, pod_lead, producer,
-//           till_date, j_target, scripts_submitted, scripts_wc,
-//           n_target, er_approved, approval_pending,
-//           q_target, live_episodes, week_start_date]
+        f.write(f"""// Auto-generated {today} from {os.path.basename(xl_path)}
+// To regenerate: python scripts/update_data.py path/to/file.xlsx
 window.WDATA = {json.dumps(weekly, ensure_ascii=False)};
-
-// YEARLY DATA (Dump sheet, aggregated by Show + Month)
-// Columns: [show_id, show_title, month_label, month_sort,
-//           scripts_submitted, er_scripts, ep_live, scripts_wc, ep_live_hr]
 window.YDATA = {json.dumps(yearly, ensure_ascii=False)};
 """)
-
     print(f"Written to {out_path}")
-    print("Done! Commit data.js and push to redeploy on Vercel.")
+    print("Done! Commit and push to redeploy.")
 
 if __name__ == '__main__':
     main()
