@@ -482,12 +482,16 @@ function rYBody(){
   if(isC){const shows=[...new Set(YDATA.map(r=>r[YF.id]))];let cnt=0;shows.forEach(sid=>{const rA=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mA),rB=YDATA.find(r=>r[YF.id]===sid&&r[YF.month]===mB);if(!rA&&!rB)return;const sn=(rA||rB)[YF.show];if(q&&!sn.toLowerCase().includes(q)&&!sid.toLowerCase().includes(q))return;cnt++;const bg=cnt%2===0?' style="background:var(--sf2)"':'';let c=`<tr${bg}><td class="left"><span class="yt-id" title="${esc(sid)}">${esc(sid.slice(0,12))}...</span></td><td class="left"><span class="yt-ttl" title="${esc(sn)}">${esc(sn)}</span></td>`;const YCOL_COLORS=[
   'var(--blue-t)','var(--green-t)','var(--amber-t)','var(--purple-t)','var(--teal-t)'
 ];
+const YCOL_BGS=[
+  '#f7f9ff','#f5fdf9','#fdfcf5','#f8f6ff','#f0fdff'
+];
 YKEYS.forEach((k,ki)=>{
   const vA=rA?rA[k]:0,vB=rB?rB[k]:0,d=vB-vA,isDur=k===YF.dur;
   const clr=YCOL_COLORS[ki];
+  const bg=YCOL_BGS[ki];
   const fv=v=>v>0?`<span style="color:${clr};font-family:'DM Mono',monospace;font-weight:600">${isDur?v.toFixed(2):Math.round(v).toLocaleString('en-IN')}</span>`:'<span class="mu">&#8212;</span>';
-  const fd=d=>d===0?'<span class="mu">0</span>':`<span style="color:${d>0?'var(--green)':'var(--red-t)'};font-family:'DM Mono',monospace;font-size:10px;font-weight:600">${d>0?'+':''}${isDur?d.toFixed(2):Math.round(d).toLocaleString('en-IN')}</span>`;
-  c+=`<td class="yn">${fv(vA)}</td><td class="yn" style="border-left:1px dashed var(--bds)">${fv(vB)}</td><td style="background:#fafaf8;text-align:center">${fd(d)}</td>`;
+  const fd=d=>d===0?'<span class="mu">0</span>':`<span style="color:${d>0?'#166534':'var(--red-t)'};font-family:'DM Mono',monospace;font-size:10px;font-weight:600">${d>0?'+':''}${isDur?d.toFixed(2):Math.round(d).toLocaleString('en-IN')}</span>`;
+  c+=`<td class="yn" style="background:${bg}">${fv(vA)}</td><td class="yn" style="background:${bg};border-left:1px dashed var(--bds)">${fv(vB)}</td><td style="background:#fafaf8;text-align:center">${fd(d)}</td>`;
 });html+=c+'</tr>';});document.getElementById('ycount').textContent='Showing '+cnt+' shows';}
   else{document.getElementById('ycount').textContent='Showing '+list.length+' rows';html=list.map((r,i)=>{const bg=i%2===0?'':' style="background:var(--sf2)"';return`<tr${bg}>
   <td class="left"><span class="yt-id" title="${esc(r[YF.id])}">${esc(r[YF.id].slice(0,12))}...</span></td>
